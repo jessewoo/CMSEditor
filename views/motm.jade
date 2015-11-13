@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1.
+    motm_articles
+  ol
+    each motm, i in motm_articles
+      li
+        #{motm}
