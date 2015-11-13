@@ -1,3 +1,4 @@
 workspace.xml
 uiDesigner.xml
-.idea/node_modules/
+.idea/
+node_modules/
