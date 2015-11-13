@@ -3,3 +3,4 @@ uiDesigner.xml
 .idea/
 node_modules/
 CMSEditor.iml
+npm-debug.log
