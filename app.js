@@ -1,4 +1,5 @@
 // MAIN LOOP - Everything are functions we call
+// DEFAULT initiate required packages
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -7,7 +8,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 /*
-//Will need authentication module eventually
+//CUSTOM Will need authentication module eventually
 var auth = require('http-auth');
 var basic = auth.basic({
     realm: "Project Management",
@@ -15,17 +16,16 @@ var basic = auth.basic({
 });
 */
 
-
 var routes = require('./routes/index');
 var motm = require('./routes/motm');
 
-//Necessary for database connections
+//CUSTOM Necessary for database connections
 var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/pdb101v3');
 
 var app = express();
-//More for auth
+//CUSTOM More for auth
 //app.use(auth.connect(basic));
 
 // Jade view engine setup
@@ -40,7 +40,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//make our db accessible
+//CUSTOM make our db accessible
 app.use(function(req,res,next) {
   req.db = db;
   next();
