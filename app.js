@@ -18,6 +18,7 @@ var basic = auth.basic({
 
 var routes = require('./routes/index');
 var motm = require('./routes/motm');
+var crud = require('./routes/crud');
 
 //CUSTOM Necessary for database connections
 var mongo = require('mongodb');
@@ -49,6 +50,7 @@ app.use(function(req,res,next) {
 app.use('/', routes);
 //Switched default users with motm for Molecule of the Month
 app.use('/motm', motm);
+app.use('/do', crud);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
