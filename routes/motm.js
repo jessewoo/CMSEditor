@@ -1,7 +1,24 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET motm listing. */
+var database = require('./database.js');
+
+// CUSTOM motm default page
+router.get('/', function(req,res,next) {
+    res.render('index', { title: 'Molecule of the Month' });
+});
+
+//Generic get request
+router.get('/get', function(req, res) {
+    returnGet(res);
+});
+
+//Fifty Generic Test
+router.get('/january', function(req,res){
+    returnGet(res);
+});
+/*
+// GET motm listing.
 //Base for server:3000/motm/
 router.get('/', function(req, res, next) {
   var db = req.db;
@@ -24,5 +41,16 @@ router.get('/count', function(request,response,next) {
     //response.render('motm', {"motm_articles" : docs });
   });
 });
+*/
+
+
+// ===================================================================
+// Helper function with async callback - for read
+var returnGet = function(res) {
+    database.get(function(toSend) {
+        res.send(toSend);
+    });
+};
+
 
 module.exports = router;

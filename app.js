@@ -8,7 +8,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 /*
-//CUSTOM Will need authentication module eventually
+// CUSTOM Will need authentication module eventually
 var auth = require('http-auth');
 var basic = auth.basic({
     realm: "Project Management",
@@ -17,23 +17,24 @@ var basic = auth.basic({
 */
 
 var routes = require('./routes/index');
+// CUSTOM routes for Molecule of the Month
 var motm = require('./routes/motm');
 var crud = require('./routes/crud');
 
-//CUSTOM Necessary for database connections
+// CUSTOM Necessary for database connections
 var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/pdb101v3');
 
 var app = express();
-//CUSTOM More for auth
+// CUSTOM More for auth
 //app.use(auth.connect(basic));
 
-// Jade view engine setup
+// DEFAULT view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-//Default app use statements
+// DEFAULT app use statements
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -41,25 +42,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//CUSTOM make our db accessible
+// CUSTOM make our db accessible
 app.use(function(req,res,next) {
   req.db = db;
   next();
 });
 
 app.use('/', routes);
-//Switched default users with motm for Molecule of the Month
+// CUSTOM Molecule of the Month path
 app.use('/motm', motm);
 app.use('/do', crud);
 
-// catch 404 and forward to error handler
+// DEFAULT catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-// error handlers
+// DEFAULT error handlers
 
 // development error handler
 // will print stacktrace
