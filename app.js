@@ -6,22 +6,34 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+/*
+//Will need authentication module eventually
+var auth = require('http-auth');
+var basic = auth.basic({
+    realm: "Project Management",
+    file: __dirname + "/users.htpasswd"
+});
+*/
+
+
 var routes = require('./routes/index');
 var motm = require('./routes/motm');
 
-//New Code
+//Necessary for database connections
 var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/pdb101v3');
 
 var app = express();
+//More for auth
+//app.use(auth.connect(basic));
 
-// view engine setup
+// Jade view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+//Default app use statements
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
