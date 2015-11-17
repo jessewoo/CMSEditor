@@ -85,6 +85,7 @@ var findDocuments = function(db, callback) {
     var collection = db.collection('motm_articles');
     // Find some documents
     collection.find({}).toArray(function(err, docs) {
+        console.log(docs);
         assert.equal(err, null);
         docs = docs;
         callback(docs);
@@ -92,15 +93,20 @@ var findDocuments = function(db, callback) {
 }
 
 var findjanuary = function(db, callback) {
-    var cursor = db.collection('motm_articles').find({"month_name" : "January"});
-    cursor.each(function(err, doc) {
-        assert.equal(err, null);
-        if(doc != null) {
-            console.dir(doc);
-        } else {
-            callback();
-        }
+    var collection = db.collection('motm_articles');
+    collection.count({"month_name":"January"}).toInt(function(err,docs) {
+        console.log(docs);
     });
+
+
+    // collection.toArray(function(err, doc) {
+    //     assert.equal(err, null);
+    //     if(doc != null) {
+    //         console.dir(doc);
+    //     } else {
+    //         callback();
+    //     }
+    // });
 }
 
 
