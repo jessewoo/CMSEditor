@@ -17,6 +17,12 @@ router.get('/get', function(req, res) {
 router.get('/january', function(req,res){
     returnGet(res);
 });
+
+//Get One Motm
+router.get('/one', function(req,res){
+    returnGet(res);
+});
+
 /*
 // GET motm listing.
 //Base for server:3000/motm/

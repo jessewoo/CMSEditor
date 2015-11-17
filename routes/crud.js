@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var database = require('../classes/database.js');
+var database = require('../classes/database-motm.js');
 
 // Create data
 router.post('/add', function(req, res) {

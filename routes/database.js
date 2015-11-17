@@ -23,6 +23,10 @@ exports.january = function(callback) {
     januaryWrapper(callback);
 }
 
+exports.one = function(callback) {
+    oneWrapper(callback);
+}
+
 // ============================================================
 // Private (meta) functions
 var createWrapper = function(object, callback) {
@@ -50,7 +54,16 @@ var readWrapper = function(callback) {
 var januaryWrapper = function(callback) {
     MongoClient.connect(url, function(err,db) {
         assert.equal(null, err);
-        findFifty(db, function() {
+        findjanuary(db, function() {
+            db.close();
+        })
+    })
+}
+
+var oneWrapper = function(callback) {
+    MongoClient.connect(url, function(err,db) {
+        assert.equal(null, err);
+        findOne(db, function() {
             db.close();
         })
     })
@@ -79,13 +92,26 @@ var findDocuments = function(db, callback) {
 }
 
 var findjanuary = function(db, callback) {
-    var cursor = db.collection('motm_articles').find({"month_name" : "january"});
+    var cursor = db.collection('motm_articles').find({"month_name" : "January"});
     cursor.each(function(err, doc) {
-        assert.qeual(err, null);
+        assert.equal(err, null);
         if(doc != null) {
             console.dir(doc);
         } else {
             callback();
+        }
+    });
+}
+
+
+var findOne = function(db, callback) {
+    var collection1 = db.collection('motm_articles');
+    collection1.find({ "title":"Myoglobin"}).each(function(err, docs) {
+        assert.equal(err, null);
+        if (docs != null) {
+          console.dir(docs);
+        } else {
+          callback();
         }
     });
 }
