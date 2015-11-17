@@ -21,10 +21,12 @@ var routes = require('./routes/index');
 var motm = require('./routes/motm');
 var crud = require('./routes/crud');
 
+/* handled by class database.js
 // CUSTOM Necessary for database connections
 var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/pdb101v3');
+*/
 
 var app = express();
 // CUSTOM More for auth
@@ -42,16 +44,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+/* handled by class database.js
 // CUSTOM make our db accessible
 app.use(function(req,res,next) {
   req.db = db;
   next();
 });
+*/
 
 app.use('/', routes);
 // CUSTOM Molecule of the Month path
-app.use('/motm', motm);
-app.use('/do', crud);
+//app.use('/motm', motm);
+//app.use('/do', crud);
 
 // DEFAULT catch 404 and forward to error handler
 app.use(function(req, res, next) {

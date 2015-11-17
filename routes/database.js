@@ -1,9 +1,8 @@
-var MongoClient = require('mongodb').MongoClient;
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk('mongodb://localhost:27017/pdb101v3');
+
 var assert = require('assert');
-//var mdb = require('mongodb');
-var ObjectID = require('mongodb').ObjectID;
-//URL for mongo
-var url = 'mongodb://localhost:27017/pdb101v3';
 
 // ============================================================
 // Public functions
@@ -41,15 +40,13 @@ var createWrapper = function(object, callback) {
 };
 
 var readWrapper = function(callback) {
-    MongoClient.connect(url, function(err, db) {
-        assert.equal(null, err);
-        var docHolder;
-        findDocuments(db, function(docHolder) {
-            end(db);
-            callback(docHolder);
+    var collection = db.get('motm_articles');
+    collection.find({},{},function(e,docs){
+        res.render('motm', {
+            "motm_articles" : docs
         });
     });
-};
+}
 
 var januaryWrapper = function(callback) {
     MongoClient.connect(url, function(err,db) {
