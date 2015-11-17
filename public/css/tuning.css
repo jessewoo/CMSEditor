@@ -1,3 +1,19 @@
 #mainTable .img-thumbnail {
   width: 150px;
 }
+
+.form-group {
+  box-shadow: 0 0 3px #ccc;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.ss-formwidget-draghandle {
+  color: #666;
+}
+
+.dropzone {
+  box-shadow: 0 0 5px #ccc;
+  text-align: center;
+  padding: 20px 10px;
+}
