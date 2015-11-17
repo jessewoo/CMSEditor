@@ -4,7 +4,6 @@ $(function(){
   // addNewParagraphSection();
   // addNewImageSection();
   addNewButton();
-
   addNewExplorationSection();
   addNewJmolSection();
   addNewReferenceSection();
