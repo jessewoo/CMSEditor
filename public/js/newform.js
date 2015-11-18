@@ -1,11 +1,12 @@
 // Build New Motm Molecule - Form
 $(function(){
   buildNewMOTM();
-  addNewParagraphSection();
-  addNewImageSection();
+  // addNewParagraphSection();
+  // addNewImageSection();
+  addNewButton();
   addNewExplorationSection();
   addNewJmolSection();
-  addNewButton();
+  addNewReferenceSection();
 });
 
 // COMMON ACTIONS FOR EACH SECTIONS
@@ -60,35 +61,27 @@ var buildNewMOTM = function() {
 }
 
 var addNewButton = function() {
-  var newButton = "<div class='btn-group'>";
-  newButton += "<button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-haspop='true' aria-expanded='false'>";
-  newButton += "Add Next Section <span class='caret'></span></button>";
-  newButton += "<ul class='dropdown-menu'>";
-  newButton += "<li><a href='#' id='addNewImage'>Image</a></li>";
-  newButton += "<li><a href='#' id='addNewParagraph'>Paragraph Section</a></li>";
-  newButton += "<li><a href='#' id='addNewJmol'>Jmol</a></li>";
-  newButton += "<li><a href='#' id='addNewExploration'>Exploring the Structure</a></li>";
-  newButton += "<li><a href='#' id='addNewReferences'>References</a></li>";
-  newButton += "<li class='disabled'><a href='#' id='addNewGeneView'>Gene View</a></li>";
-  newButton += "<li class='disabled'><a href='#' id='addNewProteinFeatureView'>Protein Feature View</a></li>";
-  newButton += "</ul></div>";
+  var newButton = "<div class='center-block text-center'>";
+  newButton += "<button type='button' id='addNewImage' class='btn btn-success btn-lg'>Add Image Section</button>";
+  newButton += " <button type='button' id='addNewParagraph' class='btn btn-primary btn-lg'>Add Paragraph Section</button>";
+  newButton += "</div>";
 
   $("#AddNewButton").append(newButton);
 }
 
 var addNewParagraphSection = function() {
-  var newParagraphSection = "<div class='form-group insertParagraph'>";
+  var newParagraphSection = "<div class='form-group insertParagraph bg-warning'>";
   newParagraphSection += sectionActions;
   newParagraphSection += "<h4>Paragraph Section</h4><hr><input class='form-control' id='SectionTitle' placeholder='Paragraph Heading'><br>";
   newParagraphSection += "<textarea class='form-control' rows='3' placeholder='Paragraph Content'></textarea><br>";
   newParagraphSection += doneButton;
   newParagraphSection += "</div>";
 
-  $("#AddNewSections").append(newParagraphSection);
+  $("#AddVariableSections").append(newParagraphSection);
 }
 
 var addNewImageSection = function() {
-  var newImageSection = "<div class='form-group insertImage'>";
+  var newImageSection = "<div class='form-group insertImage bg-warning'>";
   newImageSection += sectionActions;
   newImageSection += "<h4>Image Section</h4><hr>";
   newImageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile'>";
@@ -97,34 +90,39 @@ var addNewImageSection = function() {
   newImageSection += doneButton;
   newImageSection += "</div>";
 
-  $("#AddNewSections").append(newImageSection);
+  $("#AddVariableSections").append(newImageSection);
 }
 
 var addNewExplorationSection = function() {
   var newExplorationSection = "<div class='form-group insertExploration'>";
-  newExplorationSection += sectionActions;
   newExplorationSection += "<h4>Exploring the Structure</h4><hr>";
   newExplorationSection += "<h5>Insert Static Jmol Image</h5><input type='file' id='jmolStaticInputFile'><br>";
   newExplorationSection += "<textarea class='form-control' rows='3' placeholder='Exploring the Structure Content'></textarea><hr>";
   newExplorationSection += "<h5>Topics for Further Exploration</h5>";
   newExplorationSection += "<p>Begin each line item with &lt;li&gt;</p><textarea class='form-control' rows='3' placeholder='List of Topics'></textarea><br>";
-  newExplorationSection += doneButton;
   newExplorationSection += "</div>";
 
-  $("#AddNewSections").append(newExplorationSection);
+  $("#AddFixedSections").append(newExplorationSection);
 }
 
 var addNewJmolSection = function() {
   var newJmolSection = "<div class='form-group insertJmol'>";
-  newJmolSection += sectionActions;
   newJmolSection += "<h4>Jmol Sections</h4><hr>";
   newJmolSection += "<h5>Drop your PDB Files</h5><form action='/upload-target' class='dropzone'></form>";
   newJmolSection += "<h5>JSmol Instructions</h5>";
   newJmolSection += "<textarea class='form-control' rows='3' placeholder='load FILES 3DGE.pdb model * select all...'></textarea><br>";
   newJmolSection += "<h5>JSmol Script</h5>";
   newJmolSection += "<p>Copy and paste the script</p><textarea class='form-control' rows='3' placeholder='<script> var jmolApplet0; var Info=...'></textarea><br>";
-  newJmolSection += doneButton;
   newJmolSection += "</div>";
 
-  $("#AddNewSections").append(newJmolSection);
+  $("#AddFixedSections").append(newJmolSection);
+}
+
+var addNewReferenceSection = function() {
+  var newReferenceSection = "<div class='form-group insertReferences'>";
+  newReferenceSection += "<h4>References</h4><hr>";
+  newReferenceSection += "<p>Begin each line item with &lt;li&gt;</p><textarea class='form-control' rows='3' placeholder='3jad: J. Du, W. Lu, S. Wu, Y. Cheng & E. Gouaux (2015) Glycine receptor mechanism...'></textarea><br>";
+  newReferenceSection += "</div>";
+
+  $("#AddFixedSections").append(newReferenceSection);
 }
