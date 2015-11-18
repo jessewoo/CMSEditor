@@ -1,5 +1,6 @@
 // Build New Motm Molecule - Form
 $(function(){
+  console.log("jesse start");
   buildNewMOTM();
   // addNewParagraphSection();
   // addNewImageSection();

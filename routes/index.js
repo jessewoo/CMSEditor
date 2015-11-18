@@ -12,4 +12,10 @@ router.get('/motm', function(req, res, next) {
   res.render('tmp', { title: 'Molecule of the Month Editor' });
 });
 
+/* GET home page. */
+router.get('/motm2', function(req, res, next) {
+  //run ./view/tmp.jade
+  res.render('tmp2', { title: 'Molecule of the Month Editor' });
+});
+
 module.exports = router;
