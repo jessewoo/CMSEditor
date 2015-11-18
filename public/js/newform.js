@@ -1,6 +1,6 @@
 // Build New Motm Molecule - Form
 $(function(){
-  console.log("jesse start");
+  console.log("New Form JS File FIRED");
   buildNewMOTM();
   // addNewParagraphSection();
   // addNewImageSection();
