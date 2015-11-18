@@ -13,10 +13,9 @@ $(function(){
 // COMMON ACTIONS FOR EACH SECTIONS
 // +++++++ CRUD Actions for Each Section +++++++++++++
 var sectionActions = "<div class='btn-group pull-right sectionActions'>";
-sectionActions += "<button type='button' class='btn btn-default btn-sm' aria-label='Move'><span class='glyphicon glyphicon-move' aria-hidden='true'></span></button>";
-sectionActions += "<button type='button' class='btn btn-default btn-sm' aria-label='Edit'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
-sectionActions += "<button type='button' class='btn btn-default btn-sm' aria-label='Duplicate'><span class='glyphicon glyphicon-duplicate' aria-hidden='true'></span></button>";
-sectionActions += "<button type='button' class='btn btn-default btn-sm' aria-label='Delete'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>";
+sectionActions += "<button type='button' class='btn btn-default btn-sm moveSection' aria-label='Move'><span class='glyphicon glyphicon-move' aria-hidden='true'></span></button>";
+sectionActions += "<button type='button' class='btn btn-default btn-sm editSection' aria-label='Edit'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
+sectionActions += "<button type='button' class='btn btn-default btn-sm deleteSection' aria-label='Delete'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>";
 sectionActions += "</div>";
 
 // ++++++++ DONE Button for Each Section +++++++++
@@ -71,24 +70,24 @@ var addNewButton = function() {
 }
 
 var addNewParagraphSection = function() {
-  var newParagraphSection = "<div class='form-group insertParagraph bg-warning'>";
+  var newParagraphSection = "<div class='form-group insertParagraph variableSection bg-warning'>";
   newParagraphSection += sectionActions;
   newParagraphSection += "<h4>Paragraph Section</h4><hr><input class='form-control' id='SectionTitle' placeholder='Paragraph Heading'><br>";
   newParagraphSection += "<textarea class='form-control' rows='3' placeholder='Paragraph Content'></textarea><br>";
-  newParagraphSection += doneButton;
+  // newParagraphSection += doneButton;
   newParagraphSection += "</div>";
 
   $("#AddVariableSections").append(newParagraphSection);
 }
 
 var addNewImageSection = function() {
-  var newImageSection = "<div class='form-group insertImage bg-warning'>";
+  var newImageSection = "<div class='form-group insertImage variableSection bg-warning'>";
   newImageSection += sectionActions;
   newImageSection += "<h4>Image Section</h4><hr>";
   newImageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile'>";
   newImageSection += "<select class='form-group'><option>Right Aligned</option><option>Left Aligned</option></select><br>";
   newImageSection += "<select class='form-group'><option>First Image</option><option>Associated Image with Paragraph</option></select><br><br>";
-  newImageSection += doneButton;
+  // newImageSection += doneButton;
   newImageSection += "</div>";
 
   $("#AddVariableSections").append(newImageSection);
@@ -109,7 +108,7 @@ var addNewExplorationSection = function() {
 var addNewJmolSection = function() {
   var newJmolSection = "<div class='form-group insertJmol'>";
   newJmolSection += "<h4>Jmol Sections</h4><hr>";
-  newJmolSection += "<h5>Drop your PDB Files</h5><form action='/upload-target' class='dropzone'></form>";
+  newJmolSection += "<h5>Select PDB Files</h5><input type='file' class='PDBfileUpload lastFileInput'>";
   newJmolSection += "<h5>JSmol Instructions</h5>";
   newJmolSection += "<textarea class='form-control' rows='3' placeholder='load FILES 3DGE.pdb model * select all...'></textarea><br>";
   newJmolSection += "<h5>JSmol Script</h5>";
