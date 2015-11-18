@@ -71,6 +71,8 @@ var tableWorker = function(object) {
     var newRow = "<tr>";
     //newRow += "<td><button class='btn btn-xs btn-default removeProject hide' value='" + object._id + "'><span style='color: #888; margin-top: 3px' class='glyphicon glyphicon-remove' aria-hidden='true'></span></button><span class='project-area canEdit' pType='area' pID='" + object._id + "'>" + object.area + "</span></td>";
     newRow += "<td pType='id' pID='" + object._id + "'>" + object.id + "</td>";
+    newRow += "<td><img class='image-thumbnail' src=" + "http://pdb101-dev.rcsb.org/pdb101/motm/images/" + object.first_image + "></td>";
+    //newRow += "<td pType='image' pID='" + object._id + "'>" + object.first_image + "</td>";
     newRow += "<td pType='month' pID='" + object._id + "'>" + object.month_name + "</td>";
     newRow += "<td pType='title' pID='" + object._id + "'>" + object.title + "</td>";
     newRow += "<td pType='teaser' pID='" + object._id + "'>" + object.teaser + "</td>";
