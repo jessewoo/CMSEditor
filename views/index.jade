@@ -1,17 +1,10 @@
 extends layout
 block content
   <br/><br/><br/>
-  .row
-    .col-xs-12
-      .table-responsive
-        table#mainTable.table.table-striped
-          thead
-            tr
-              th #
-              th Image
-              th Molecule Name
-              th Actions
-          tbody
+  h1 CMS Editor
+  p Creators: Chris, Jesse, and Cole
+  ul
+    li: a(href="/motm") Motm List
+    li: a(href="/tool") Motm Tool
 
 block js-includes
-  script(src='/js/table.js')

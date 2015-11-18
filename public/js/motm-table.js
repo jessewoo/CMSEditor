@@ -40,10 +40,12 @@ var addToTable = function(object) {
 // Append to table function
 var tableWorker = function(object) {
     var newRow = "<tr pID='" + object._id + "'>";
-    newRow += "<td pType='id' pID='" + object._id + "'>" + object.id + "</td>";
+    newRow += "<td pType='id'>" + object.id + "</td>";
     newRow += "<td><img class='img-thumbnail' src=" + "http://pdb101-dev.rcsb.org/pdb101/motm/images/" + object.first_image + "></td>";
-    newRow += "<td pType='month' pID='" + object._id + "'>" + object.month_name + "</td>";
-    newRow += "<td pType='title' pID='" + object._id + "'>" + object.title + "</td>";
+    newRow += "<td pType='month'>" + object.month_name + "</td>";
+    newRow += "<td pType='year'>" + object.year + "</td>";
+    newRow += "<td pType='title'>" + object.title + "</td>";
+    newRow += "<td pType='pdbid'>" + object.pdb_id + "</td>";
     newRow += "<td pType='teaser' pID='" + object._id + "'>" + object.teaser + "</td>";
     newRow += "</tr>";
 

@@ -9,13 +9,13 @@ router.get('/', function(req, res, next) {
 /* GET home page. */
 router.get('/motm', function(req, res, next) {
   //run ./view/tmp.jade
-  res.render('tmp', { title: 'Molecule of the Month Editor' });
+  res.render('motm', { title: 'Molecule of the Month Editor' });
 });
 
 /* GET home page. */
-router.get('/motm2', function(req, res, next) {
+router.get('/tool', function(req, res, next) {
   //run ./view/tmp.jade
-  res.render('tmp2', { title: 'Molecule of the Month Editor' });
+  res.render('tool', { title: 'Molecule of the Month Editor' });
 });
 
 module.exports = router;

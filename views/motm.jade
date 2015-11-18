@@ -1,23 +1,21 @@
 extends layout
 block content
-  <br/><br/><br/>
-  h1.
-    Molecule of the Month Editor
-  <br/>
-  #CreateNewForm
-  <br/>
-  h2.text-center Variable Sections
-  #AddVariableSections
-  #AddNewButton
-  <br/><br/>
-  h2.text-center Fixed Sections
-  #AddFixedSections
-
-  <br/><br/>
-  .well.well-sm
-    small Similar to Google Forms. This form should be able to be used to CRU (create, read, and update).
-  <br/><br/><br/><br/>
-
+    <br><br><br>
+    h1 Get ALL Molecule of the Month Objects
+    <br>
+    .row
+        .col-xs-12
+            .table-responsive
+                table#mainTable.table.table-bordered
+                    thead
+                        tr
+                            th Id
+                            th Image
+                            th Month
+                            th Year
+                            th Title
+                            th PDB ID
+                            th Teaser
+                        tbody
 block js-includes
-  script(src='/js/newform.js')
-  script(src='/3rd-party-js/dropzone.js')
+    script(src='/js/motm-table.js')
