@@ -1,8 +1,17 @@
 extends layout
 block content
     <br><br><br>
-    h1 Molecule of the Month for ID: #{momID}
-    <br>
+    h1.text-center Molecule of the Month Editor
+    <br/>
+    #CreateNewForm
+    <br/>
+    h2.text-center Variable Sections
+    #AddVariableSections
+    #AddNewButton
+    <br/><br/>
+    h2.text-center Fixed Sections
+    #AddFixedSections
 
 block js-includes
-    script(src='/js/one-view.js')
+    script(src='/js/motm-form.js')
+    script(src='/js/form-listeners.js')

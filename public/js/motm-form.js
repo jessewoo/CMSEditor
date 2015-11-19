@@ -1,12 +1,20 @@
 // Build New Motm Molecule - Form
 $(function(){
-  console.log("New Form JS File FIRED");
+  var pathArray = window.location.pathname.split( '/' );
+  var momID = pathArray[2];
+
+  // Build out all of the page
   buildNewMOTM();
   addSortableSection();
   addNewButton();
   addNewExplorationSection();
   addNewJmolSection();
   addNewReferenceSection();
+
+  // If we are editing somthing that already exists, populate with prior data
+  if (momID) {
+    populate_with_data(momID);
+  }
 });
 
 // COMMON ACTIONS FOR EACH SECTIONS
@@ -43,17 +51,17 @@ for (var i = 2000; i < year + 11; i++) {
 }
 yearDropdown += "</select>";
 
-
 // BUILD OUT OF ADDITIONAL SECTIONS
 var buildNewMOTM = function() {
   var newForm = "<div id='EssentialsSection' class='form-group'>";
   newForm += "<h4>Essential Information</h4><hr>";
-  newForm += "<h5>Motm ID</h5><input class='form-control' id='MolecularID' placeholder='187' disabled>";
-  newForm += "<h5>Molecule Name / Title</h5><input class='form-control' id='MoleculeName' placeholder='Molecule Name'>";
-  newForm += "<h5>Teaser Description</h5><textarea class='form-control' rows='2' placeholder='Molecule Teaser Description'></textarea>";
-  newForm += "<h5>Author's Name</h5><input class='form-control' id='AuthorName' placeholder='Author's Name'>";
+  newForm += "<h5>Motm ID</h5><input class='form-control' id='legacyMotMID' value='' disabled>";
+  newForm += "<h5>Molecule Name / Title</h5><input class='form-control' id='articleTitle' placeholder='Molecule Name'>";
+  newForm += "<h5>Teaser Description</h5><textarea class='form-control' id='articleTeaser' rows='2' placeholder='Teaser'></textarea>";
+  newForm += "<h5>Author's Name</h5><input class='form-control' id='articleAuthor' placeholder='Author's Name'>";
+  //TODO Need to rethink date editor
   newForm += "<h5>Date</h5>" + monthsDropdown + " " + yearDropdown;
-  newForm += "<h5>Keywords <small>Separate with commas</small></h5><input class='form-control' id='KeywordsSection' placeholder='Keywords - separate with comma'><br>";
+  newForm += "<h5>Keywords <small>Separate with commas</small></h5><input class='form-control' id='articleKeywords' placeholder='Keywords - separate with comma'><br>";
   newForm += "</div>";
 
   $("#CreateNewForm").append(newForm);
@@ -144,4 +152,32 @@ var addNewReferenceSection = function() {
   newReferenceSection += "</div>";
 
   $("#AddFixedSections").append(newReferenceSection);
+}
+
+// Fills in the form with the data we already have
+var populate_with_data = function(momID) {
+    $.ajax({
+        type: "get",
+        url: "/do/one/" + momID,
+        dataType: "json",
+        contentType: "application/json",
+        success: function(data){
+            console.log(data);
+            $('#legacyMotMID').val(data.id);
+            $('#articleTitle').val(data.title);
+            $('#articleTeaser').val(data.teaser);
+            $('#articleAuthor').val(data.authors);
+            data.keywords.forEach(function(keyword) {
+              var currentVal = $('#articleKeywords').val();
+              if (currentVal) {
+                  $('#articleKeywords').val(currentVal + ", " + keyword);
+              } else {
+                $('#articleKeywords').val(keyword);
+              }
+
+            });
+
+
+        }
+    });
 }
