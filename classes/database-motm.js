@@ -155,24 +155,18 @@ var findDoc = function(db, momID, callback) {
     var idField = "id";
     query[idField] = momID;
     console.log(query);
-    var cursor = db.collection('motm_articles').find(query);
-    cursor.each(function (err, doc) {
-        assert.equal(err, null);
-        if (doc != null) {
-            console.log(doc);
-            console.dir(doc);
-            callback(doc);
-        } else {
-            console.log(doc);
-            callback();
-        }
-     });
+    var cursor = db.collection('motm_articles').find( {_id: new mdb.ObjectID(momID)} ).toArray(function(err, docArray) {
+      assert.equal(err, null);
+      console.log("docArray", docArray);
+      console.log("The month is: ", docArray[0].month_name);
+      callback(docArray[0])
+    });
 }
 
 // Insert
 var insertProject = function(db, object, callback) {
   // Get the documents collection
-  var collection = db.collection('motm_articles');
+  var collection = db.motm_articles;
   // Insert some documents
   collection.insert(object, function(err, result) {
     assert.equal(err, null);
