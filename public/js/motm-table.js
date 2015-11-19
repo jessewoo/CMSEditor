@@ -14,7 +14,7 @@ var motmTable = function() {
             var rowCount = 0;
             $.each(data, function(index, object) {
                 // Loop over all objects
-                tableWorker(object);
+                tableWorker(object, rowCount);
                 rowCount++;
             });
         },
@@ -38,8 +38,13 @@ var addToTable = function(object) {
 }
 
 // Append to table function
-var tableWorker = function(object) {
-    var newRow = "<tr pID='" + object._id + "'>";
+var tableWorker = function(object, rowCount) {
+    var specialCSS = "";
+    if (rowCount > 9) {
+      specialCSS = "style=\"display:none;\" class=\"specialCSS\"";
+    }
+
+    var newRow = "<tr " + specialCSS + " pID='" + object._id + "'>";
     newRow += "<td pType='id'>" + object.id + "</td>";
     newRow += "<td><img class='img-thumbnail' src=" + "http://pdb101-dev.rcsb.org/pdb101/motm/images/" + object.first_image + "></td>";
     newRow += "<td pType='month'>" + object.month_name + "</td>";
