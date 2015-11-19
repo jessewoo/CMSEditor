@@ -15,9 +15,9 @@ router.get('/motm', function(req, res, next) {
 /* Get MOTM single view */
 router.get('/motm/:momID', function(req, res){
     //res.send("Molecule of the Month #: " + req.params.momID);
-    var id = req.params.momID;
-    console.log(id);
-    res.render('editMotm', {momID : id});
+    var momID = req.params.momID;
+    console.log(momID);
+    res.render('editMotm', {momID : momID});
 });
 
 /* GET motm editor page. */

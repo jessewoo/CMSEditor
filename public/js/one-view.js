@@ -1,18 +1,24 @@
 $(function(){
-    oneDisplay(id);
+   console.log("one-view.js running");
+   var pathArray = window.location.pathname.split( '/' );
+   //  console.log(pathArray[2]);
+   var momID = pathArray[2];
+
+   console.log("one-view.js runs for " + momID);
+
+   oneDisplay(momID);
 });
 
-var oneDisplay = function(id) {
-    console.log("Mom id passed: " + id);
+var oneDisplay = function(momID) {
+    console.log("MomID passed into function onDisplay: " + momID);
     // Pull data via ajax
     $.ajax({
         type: "get",
-        url: "/do/one/1",
-        dataType: "json"
+        url: "/do/one/" + momID,
+        dataType: "json",
         contentType: "application/json",
         success: function(data){
 
         }
     })
 }
-
