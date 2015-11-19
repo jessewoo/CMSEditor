@@ -1,10 +1,10 @@
 $(function(){
-   console.log("one-view.js running");
+  //  console.log("one-view.js running");
    var pathArray = window.location.pathname.split( '/' );
    //  console.log(pathArray[2]);
    var momID = pathArray[2];
 
-   console.log("one-view.js runs for " + momID);
+  //  console.log("one-view.js runs for " + momID);
 
    oneDisplay(momID);
 });
@@ -19,7 +19,7 @@ var oneDisplay = function(momID) {
         dataType: "json",
         contentType: "application/json",
         success: function(data){
-
+            console.log(data);
         }
     })
 }
