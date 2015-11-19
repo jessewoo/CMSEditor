@@ -15,6 +15,7 @@ var oneDisplay = function(momID) {
     $.ajax({
         type: "get",
         url: "/do/one/" + momID,
+        // url: "/do/one/2",
         dataType: "json",
         contentType: "application/json",
         success: function(data){

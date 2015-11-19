@@ -23,8 +23,9 @@ exports.get = function (callback) {
   readWrapper(callback);
 };
 
-exports.one = function(object, callback) {
-  oneWrapper(callback);
+exports.one = function(momID, callback) {
+  console.log("1. Variable Passing? : " + momID);
+  oneWrapper(momID, callback);
 };
 
 exports.remove = function (callback) {
@@ -56,11 +57,12 @@ var readWrapper = function(callback) {
   });
 };
 
-var oneWrapper = function(object, callback) {
+var oneWrapper = function(momID, callback) {
+  console.log("2. Variable Passing? : " + momID);
   MongoClient.connect(url, function(err, db) {
-    console.log("+1 DB connection");
+    console.log("+1 momID DB connection");
     assert.equal(null, err);
-    findDoc(db, object, function(result){
+    findDoc(db, momID, function(result){
         end(db);
         callback(result);
     });
@@ -147,14 +149,21 @@ var findDocuments = function(db, callback) {
 }
 
 // Find one
-var findDoc = function(db, object, callback) {
-    var cursor = db.collection('motm_articles').find({"_id": object[0]});
+var findDoc = function(db, momID, callback) {
+    console.log("3. Variable Passing? : " + momID);
+    var query = {};
+    var idField = "id";
+    query[idField] = momID;
+    console.log(query);
+    var cursor = db.collection('motm_articles').find(query);
     cursor.each(function (err, doc) {
         assert.equal(err, null);
         if (doc != null) {
+            console.log(doc);
             console.dir(doc);
             callback(doc);
         } else {
+            console.log(doc);
             callback();
         }
      });

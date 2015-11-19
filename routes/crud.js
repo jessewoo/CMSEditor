@@ -21,9 +21,10 @@ router.get('/get', function(req, res) {
 });
 
 // Return one document
-router.get('/one', function(req, res) {
-    var toPull = req.body;
-    returnOne(toPull, res);
+router.get('/one/:momID', function(req, res) {
+    var momID = req.params.momID;
+    console.log("1. Crud Passing? : " + momID);
+    returnOne(momID, res);
 });
 
 // Update data
@@ -59,8 +60,9 @@ var returnGet = function(res) {
   });
 };
 
-var returnOne = function(toPull, res) {
-    database.one(toPull, function(toSend) {
+var returnOne = function(momID, res) {
+    console.log("2. Crud Passing? : " + momID);
+    database.one(momID, function(toSend) {
         res.send(toSend)
     });
 };
