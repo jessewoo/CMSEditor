@@ -21,11 +21,15 @@ exports.update = function (object, callback) {
 
 exports.get = function (callback) {
   readWrapper(callback);
-}
+};
+
+exports.one = function(object, callback) {
+  oneWrapper(callback);
+};
 
 exports.remove = function (callback) {
   deleteWrapper(callback);
-}
+};
 
 // ============================================================
 // Private (meta) functions
@@ -48,6 +52,17 @@ var readWrapper = function(callback) {
     findDocuments(db, function(docHolder) {
       end(db);
       callback(docHolder);
+    });
+  });
+};
+
+var oneWrapper = function(object, callback) {
+  MongoClient.connect(url, function(err, db) {
+    console.log("+1 DB connection");
+    assert.equal(null, err);
+    findDoc(db, object, function(result){
+        end(db);
+        callback(result);
     });
   });
 };
@@ -129,6 +144,20 @@ var findDocuments = function(db, callback) {
     // console.dir(docs);
     callback(docs);
   });
+}
+
+// Find one
+var findDoc = function(db, object, callback) {
+    var cursor = db.collection('motm_articles').find({"_id": object[0]});
+    cursor.each(function (err, doc) {
+        assert.equal(err, null);
+        if (doc != null) {
+            console.dir(doc);
+            callback(doc);
+        } else {
+            callback();
+        }
+     });
 }
 
 // Insert

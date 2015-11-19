@@ -1,0 +1,24 @@
+extends layout
+block content
+    <br><br><br>
+    h1 Molecule of the month
+    <br>
+    .row
+        .col-xs-12
+            .table-responsive
+                table#mainTable.table.table-bordered
+                    thead
+                        tr
+                            th ID
+                            th Image
+                            th Month
+                            th Year
+                            th Title
+                            th PDB ID
+                            th Teaser
+                        tbody
+    block content
+    container#article
+    h2#results
+block js-includes
+    script(src='/js/one-view.js', momID=id)

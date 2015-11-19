@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var database = require('../classes/database-motm.js');
-
+// ============================================================
 // Create data
 router.post('/add', function(req, res) {
   // Extract & log
@@ -20,6 +20,12 @@ router.get('/get', function(req, res) {
   returnGet(res);
 });
 
+// Return one document
+router.get('/one', function(req, res) {
+    var toPull = req.body;
+    returnOne(toPull, res);
+});
+
 // Update data
 router.post('/update', function(req, res) {
   // Extract & log
@@ -31,7 +37,6 @@ router.post('/update', function(req, res) {
   toLoad.push(body);
   returnUpdate(toLoad, res);
 });
-
 
 // Delete data
 router.delete('/del', function(req, res) {
@@ -52,6 +57,12 @@ var returnGet = function(res) {
   database.get(function(toSend) {
     res.send(toSend);
   });
+};
+
+var returnOne = function(toPull, res) {
+    database.one(toPull, function(toSend) {
+        res.send(toSend)
+    });
 };
 
 // Helper function with async callback - for create

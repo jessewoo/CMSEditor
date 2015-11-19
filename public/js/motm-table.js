@@ -47,6 +47,7 @@ var tableWorker = function(object) {
     newRow += "<td pType='title'>" + object.title + "</td>";
     newRow += "<td pType='pdbid'>" + object.pdb_id + "</td>";
     newRow += "<td pType='teaser' pID='" + object._id + "'>" + object.teaser + "</td>";
+    newRow += "<td><span style='margin-right: 1em;' class='canEdit glyphicon glyphicon-pencil linkItem' aria-hidden='true' pType='link' pID='" + object._id + "' link-value='" + object.id + "'></span></td>";
     newRow += "</tr>";
 
     // Append the new row
