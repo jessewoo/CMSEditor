@@ -134,12 +134,12 @@ var addNewExplorationSection = function() {
 
 var addNewJmolSection = function() {
   var newJmolSection = "<div class='form-group insertJmol'>";
-  newJmolSection += "<h4>Jmol Sections</h4><hr>";
+  newJmolSection += "<h4>JSmol</h4><hr>";
   newJmolSection += "<h5>Select PDB Files</h5><input type='file' class='PDBfileUpload lastFileInput'>";
-  newJmolSection += "<h5>JSmol Instructions</h5>";
-  newJmolSection += "<textarea class='form-control' rows='3' placeholder='load FILES 3DGE.pdb model * select all...'></textarea><br>";
+  newJmolSection += "<h5>Content</h5>";
+  newJmolSection += "<textarea id='jmol-content' class='form-control' rows='5' placeholder='Content (for Humans)'></textarea><br>";
   newJmolSection += "<h5>JSmol Script</h5>";
-  newJmolSection += "<p>Copy and paste the script</p><textarea class='form-control' rows='3' placeholder='<script> var jmolApplet0; var Info=...'></textarea><br>";
+  newJmolSection += "<p>Copy and paste the script</p><textarea id='jmol-script' class='form-control' rows='5' placeholder='Script (for Computers)'></textarea><br>";
   newJmolSection += "</div>";
 
   $("#AddFixedSections").append(newJmolSection);
@@ -163,6 +163,8 @@ var populate_with_data = function(momID) {
         contentType: "application/json",
         success: function(data){
             console.log(data);
+
+            // Top of the page elements
             $('#legacyMotMID').val(data.id);
             $('#articleTitle').val(data.title);
             $('#articleTeaser').val(data.teaser);
@@ -174,8 +176,11 @@ var populate_with_data = function(momID) {
               } else {
                 $('#articleKeywords').val(keyword);
               }
-
             });
+
+            // JSmol elements
+            $('#jmol-content').val(data.jmols[0].content);
+            $('#jmol-script').val(data.jmols[0].script);
 
 
         }
