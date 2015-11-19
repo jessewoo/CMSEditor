@@ -2,8 +2,6 @@
 $(function(){
   console.log("New Form JS File FIRED");
   buildNewMOTM();
-  // addNewParagraphSection();
-  // addNewImageSection();
   addSortableSection();
   addNewButton();
   addNewExplorationSection();
