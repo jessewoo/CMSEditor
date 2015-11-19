@@ -23,7 +23,6 @@ router.get('/get', function(req, res) {
 // Return one document
 router.get('/one/:momID', function(req, res) {
     var momID = req.params.momID;
-    console.log("1. Crud Passing? : " + momID);
     returnOne(momID, res);
 });
 
@@ -61,7 +60,6 @@ var returnGet = function(res) {
 };
 
 var returnOne = function(momID, res) {
-    console.log("2. Crud Passing? : " + momID);
     database.one(momID, function(toSend) {
         res.send(toSend)
     });

@@ -24,7 +24,6 @@ exports.get = function (callback) {
 };
 
 exports.one = function(momID, callback) {
-  console.log("1. Variable Passing? : " + momID);
   oneWrapper(momID, callback);
 };
 
@@ -36,7 +35,7 @@ exports.remove = function (callback) {
 // Private (meta) functions
 var createWrapper = function(object, callback) {
   MongoClient.connect(url, function(err, db) {
-    console.log("+1 DB connection");
+    //console.log("+1 DB connection");
     assert.equal(null, err);
     insertProject(db, object, function(result) {
       end(db);
@@ -47,7 +46,7 @@ var createWrapper = function(object, callback) {
 
 var readWrapper = function(callback) {
   MongoClient.connect(url, function(err, db) {
-    console.log("+1 DB connection");
+    //console.log("+1 DB connection");
     assert.equal(null, err);
     var docHolder;
     findDocuments(db, function(docHolder) {
@@ -58,9 +57,8 @@ var readWrapper = function(callback) {
 };
 
 var oneWrapper = function(momID, callback) {
-  console.log("2. Variable Passing? : " + momID);
   MongoClient.connect(url, function(err, db) {
-    console.log("+1 momID DB connection");
+    //console.log("+1 momID DB connection");
     assert.equal(null, err);
     findDoc(db, momID, function(result){
         end(db);
@@ -71,7 +69,7 @@ var oneWrapper = function(momID, callback) {
 
 var updateWrapper = function(object, callback) {
   MongoClient.connect(url, function(err, db) {
-    console.log("+1 DB connection");
+    //console.log("+1 DB connection");
     assert.equal(null, err);
     updateDocument(db, object[0], function(result) {
       end(db);
@@ -82,7 +80,7 @@ var updateWrapper = function(object, callback) {
 
 var deleteWrapper = function(target) {
   MongoClient.connect(url, function(err, db) {
-    console.log("+1 DB connection");
+    //console.log("+1 DB connection");
     assert.equal(null, err);
     removeDocument(db, target, function() {
       end(db);
@@ -96,7 +94,7 @@ var deleteWrapper = function(target) {
 // Disconnect
 var end = function(db) {
   db.close();
-  console.log("-1 DB close");
+  //console.log("-1 DB close");
 }
 
 // Update
@@ -104,7 +102,7 @@ var updateDocument = function(db, target, callback) {
   // Get the documents collection
   var collection = db.collection('motm_articles');
   // Update document where a is 2, set b equal to 1
-  console.log("Updating project with ID [" + target.id + "] -> setting [" + JSON.stringify(target) + "]");
+  //console.log("Updating project with ID [" + target.id + "] -> setting [" + JSON.stringify(target) + "]");
   collection.update({_id: new mdb.ObjectID(target.id)}, { $set: target }, function(err, result) {
     assert.equal(err, null);
     callback('success');
@@ -116,10 +114,10 @@ var removeDocument = function(db, target, callback) {
   // Get the documents collection
   var collection = db.collection('motm_articles');
   // Insert some documents
-  console.log("Trying to remove: " + target.id);
+  //console.log("Trying to remove: " + target.id);
   collection.remove({_id: new mdb.ObjectID(target.id)}, function(err, result) {
     assert.equal(err, null);
-    console.log("Result: " + result);
+    //console.log("Result: " + result);
     callback(result);
   });
 }
@@ -150,15 +148,9 @@ var findDocuments = function(db, callback) {
 
 // Find one
 var findDoc = function(db, momID, callback) {
-    console.log("3. Variable Passing? : " + momID);
-    var query = {};
-    var idField = "id";
-    query[idField] = momID;
-    console.log(query);
     var cursor = db.collection('motm_articles').find( {_id: new mdb.ObjectID(momID)} ).toArray(function(err, docArray) {
       assert.equal(err, null);
-      console.log("docArray", docArray);
-      console.log("The month is: ", docArray[0].month_name);
+      //console.log("docArray", docArray);
       callback(docArray[0])
     });
 }
