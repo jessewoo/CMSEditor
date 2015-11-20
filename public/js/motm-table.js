@@ -38,11 +38,13 @@ var addToTable = function(object) {
 }
 
 // Append to table function
-var tableWorker = function(object, rowCount) {
+var tableWorker = function(object, rowCount, maxRows) {
     var specialCSS = "";
+    // Logic to show only 10 rows
     if (rowCount > 9) {
       specialCSS = "style=\"display:none;\" class=\"specialCSS\"";
     }
+
 
     var newRow = "<tr " + specialCSS + " pID='" + object._id + "'>";
     newRow += "<td pType='id'>" + object.id + "</td>";
@@ -55,6 +57,8 @@ var tableWorker = function(object, rowCount) {
     newRow += "<td><a href=\"/motm/" + object._id + "\"><span style='margin-right: 1em;' class='canEdit glyphicon glyphicon-pencil linkItem' aria-hidden='true' pType='link'></a></span></td>";
     newRow += "</tr>";
 
+    // Prepend the new row (may not factor forward.)
+    //$("#mainTable > tbody:last-child").prepend(newRow);
     // Append the new row
     $("#mainTable > tbody:last-child").append(newRow);
 }
