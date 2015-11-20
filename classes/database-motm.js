@@ -138,7 +138,7 @@ var findDocuments = function(db, callback) {
   // Get the documents collection
   var collection = db.collection('motm_articles');
   // Find some documents
-  collection.find({}).toArray(function(err, docs) {
+  collection.find({}).sort({id : -1}).toArray(function(err, docs) {
     assert.equal(err, null);
     // console.log("Found the following records");
     // console.dir(docs);

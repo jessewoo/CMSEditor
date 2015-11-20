@@ -12,25 +12,9 @@ var motmTable = function() {
         contentType: "application/json",
         success: function(data){
             var rowCount = 0;
-
-            /*
-            //Does not guarantee order. Only sends 10. Want real sort based on motm id.
-            $.each(data.reverse().slice(0,data.length>9 ? 9 : data.length), function(index, object) {
-                tableWorker(object);
-            });
-            */
-
-            /* Original Working
             $.each(data, function(index, object) {
                 // Loop over all objects
-             tableWorker(object, rowCount);
-             rowCount++;
-             });
-             */
-            var maxRows = data.length;
-            $.each(data, function(index, object) {
-                // Loop over all objects
-                tableWorker(object, rowCount, maxRows);
+                tableWorker(object, rowCount);
                 rowCount++;
             });
         },
@@ -56,14 +40,11 @@ var addToTable = function(object) {
 // Append to table function
 var tableWorker = function(object, rowCount, maxRows) {
     var specialCSS = "";
-    /* Original logic to show only 10 rows
+    // Logic to show only 10 rows
     if (rowCount > 9) {
       specialCSS = "style=\"display:none;\" class=\"specialCSS\"";
     }
-    */
-    if (rowCount <= (maxRows - 11)) {
-        specialCSS = "style=\"display:none;\" class=\"specialCSS\"";
-    }
+
 
     var newRow = "<tr " + specialCSS + " pID='" + object._id + "'>";
     newRow += "<td pType='id'>" + object.id + "</td>";
@@ -77,7 +58,7 @@ var tableWorker = function(object, rowCount, maxRows) {
     newRow += "</tr>";
 
     // Prepend the new row (may not factor forward.)
-    $("#mainTable > tbody:last-child").prepend(newRow);
+    //$("#mainTable > tbody:last-child").prepend(newRow);
     // Append the new row
-    //$("#mainTable > tbody:last-child").append(newRow);
+    $("#mainTable > tbody:last-child").append(newRow);
 }
