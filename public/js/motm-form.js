@@ -11,7 +11,7 @@ $(function(){
   addNewJmolSection();
   addNewReferenceSection();
 
-  // If we are editing somthing that already exists, populate with prior data
+  // If we are editing something that already exists, populate with prior data
   if (momID) {
     populate_with_data(momID);
   }
@@ -28,25 +28,18 @@ sectionActions += "</div>";
 // ++++++++ DONE Button for Each Section +++++++++
 var doneButton = "<button class='btn btn-primary btn-sm' type='submit'>Done</button>";
 
-var monthsDropdown = "<select id='month' name='month' class='form-group'><option value='0'>Month</option>";
-monthsDropdown +=	"<option value='1'>January</option>"
-monthsDropdown +=	"<option value='2'>February</option>"
-monthsDropdown +=	"<option value='3'>March</option>"
-monthsDropdown +=	"<option value='4'>April</option>"
-monthsDropdown +=	"<option value='5'>May</option>"
-monthsDropdown +=	"<option value='6'>June</option>"
-monthsDropdown +=	"<option value='7'>July</option>"
-monthsDropdown +=	"<option value='8'>August</option>"
-monthsDropdown +=	"<option value='9'>September</option>"
-monthsDropdown +=	"<option value='10'>October</option>"
-monthsDropdown +=	"<option value='11'>November</option>"
-monthsDropdown +=	"<option value='12'>December</option>"
+var myDate = new Date();
+var theMonth = myDate.getMonth();
+var monthsDropdown = "<select id='month' name='month' class='form-group'>";
+var monthArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+for (var i = 0; i < 12; i++){
+  monthsDropdown += "<option value='" + i + "'>" + monthArray[i] + "</option>";
+}
 monthsDropdown += "</select>";
 
 var yearDropdown = "<select id='year' name='year' class='form-group'>";
-var myDate = new Date();
 var year = myDate.getFullYear();
-for (var i = 2000; i < year + 11; i++) {
+for (var i = 2000; i <= year + 2; i++) {
   yearDropdown += "<option value='" + i + "'>" + i + "</option>";
 }
 yearDropdown += "</select>";
@@ -169,6 +162,8 @@ var populate_with_data = function(momID) {
             $('#articleTitle').val(data.title);
             $('#articleTeaser').val(data.teaser);
             $('#articleAuthor').val(data.authors);
+            $('#month').val(data.month - 1);
+            $('#year').val(data.year);
             data.keywords.forEach(function(keyword) {
               var currentVal = $('#articleKeywords').val();
               if (currentVal) {
