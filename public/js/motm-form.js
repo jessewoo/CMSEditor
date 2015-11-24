@@ -199,7 +199,7 @@ var populate_with_data = function(momID) {
                     console.log("No Image in part: " + part.id);
                 }
               });
-              divSection += paragraphSection + "</div>";
+              divSection += paragraphSection + "</div><hr>"
               $('#AddVariableSections').append(divSection);
             });
 
