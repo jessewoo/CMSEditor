@@ -183,16 +183,21 @@ var populate_with_data = function(momID) {
             });
 
             data.sections.forEach(function(section) {
+              var divSection = "<div>";
+              var paragraphSection = "";
               section.parts.forEach(function(part) {
-                $('#AddVariableSections').append(part.content);
+                part.forEach(function(obj){
+                  if(obj == heading){
+                  paragraphSection = "<h3>" + obj + "</h3>";
+                  }
+
+                  //paragraphSection += "<p>" + obj.content + "</p>";
+                });
+
               });
+              divSection += paragraphSection + "</div>"
+              $('#AddVariableSections').prepend(divSection);
             });
-
-            // console.log("Data Sections: " + data.sections[0].parts[0].content);
-            // $('#AddVariableSections').append(data.sections[0].parts[0].content);
-
-
-
 
 
 
