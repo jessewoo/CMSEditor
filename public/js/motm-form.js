@@ -28,12 +28,8 @@ $(function(){
 // +++++++ CRUD Actions for Each Section +++++++++++++
 var sectionActions = "<div class='btn-group pull-right sectionActions'>";
 sectionActions += "<button type='button' class='btn btn-default btn-sm moveSection' aria-label='Move'><span class='glyphicon glyphicon-move' aria-hidden='true'></span></button>";
-sectionActions += "<button type='button' class='btn btn-default btn-sm editSection' aria-label='Edit'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></button>";
 sectionActions += "<button type='button' class='btn btn-default btn-sm deleteSection' aria-label='Delete'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>";
 sectionActions += "</div>";
-
-// ++++++++ DONE Button for Each Section +++++++++
-var doneButton = "<button class='btn btn-primary btn-sm' type='submit'>Done</button>";
 
 var myDate = new Date();
 var theMonth = myDate.getMonth();
@@ -85,6 +81,14 @@ var addSortableSection = function() {
   newSortableSection += "</ul>";
 
   $("#AddVariableSections").append(newSortableSection);
+}
+
+var addNewVariableSection = function() {
+  var newVariableSectionButton = "<div class='center-block text-center'>";
+  newVariableSectionButton += "<button type='button' id='addNewVariableSection' class='btn btn-success btn-lg'>Add New Variable Section</button>";
+  newVariableSectionButton += "</div>";
+
+  $("#AddNewButton").append(newVariableSectionButton);
 }
 
 var addNewButton = function() {
