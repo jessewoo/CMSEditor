@@ -3,8 +3,15 @@ $(function(){
   var pathArray = window.location.pathname.split( '/' );
   var momID = pathArray[2];
 
+  console.log("Sortable Function");
+  // $("#sortable" ).sortable();
+  // $("#sortable" ).disableSelection();
+
   // Build out all of the page
   buildNewMOTM();
+
+  // addSortList();
+
   addSortableSection();
   addNewButton();
   addNewExplorationSection();
@@ -60,10 +67,21 @@ var buildNewMOTM = function() {
   $("#CreateNewForm").append(newForm);
 }
 
+// TEST LIST
+var addSortList = function() {
+  var newSortListSection = "<ul id='sortable'>";
+  newSortListSection += "<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'>Item 1</li>";
+  newSortListSection += "<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'>Item 2</li>";
+  newSortListSection += "<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'>Item 3</li>";
+  newSortListSection += "<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'>Item 4</li>";
+  newSortListSection += "</ul>";
+
+  $("#AddVariableSections").append(newSortListSection);
+}
 
 // BUILD OUT OF ADDITIONAL SECTIONS
 var addSortableSection = function() {
-  var newSortableSection = "<ul data-as-sortable='board.dragControlListeners' data-ng-model='items' class='list-unstyled'>";
+  var newSortableSection = "<ul class='list-unstyled'>";
   newSortableSection += "</ul>";
 
   $("#AddVariableSections").append(newSortableSection);
@@ -78,18 +96,9 @@ var addNewButton = function() {
   $("#AddNewButton").append(newButton);
 }
 
-var addNewButton = function() {
-  var newButton = "<div class='center-block text-center'>";
-  newButton += "<button type='button' id='addNewImage' class='btn btn-success btn-lg'>Add Image Section</button>";
-  newButton += " <button type='button' id='addNewParagraph' class='btn btn-primary btn-lg'>Add Paragraph Section</button>";
-  newButton += "</div>";
-
-  $("#AddNewButton").append(newButton);
-}
-
 var addNewParagraphSection = function() {
-  var newParagraphSection = "<li data-ng-repeat='item in items' data-as-sortable-item>";
-  newParagraphSection += "<div data-as-sortable-item-handle class='form-group insertParagraph variableSection bg-warning'>";
+  var newParagraphSection = "<li>";
+  newParagraphSection += "<div class='form-group insertParagraph variableSection bg-warning'>";
   newParagraphSection += sectionActions;
   newParagraphSection += "<h4>Paragraph Section</h4><hr><input class='form-control' id='SectionTitle' placeholder='Paragraph Heading'><br>";
   newParagraphSection += "<textarea class='form-control' rows='3' placeholder='Paragraph Content'></textarea><br>";
@@ -100,8 +109,8 @@ var addNewParagraphSection = function() {
 }
 
 var addNewImageSection = function() {
-  var newImageSection = "<li data-ng-repeat='item in items' data-as-sortable-item >";
-  newImageSection += "<div data-as-sortable-item-handle class='form-group insertImage variableSection bg-warning'>";
+  var newImageSection = "<li>";
+  newImageSection += "<div class='form-group insertImage variableSection bg-warning'>";
   newImageSection += sectionActions;
   newImageSection += "<h4>Image Section</h4><hr>";
   newImageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile'>";
