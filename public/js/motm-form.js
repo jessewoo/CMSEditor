@@ -13,7 +13,10 @@ $(function(){
   // addSortList();
 
   addSortableSection();
-  addNewButton();
+
+  addNewVariableSection();
+
+  // addNewButton();
   addNewExplorationSection();
   addNewJmolSection();
   addNewReferenceSection();
@@ -77,27 +80,27 @@ var addSortList = function() {
 
 // BUILD OUT OF ADDITIONAL SECTIONS
 var addSortableSection = function() {
-  var newSortableSection = "<ul class='list-unstyled'>";
-  newSortableSection += "</ul>";
+  var newSortableSection = "<div class='lastVariableSection'>";
+  newSortableSection += "</div>";
 
   $("#AddVariableSections").append(newSortableSection);
 }
 
 var addNewVariableSection = function() {
   var newVariableSectionButton = "<div class='center-block text-center'>";
-  newVariableSectionButton += "<button type='button' id='addNewVariableSection' class='btn btn-success btn-lg'>Add New Variable Section</button>";
+  newVariableSectionButton += "<button type='button' id='addNewVariableSection' class='btn btn-default btn-lg'>Add New Variable Section</button>";
   newVariableSectionButton += "</div>";
 
-  $("#AddNewButton").append(newVariableSectionButton);
+  $("#AddVariableSections").append(newVariableSectionButton);
 }
 
 var addNewButton = function() {
-  var newButton = "<div class='center-block text-center'>";
+  var newButton = "<div class='center-block text-center' style='padding: 20px; border: 2px solid black; margin-top: 10px;'>";
   newButton += "<button type='button' id='addNewImage' class='btn btn-success btn-lg'>Add Image Section</button>";
   newButton += " <button type='button' id='addNewParagraph' class='btn btn-primary btn-lg'>Add Paragraph Section</button>";
   newButton += "</div>";
 
-  $("#AddNewButton").append(newButton);
+  $("#AddVariableSections .lastVariableSection").append(newButton);
 }
 
 var addNewParagraphSection = function() {
@@ -109,7 +112,7 @@ var addNewParagraphSection = function() {
   // newParagraphSection += doneButton;
   newParagraphSection += "</div></li>";
 
-  $("#AddVariableSections ul").append(newParagraphSection);
+  $("#AddVariableSections div ul").append(newParagraphSection);
 }
 
 var addNewImageSection = function() {
@@ -123,7 +126,7 @@ var addNewImageSection = function() {
   // newImageSection += doneButton;
   newImageSection += "</div></li>";
 
-  $("#AddVariableSections ul").append(newImageSection);
+  $("#AddVariableSections div ul").append(newImageSection);
 }
 
 var addNewExplorationSection = function() {
@@ -204,7 +207,7 @@ var populate_with_data = function(momID) {
                 }
               });
               divSection += paragraphSection + "</div><hr>";
-              $('#AddVariableSections').append(divSection);
+              // $('#AddVariableSections').append(divSection);
             });
 
 

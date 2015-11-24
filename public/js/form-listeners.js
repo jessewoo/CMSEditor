@@ -1,4 +1,10 @@
 $(function() {
+
+  $("#addNewVariableSection").click(function() {
+    console.log("Add New Variable Section!");
+    addNewButton();
+  });
+
     // The click(): "direct" binding, will only attach the handler to elements that ALREADY exist.
     $("#addNewImage").click(function() {
     console.log("Add New Image Button clicked on!");
