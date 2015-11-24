@@ -186,17 +186,12 @@ var populate_with_data = function(momID) {
               var divSection = "<div>";
               var paragraphSection = "";
               section.parts.forEach(function(part) {
-                part.forEach(function(obj){
-                  if(obj == heading){
-                  paragraphSection = "<h3>" + obj + "</h3>";
-                  }
 
-                  //paragraphSection += "<p>" + obj.content + "</p>";
-                });
-
+                paragraphSection += "<h3>" + part.heading + "</h3>";
+                paragraphSection += "<p>" + part.content + "</p>";
               });
               divSection += paragraphSection + "</div>"
-              $('#AddVariableSections').prepend(divSection);
+              $('#AddVariableSections').append(divSection);
             });
 
 
