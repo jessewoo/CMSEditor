@@ -182,6 +182,20 @@ var populate_with_data = function(momID) {
               }
             });
 
+            data.sections.forEach(function(section) {
+              section.parts.forEach(function(part) {
+                $('#AddVariableSections').append(part.content);
+              });
+            });
+
+            // console.log("Data Sections: " + data.sections[0].parts[0].content);
+            // $('#AddVariableSections').append(data.sections[0].parts[0].content);
+
+
+
+
+
+
             // JSmol elements
             $('#jmol-content').val(data.jmols[0].content);
             $('#jmol-script').val(data.jmols[0].script);

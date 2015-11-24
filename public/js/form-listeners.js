@@ -30,13 +30,4 @@ $(function() {
     $(this).parents().eq(2).remove();
   });
 
-  // // Draggable
-  // $scope.dragControlListeners = {
-  //   accept: function (sourceItemHandleScope, destSortableScope) {return boolean} //override to determine drag is allowed or not. default is true.
-  //   itemMoved: function (event) {//Do what you want},
-  //   orderChanged: function(event) {//Do what you want},
-  //   containment: '#board'//optional param.
-  //   clone: true //optional param for clone feature.
-  // };
-
 });
