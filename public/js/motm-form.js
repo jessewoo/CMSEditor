@@ -190,7 +190,7 @@ var populate_with_data = function(momID) {
                 paragraphSection += "<h3>" + part.heading + "</h3>";
                 paragraphSection += "<p>" + part.content + "</p>";
               });
-              divSection += paragraphSection + "</div>"
+              divSection += paragraphSection + "</div>";
               $('#AddVariableSections').append(divSection);
             });
 
