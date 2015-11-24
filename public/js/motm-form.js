@@ -186,9 +186,18 @@ var populate_with_data = function(momID) {
               var divSection = "<div>";
               var paragraphSection = "";
               section.parts.forEach(function(part) {
-
                 paragraphSection += "<h3>" + part.heading + "</h3>";
                 paragraphSection += "<p>" + part.content + "</p>";
+                if ( part.images.length > 0 ){
+                    //console.log("There is an Image: " + part.images[0].file_name + " in part: " + part.id);
+                    var i = 0;
+                    //while( i < part.images.length){
+                    //    paragraphSection += "<";
+                    //}
+
+                } else {
+                    console.log("No Image in part: " + part.id);
+                }
               });
               divSection += paragraphSection + "</div>";
               $('#AddVariableSections').append(divSection);
