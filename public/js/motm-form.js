@@ -25,11 +25,7 @@ $(function(){
 });
 
 // COMMON ACTIONS FOR EACH SECTIONS
-// +++++++ CRUD Actions for Each Section +++++++++++++
-var sectionActions = "<div class='btn-group pull-right sectionActions'>";
-sectionActions += "<button type='button' class='btn btn-default btn-sm moveSection' aria-label='Move'><span class='glyphicon glyphicon-move' aria-hidden='true'></span></button>";
-sectionActions += "<button type='button' class='btn btn-default btn-sm deleteSection' aria-label='Delete'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>";
-sectionActions += "</div>";
+
 
 var myDate = new Date();
 var theMonth = myDate.getMonth();
@@ -70,46 +66,21 @@ var addSortableSection = function() {
 }
 
 var addNewVariableSection = function() {
-  var newVariableSectionButton = "<div class='center-block text-center'>";
+  var newVariableSectionButton = "<br><div class='center-block text-center'>";
   newVariableSectionButton += "<button type='button' id='addNewVariableSection' class='btn btn-default btn-lg'>Add New Variable Section</button>";
   newVariableSectionButton += "</div>";
 
   $("#AddVariableSections").append(newVariableSectionButton);
 }
 
+// ADD IMAGE AND PARAGRAPH BUTTON IN A NEW SECTION
 var addNewButton = function() {
-  var newButton = "<div class='center-block text-center' style='padding: 20px; border: 2px solid black; margin-top: 10px;'>";
-  newButton += "<button type='button' id='addNewImage' class='btn btn-success btn-lg'>Add Image Section</button>";
-  newButton += " <button type='button' id='addNewParagraph' class='btn btn-primary btn-lg'>Add Paragraph Section</button>";
-  newButton += "</div>";
-
+  var newButton = "<ul class='section-block list-unstyled'>";
+  newButton += "<button type='button' class='addNewImage btn btn-success btn-sm'>Add Image Section</button>";
+  newButton += " <button type='button' class='addNewParagraph btn btn-primary btn-sm'>Add Paragraph Section</button>";
+  newButton += " <button type='button' class='deleteThisSection btn btn-danger btn-sm pull-right'>Delete This Section</button>";
+  newButton += "</ul>";
   $("#AddVariableSections .lastVariableSection").append(newButton);
-}
-
-var addNewParagraphSection = function() {
-  var newParagraphSection = "<li>";
-  newParagraphSection += "<div class='form-group insertParagraph variableSection bg-warning'>";
-  newParagraphSection += sectionActions;
-  newParagraphSection += "<h4>Paragraph Section</h4><hr><input class='form-control' id='SectionTitle' placeholder='Paragraph Heading'><br>";
-  newParagraphSection += "<textarea class='form-control' rows='3' placeholder='Paragraph Content'></textarea><br>";
-  // newParagraphSection += doneButton;
-  newParagraphSection += "</div></li>";
-
-  $("#AddVariableSections div ul").append(newParagraphSection);
-}
-
-var addNewImageSection = function() {
-  var newImageSection = "<li>";
-  newImageSection += "<div class='form-group insertImage variableSection bg-warning'>";
-  newImageSection += sectionActions;
-  newImageSection += "<h4>Image Section</h4><hr>";
-  newImageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile'>";
-  newImageSection += "<select class='form-group'><option>Right Aligned</option><option>Left Aligned</option></select><br>";
-  newImageSection += "<select class='form-group'><option>First Image</option><option>Associated Image with Paragraph</option></select><br><br>";
-  // newImageSection += doneButton;
-  newImageSection += "</div></li>";
-
-  $("#AddVariableSections div ul").append(newImageSection);
 }
 
 var addNewExplorationSection = function() {

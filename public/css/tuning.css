@@ -27,3 +27,9 @@
   position: absolute;
   margin-left: -1.3em;
 }
+
+.lastVariableSection .section-block {
+  padding: 20px;
+  border: 2px solid #ccc;
+  margin: 10px 0;
+}
