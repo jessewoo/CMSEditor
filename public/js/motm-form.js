@@ -26,6 +26,8 @@ $(function(){
 
 // COMMON ACTIONS FOR EACH SECTIONS
 // +++++++ CRUD Actions for Each Section +++++++++++++
+
+// NOT using the concept of DRY, need to think about how to do this.
 var sectionActions = "<div class='btn-group pull-right sectionActions'>";
 sectionActions += "<button type='button' class='btn btn-default btn-sm moveSection' aria-label='Move'><span class='glyphicon glyphicon-move' aria-hidden='true'></span></button>";
 sectionActions += "<button type='button' class='btn btn-default btn-sm deleteSection' aria-label='Delete'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>";
