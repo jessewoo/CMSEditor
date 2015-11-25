@@ -3,17 +3,14 @@ $(function(){
   var pathArray = window.location.pathname.split( '/' );
   var momID = pathArray[2];
 
-  console.log("Sortable Function");
+  console.log("Sortable Function NOT FUNCTIONING");
   // $("#sortable" ).sortable();
   // $("#sortable" ).disableSelection();
 
   // Build out all of the page
   buildNewMOTM();
 
-  // addSortList();
-
   addSortableSection();
-
   addNewVariableSection();
 
   // addNewButton();
@@ -66,23 +63,9 @@ var buildNewMOTM = function() {
   $("#CreateNewForm").append(newForm);
 }
 
-// TEST LIST
-var addSortList = function() {
-  var newSortListSection = "<ul id='sortable'>";
-  newSortListSection += "<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'>Item 1</li>";
-  newSortListSection += "<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'>Item 2</li>";
-  newSortListSection += "<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'>Item 3</li>";
-  newSortListSection += "<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'>Item 4</li>";
-  newSortListSection += "</ul>";
-
-  $("#AddVariableSections").append(newSortListSection);
-}
-
 // BUILD OUT OF ADDITIONAL SECTIONS
 var addSortableSection = function() {
-  var newSortableSection = "<div class='lastVariableSection'>";
-  newSortableSection += "</div>";
-
+  var newSortableSection = "<div class='lastVariableSection'></div>";
   $("#AddVariableSections").append(newSortableSection);
 }
 
