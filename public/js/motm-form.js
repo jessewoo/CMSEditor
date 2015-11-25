@@ -152,13 +152,13 @@ var populate_with_data = function(momID) {
             // Remove whatever is inside
             // $('#AddVariableSections').empty();
 
-            // FOR LOOP NESTED
+            // FOR LOOP NESTED, BUILDING SECTIONS, PLUS PARAGRAPH SECTIONS
             data.sections.forEach(function(section) {
-              var divSection = "<ul class='section-block list-unstyled'><button type='button' class='addNewImage btn btn-success btn-sm'>Add Image Section</button> <button type='button' class='addNewParagraph btn btn-primary btn-sm'>Add Paragraph Section</button><button type='button' class='deleteThisSection btn btn-danger btn-sm pull-right'>Delete This Section</button>";
+              var divSection = "<ul id='Section_" + section.id + "' class='section-block list-unstyled'><button type='button' class='addNewImage btn btn-success btn-sm'>Add Image Section</button> <button type='button' class='addNewParagraph btn btn-primary btn-sm'>Add Paragraph Section</button><button type='button' class='deleteThisSection btn btn-danger btn-sm pull-right'>Delete This Section</button>";
               var paragraphSection = "";
               section.parts.forEach(function(part) {
                 console.log(part.heading + " || " + part.content);
-                paragraphSection += "<li><div class='form-group insertParagraph variableSection bg-warning'>";
+                paragraphSection += "<li id='Section_" + section.id + "_Part_" + part.id + "'><div class='form-group insertParagraph variableSection bg-warning'>";
                 paragraphSection += sectionActions;
                 paragraphSection += "<h5>Paragraph Section</h5><hr>";
                 paragraphSection += "<input class='form-control' id='SectionTitle' value='" + part.heading + "'><br>";
