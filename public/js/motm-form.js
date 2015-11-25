@@ -25,7 +25,11 @@ $(function(){
 });
 
 // COMMON ACTIONS FOR EACH SECTIONS
-
+// +++++++ CRUD Actions for Each Section +++++++++++++
+var sectionActions = "<div class='btn-group pull-right sectionActions'>";
+sectionActions += "<button type='button' class='btn btn-default btn-sm moveSection' aria-label='Move'><span class='glyphicon glyphicon-move' aria-hidden='true'></span></button>";
+sectionActions += "<button type='button' class='btn btn-default btn-sm deleteSection' aria-label='Delete'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>";
+sectionActions += "</div>";
 
 var myDate = new Date();
 var theMonth = myDate.getMonth();
@@ -143,12 +147,26 @@ var populate_with_data = function(momID) {
               }
             });
 
+            // Remove whatever is inside
+            // $('#AddVariableSections').empty();
+
+            // FOR LOOP NESTED
             data.sections.forEach(function(section) {
-              var divSection = "<div>";
+              var divSection = "<ul class='section-block list-unstyled'><button type='button' class='addNewImage btn btn-success btn-sm'>Add Image Section</button> <button type='button' class='addNewParagraph btn btn-primary btn-sm'>Add Paragraph Section</button><button type='button' class='deleteThisSection btn btn-danger btn-sm pull-right'>Delete This Section</button>";
               var paragraphSection = "";
               section.parts.forEach(function(part) {
-                paragraphSection += "<h3>" + part.heading + "</h3>";
-                paragraphSection += "<p>" + part.content + "</p>";
+                console.log(part.heading + " || " + part.content);
+                paragraphSection += "<li><div class='form-group insertParagraph variableSection bg-warning'>";
+                paragraphSection += sectionActions;
+                paragraphSection += "<h5>Paragraph Section</h5><hr>";
+                paragraphSection += "<input class='form-control' id='SectionTitle' value='" + part.heading + "'><br>";
+
+                var escapedContent = part.content
+                paragraphSection += "<p>" + escapedContent + "</p>";
+
+                // NEED TO ADD IN ESCAPE SLASHES
+                // paragraphSection += "<textarea class='form-control' type='text' rows='3' value='" + part.content + "'></textarea><br>";
+                paragraphSection += "</div></li>";
                 if ( part.images.length > 0 ){
                     //console.log("There is an Image: " + part.images[0].file_name + " in part: " + part.id);
                     var i = 0;
@@ -160,8 +178,8 @@ var populate_with_data = function(momID) {
                     console.log("No Image in part: " + part.id);
                 }
               });
-              divSection += paragraphSection + "</div><hr>";
-              // $('#AddVariableSections').append(divSection);
+              divSection += paragraphSection + "</ul>";
+              $('#AddVariableSections .lastVariableSection').append(divSection);
             });
 
 
