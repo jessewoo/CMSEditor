@@ -73,7 +73,7 @@ var addSortableSection = function() {
 
 var addNewVariableSection = function() {
   var newVariableSectionButton = "<br><div class='center-block text-center'>";
-  newVariableSectionButton += "<button type='button' id='addNewVariableSection' class='btn btn-default btn-lg'>Add New Variable Section</button>";
+  newVariableSectionButton += "<button type='button' id='addNewVariableSection' class='btn btn-default btn-lg'>Add New Section</button>";
   newVariableSectionButton += "</div>";
 
   $("#AddVariableSections").append(newVariableSectionButton);
@@ -82,8 +82,8 @@ var addNewVariableSection = function() {
 // ADD IMAGE AND PARAGRAPH BUTTON IN A NEW SECTION
 var addNewButton = function() {
   var newButton = "<ul class='section-block list-unstyled'>";
-  newButton += "<button type='button' class='addNewImage btn btn-success btn-sm'>Add Image Section</button>";
-  newButton += " <button type='button' class='addNewParagraph btn btn-primary btn-sm'>Add Paragraph Section</button>";
+  newButton += "<button type='button' class='addNewParagraph btn btn-primary btn-sm'>Add Paragraph</button>";
+  newButton += " <button type='button' class='addNewImage btn btn-success btn-sm'>Add Image</button>";
   newButton += " <button type='button' class='deleteThisSection btn btn-danger btn-sm pull-right'>Delete This Section</button>";
   newButton += "</ul>";
   $("#AddVariableSections .lastVariableSection").append(newButton);
@@ -154,13 +154,14 @@ var populate_with_data = function(momID) {
 
             // FOR LOOP NESTED, BUILDING SECTIONS, PLUS PARAGRAPH SECTIONS
             data.sections.forEach(function(section) {
-              var divSection = "<ul id='Section_" + section.id + "' class='section-block list-unstyled'><button type='button' class='addNewImage btn btn-success btn-sm'>Add Image Section</button> <button type='button' class='addNewParagraph btn btn-primary btn-sm'>Add Paragraph Section</button><button type='button' class='deleteThisSection btn btn-danger btn-sm pull-right'>Delete This Section</button>";
+              var divSection = "<ul id='Section_" + section.id + "' class='section-block list-unstyled'><button type='button' class='addNewImage btn btn-success btn-sm'>Add Image</button> <button type='button' class='addNewParagraph btn btn-primary btn-sm'>Add Paragraph</button><button type='button' class='deleteThisSection btn btn-danger btn-sm pull-right'>Delete This Section</button>";
               var paragraphSection = "";
               section.parts.forEach(function(part) {
-                console.log(part.heading + " || " + part.content);
-                paragraphSection += "<li id='Section_" + section.id + "_Part_" + part.id + "'><div class='form-group insertParagraph variableSection bg-warning'>";
+                //console.log(part.heading + " || " + part.content);
+                paragraphSection += "<li id='Section_" + section.id + "_Part_" + part.id + "'>";
+                paragraphSection += "<div class='form-group insertParagraph variableSection bg-warning'>";
                 paragraphSection += sectionActions;
-                paragraphSection += "<h5>Paragraph Section</h5><hr>";
+                paragraphSection += "<h5>Paragraph</h5><hr>";
                 paragraphSection += "<input class='form-control' id='SectionTitle' value='" + part.heading + "'><br>";
 
                 //var escapedContent = part.content
@@ -168,15 +169,33 @@ var populate_with_data = function(momID) {
 
                 // NEED TO ADD IN ESCAPE SLASHES
                 // paragraphSection += "<textarea class='form-control' type='text' rows='3' value='" + part.content + "'></textarea><br>";
-                paragraphSection += "<textarea class='form-control' type='text' rows='3'>" + part.content + "</textarea><br>";
+                paragraphSection += "<textarea id='Section_" + section.id + "_Part_" + part.id + "' class='form-control' type='text' rows='3'>" + part.content + "</textarea><br>";
                 paragraphSection += "</div></li>";
-                if ( part.images.length > 0 ){
-                    //console.log("There is an Image: " + part.images[0].file_name + " in part: " + part.id);
-                    var i = 0;
-                    //while( i < part.images.length){
-                    //    paragraphSection += "<";
-                    //}
 
+                var imageSection = "";
+                //TODO change if to a while to handle multiple images
+                  //var numImages = part.images.length;
+                if ( part.images.length > 0 ){
+                    var aImage = part.images[0];
+                    //console.log("There is an Image: " + aImage.file_name + " in part: " + part.id);
+                    imageSection += "<li id='Image_Section_" + section.id + "_Part_" + part.id + "'>";
+                    imageSection += "<div class='form-group insertImage variableSection bg-warning'>";
+                    imageSection += sectionActions;
+                    imageSection += "<h5>Image</h5><hr>";
+                    imageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile'>";
+                    if(aImage.file_name){
+                        imageSection += "<img src='" + "http://pdb101-dev.rcsb.org/" + aImage.file_name
+                    }
+
+
+                    if(aImage.align == "right"){
+                        imageSection += "<select class='form-group'><option>Right Aligned</option><option>Left Aligned</option></select>";
+                    } else {
+                        imageSection += "<select class='form-group'><option>Left Aligned</option><option>Right Aligned</option></select>";
+                    }
+                    imageSection += "<br><select class='form-group'><option>First Image</option><option>Associated Image with Paragraph</option></select>";
+                    imageSection += "</div></li>";
+                    paragraphSection += imageSection;
                 } else {
                     console.log("No Image in part: " + part.id);
                 }
@@ -184,9 +203,7 @@ var populate_with_data = function(momID) {
               divSection += paragraphSection + "</ul>";
               $('#AddVariableSections .lastVariableSection').append(divSection);
             });
-
-
-
+            
             // JSmol elements
             $('#jmol-content').val(data.jmols[0].content);
             $('#jmol-script').val(data.jmols[0].script);
