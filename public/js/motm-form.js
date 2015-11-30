@@ -184,7 +184,8 @@ var populate_with_data = function(momID) {
                     imageSection += "<h5>Image</h5><hr>";
                     imageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile'>";
                     if(aImage.file_name){
-                        imageSection += "<img src='" + "http://pdb101-dev.rcsb.org/" + aImage.file_name
+                        //TODO check for and implement hight and width 
+                        imageSection += "<img src='" + "http://pdb101-dev.rcsb.org/" + aImage.file_name + "'>"
                     }
 
 
@@ -203,7 +204,7 @@ var populate_with_data = function(momID) {
               divSection += paragraphSection + "</ul>";
               $('#AddVariableSections .lastVariableSection').append(divSection);
             });
-            
+
             // JSmol elements
             $('#jmol-content').val(data.jmols[0].content);
             $('#jmol-script').val(data.jmols[0].script);
