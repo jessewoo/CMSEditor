@@ -55,7 +55,7 @@ var buildNewMOTM = function() {
   newForm += "<h4>Essential Information</h4><hr>";
   newForm += "<h5>Motm ID</h5><input class='form-control' id='legacyMotMID' value='' disabled>";
   newForm += "<h5>Molecule Name / Title</h5><input class='form-control' id='articleTitle' placeholder='Molecule Name'>";
-  newForm += "<h5>Teaser Description</h5><textarea class='form-control' id='articleTeaser' rows='2' placeholder='Teaser'></textarea>";
+  newForm += "<h5>Teaser Description</h5><textarea class='form-control' id='articleTeaser' rows='1' placeholder='Teaser'></textarea>";
   newForm += "<h5>Author's Name</h5><input class='form-control' id='articleAuthor' placeholder='Author's Name'>";
   //TODO Need to rethink date editor
   newForm += "<h5>Date</h5>" + monthsDropdown + " " + yearDropdown;
@@ -163,11 +163,12 @@ var populate_with_data = function(momID) {
                 paragraphSection += "<h5>Paragraph Section</h5><hr>";
                 paragraphSection += "<input class='form-control' id='SectionTitle' value='" + part.heading + "'><br>";
 
-                var escapedContent = part.content
-                paragraphSection += "<p>" + escapedContent + "</p>";
+                //var escapedContent = part.content
+                //paragraphSection += "<p>" + escapedContent + "</p>";
 
                 // NEED TO ADD IN ESCAPE SLASHES
                 // paragraphSection += "<textarea class='form-control' type='text' rows='3' value='" + part.content + "'></textarea><br>";
+                paragraphSection += "<textarea class='form-control' type='text' rows='3'>" + part.content + "</textarea><br>";
                 paragraphSection += "</div></li>";
                 if ( part.images.length > 0 ){
                     //console.log("There is an Image: " + part.images[0].file_name + " in part: " + part.id);
