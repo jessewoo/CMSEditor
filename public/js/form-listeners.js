@@ -23,7 +23,6 @@ newParagraphSection += "<textarea class='form-control' rows='3' placeholder='Par
 newParagraphSection += "</div></li>";
 
 
-
 // LISTENERS
 $(function() {
   $("#addNewVariableSection").click(function() {

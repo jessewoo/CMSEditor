@@ -44,8 +44,6 @@ var tableWorker = function(object, rowCount, maxRows) {
     if (rowCount > 9) {
       specialCSS = "style=\"display:none;\" class=\"specialCSS\"";
     }
-
-
     var newRow = "<tr " + specialCSS + " pID='" + object._id + "'>";
     newRow += "<td pType='id'>" + object.id + "</td>";
     newRow += "<td><img class='img-thumbnail' src=" + "http://pdb101-dev.rcsb.org/pdb101/motm/images/" + object.first_image + "></td>";
