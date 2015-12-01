@@ -25,7 +25,6 @@ $(function () {
 
 // NOT using the concept of DRY, need to think about how to do this.
 var sectionActions = "<div class='btn-group pull-right sectionActions'>";
-sectionActions += "<button type='button' class='btn btn-default btn-sm moveSection' aria-label='Move'><span class='glyphicon glyphicon-move' aria-hidden='true'></span></button>";
 sectionActions += "<button type='button' class='btn btn-default btn-sm deleteSection' aria-label='Delete'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>";
 sectionActions += "</div>";
 
@@ -162,10 +161,10 @@ var populate_with_data = function (momID) {
             // $('#AddVariableSections').empty();
 
             // FOR LOOP NESTED, BUILDING SECTIONS, PLUS PARAGRAPH SECTIONS
-            var divSection = "<ul id='DynamicSection' class='section-block list-unstyled'><button type='button' class='addNewImage btn btn-success btn-sm'>Add Image</button> <button type='button' class='addNewParagraph btn btn-primary btn-sm'>Add Paragraph</button><button type='button' class='deleteThisSection btn btn-danger btn-sm pull-right'>Delete This Section</button>";
+            var divSection = "<ul id='DynamicSection' class='section-block list-unstyled'>";
             data.sections.forEach(function (section) {
-                var paragraphSection = "";
                 section.parts.forEach(function (part) {
+                    var paragraphSection = "";
                     //console.log(part.heading + " || " + part.content);
                     paragraphSection += "<li id='Section_" + section.id + "_Part_" + part.id + "'>";
                     paragraphSection += "<div class='form-group insertParagraph variableSection bg-warning'>";
@@ -183,39 +182,47 @@ var populate_with_data = function (momID) {
 
                     var imageSection = "";
                     //TODO change if to a while to handle multiple images
-                    //var numImages = part.images.length;
                     if (part.images.length > 0) {
-                        var aImage = part.images[0];
-                        //console.log("There is an Image: " + aImage.file_name + " in part: " + part.id);
-                        imageSection += "<li id='Image_Section_" + section.id + "_Part_" + part.id + "'>";
-                        imageSection += "<div class='form-group insertImage variableSection bg-warning'>";
-                        imageSection += sectionActions;
-                        imageSection += "<h5>Image</h5><hr>";
-                        imageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile'>";
+                        for( var i = 0; i < part.images.length; i++) {
+                            var aImage = part.images[i];
+                            console.log("There is an Image: " + aImage.file_name + " in part: " + part.id);
+                            imageSection += "<li id='Image_Section_" + section.id + "_Part_" + part.id + "'>";
+                            imageSection += "<div class='form-group insertImage variableSection bg-warning'>";
+                            imageSection += sectionActions;
+                            imageSection += "<h5>Image</h5><hr>";
+                            imageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile'>";
 
-                        if (aImage.align == "right") {
-                            imageSection += "<select class='form-group'><option>Right Aligned</option><option>Left Aligned</option></select>";
-                        } else {
-                            imageSection += "<select class='form-group'><option>Left Aligned</option><option>Right Aligned</option></select>";
-                        }
-                        if (aImage.file_name) {
-                            //TODO check for and implement hight and width fix url
-                            //Check for hight and width of an image.
-                            if (aImage.h > 0 && aImage.w > 0) {
-                                imageSection += "<img style='width:250px; height: auto;' src='" + "http://cdn.rcsb.org/pdb101/motm/images/" + aImage.file_name + "'width='" + aImage.w + "'height='" + aImage.h + "'>";
+                            if (aImage.align == "right") {
+                                imageSection += "<select class='form-group'><option>Right Aligned</option><option>Left Aligned</option></select>";
+                            } else {
+                                imageSection += "<select class='form-group'><option>Left Aligned</option><option>Right Aligned</option></select>";
                             }
-                        }
+                            if (aImage.file_name) {
+                                //TODO check for and implement hight and width fix url
+                                //Check for hight and width of an image.
+                                if (aImage.h > 0 && aImage.w > 0) {
+                                    imageSection += "<img style='max-width: 150px; height: auto;' src='" + "http://cdn.rcsb.org/pdb101/motm/images/" + aImage.file_name + "'>";
+                                }
+                            }
 
-                        imageSection += "<br><select class='form-group'><option>First Image</option><option>Associated Image with Paragraph</option></select>";
-                        imageSection += "</div></li>";
-                        paragraphSection += imageSection;
+                            imageSection += "<br><select class='form-group'><option>First Image</option><option>Associated Image with Paragraph</option></select>";
+                            imageSection += "</div></li>";
+                            paragraphSection += imageSection;
+                        }
                     } else {
                         console.log("No Image in part: " + part.id);
                     }
                     divSection += paragraphSection;
                 });
             });
+            divSection += "<div class='btn-toolbar'>";
+            divSection += "<button type='button' class='addNewImage btn btn-info btn-md'>Add Image</button>";
+            divSection += "<button type='button' class='addNewParagraph btn btn-info btn-md'>Add Paragraph</button>";
+            divSection += "<button type='button' class='addNewSection btn btn-info btn-md'>Add Separator</button>";
+            divSection += "</div>";
+            //divSection += "<button type='button' class='deleteThisSection btn btn-danger btn-sm pull-right'>Delete This Section</button>";
             divSection += "</ul>";
+            //$('#AddVariableSections .lastVariableSection').prepend(divSection);
             $('#AddVariableSections .lastVariableSection').append(divSection);
             $( document ).ready(function() {
                 $("#DynamicSection").sortable();

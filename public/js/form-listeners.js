@@ -1,6 +1,5 @@
 // +++++++ CRUD Actions for Each Section +++++++++++++
 var sectionActions = "<div class='btn-group pull-right sectionActions'>";
-sectionActions += "<button type='button' class='btn btn-default btn-sm moveSection' aria-label='Move'><span class='glyphicon glyphicon-move' aria-hidden='true'></span></button>";
 sectionActions += "<button type='button' class='btn btn-default btn-sm deleteSection' aria-label='Delete'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>";
 sectionActions += "</div>";
 
@@ -22,6 +21,11 @@ newParagraphSection += "<h5>Paragraph Section</h5><hr><input class='form-control
 newParagraphSection += "<textarea class='form-control' rows='3' placeholder='Paragraph Content'></textarea><br>";
 newParagraphSection += "</div></li>";
 
+// ++++++++ CREATION OF A SECTION SEPARATOR +++++++++++++
+var newSeparator = "<li>";
+newSeparator += "<div class='form-group insertSeparator variableSection bg-warning'>";
+newSeparator += sectionActions;
+
 
 // LISTENERS
 $(function() {
@@ -36,15 +40,21 @@ $(function() {
     $(location).append(newImageSection);
   });
 
-  $(document).on('click', '.deleteThisSection', function() {
-    console.log("Delete This Section!");
-    $(this).parent().remove();
-  });
+  //$(document).on('click', '.deleteThisSection', function() {
+  //  console.log("Delete This Section!");
+  //  $(this).parent().remove();
+  //});
 
   $(document).on('click', '.addNewParagraph', function() {
     console.log("Add New Paragraph Button clicked on!");
     var location = $(this).parent();
     $(location).append(newParagraphSection);
+  });
+
+  $(document).on('click', '.addNewSeparator', function() {
+    console.log("Add New Separator Button clicked on!");
+    var location = $(this).parent();
+    $(location).append(newSeparator);
   });
 
   $(document).on('change', '.lastFileInput', function() {
