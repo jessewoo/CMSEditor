@@ -9,7 +9,6 @@ $(function () {
     addSortableSection();
     addNewVariableSection();
 
-    // addNewButton();
     addNewExplorationSection();
     addNewJmolSection();
     addNewReferenceSection();
@@ -23,21 +22,24 @@ $(function () {
 // COMMON ACTIONS FOR EACH SECTIONS
 // +++++++ CRUD Actions for Each Section +++++++++++++
 
-// NOT using the concept of DRY, need to think about how to do this.
-var sectionActions = "<div class='btn-group pull-right sectionActions'>";
-sectionActions += "<button type='button' class='btn btn-default btn-sm deleteSection' aria-label='Delete'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>";
-sectionActions += "</div>";
+// Remove button for variable section items
+var sectionActions = "<div class='btn-group pull-right sectionActions'>" +
+    "<button type='button' class='btn btn-default btn-sm deleteSection' aria-label='Delete'>" +
+    "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>" +
+    "</button>" +
+    "</div>";
 
-
+// ++++++++ CREATION OF THE IMAGE SECTION +++++++++++++
+//var newImageSection = "<li>";
 // BUILD OUT OF ADDITIONAL SECTIONS
 var buildNewMOTM = function () {
-    var newForm = "<form class='form-horizontal' role='form'>";
-    newForm += "<div id='EssentialsSection' class='form-group'>";
-    newForm += "<h4>Essential Information</h4><hr>";
-    newForm += "<label for='MotmID'>Molecule of the Month ID</label><input class='form-control' id='legacyMotMID' value='' disabled>";
-    newForm += "<label for='Title'>Molecule Name / Title</label><input class='form-control' id='articleTitle' placeholder='Molecule Name'>";
-    newForm += "<label for='Teaser'>Article Teaser</label><textarea class='form-control' id='articleTeaser' rows='1' placeholder='Teaser'></textarea>";
-    newForm += "<label for='Author'>Author's Name</label><input class='form-control' id='articleAuthor' placeholder='Author'>";
+    var newForm = "<form class='form-horizontal' role='form'>" +
+        "<div id='EssentialsSection' class='form-group'>" +
+        "<h4>Essential Information</h4><hr>" +
+        "<label for='MotmID'>Molecule of the Month ID</label><input class='form-control' id='MotMID' value='' disabled>" +
+        "<label for='articleTitle'>Molecule Name / Title</label><input class='form-control' id='articleTitle' placeholder='Molecule Name'>" +
+        "<label for='articleTeaser'>Article Teaser</label><textarea class='form-control' id='articleTeaser' rows='1' placeholder='Teaser'></textarea>" +
+        "<label for='articleAuthor'>Author's Name</label><input class='form-control' id='articleAuthor' placeholder='Author'>";
     //TODO Need to rethink date editor
     var theDate = new Date();
     var year = theDate.getFullYear();
@@ -49,7 +51,7 @@ var buildNewMOTM = function () {
         nextMonth++;
     }
     var monthArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    newForm += "<label for='Month'>Release Month</label><select class='form-control' id='releaseMonth'>"
+    newForm += "<label for='releaseMonth'>Release Month</label><select class='form-control' id='releaseMonth'>"
     for (var i = 0; i < 12; i++) {
         if (i == nextMonth) {
             newForm += "<option value='" + i + "' selected>" + monthArray[i] + "</option>";
@@ -58,7 +60,7 @@ var buildNewMOTM = function () {
         }
     }
     newForm += "</select>";
-    newForm += "<label for='Year'>Release Year</label><select class='form-control' id='releaseYear'>"
+    newForm += "<label for='releaseYear'>Release Year</label><select class='form-control' id='releaseYear'>"
     for (var i = 2000; i < year + 2; i++) {
         if (i == year) {
             newForm += "<option value='" + i + "' selected>" + i + "</option>";
@@ -67,7 +69,7 @@ var buildNewMOTM = function () {
         }
     }
     newForm += "</select>";
-    newForm += "<label for='Keywords'>Keywords <small>Separate with commas</small></label><input class='form-control' id='articleKeywords' placeholder='Keywords - separate with comma'>";
+    newForm += "<label for='articleKeywords'>Keywords <small>Separate with commas</small></label><input class='form-control' id='articleKeywords' placeholder='Keywords - separate with comma'>";
     newForm += "<br></div></form>";
 
     $("#CreateNewForm").append(newForm);
@@ -80,21 +82,15 @@ var addSortableSection = function () {
 }
 
 var addNewVariableSection = function () {
-    var newVariableSectionButton = "<br><div class='center-block text-center'>";
-    newVariableSectionButton += "<button type='button' id='addNewVariableSection' class='btn btn-default btn-lg'>Add New Section</button>";
-    newVariableSectionButton += "</div>";
-
-    $("#AddVariableSections").append(newVariableSectionButton);
-}
-
-// ADD IMAGE AND PARAGRAPH BUTTON IN A NEW SECTION
-var addNewButton = function () {
-    var newButton = "<ul class='section-block list-unstyled'>";
-    newButton += "<button type='button' class='addNewParagraph btn btn-primary btn-sm'>Add Paragraph</button>";
-    newButton += " <button type='button' class='addNewImage btn btn-success btn-sm'>Add Image</button>";
-    newButton += " <button type='button' class='deleteThisSection btn btn-danger btn-sm pull-right'>Delete This Section</button>";
-    newButton += "</ul>";
-    $("#AddVariableSections .lastVariableSection").append(newButton);
+    var addVariableSection = "<form class='form-group variableSection'>" +
+        "<ul id='DynamicSection' class='section-block list-unstyled'></ul>" +
+        "<div class='btn-toolbar'>" +
+            "<button type='button' class='addNewImage btn btn-info btn-md'>Add Image</button>" +
+            "<button type='button' class='addNewParagraph btn btn-info btn-md'>Add Paragraph</button>" +
+            "<button type='button' class='addNewSeparator btn btn-info btn-md'>Add Separator</button>" +
+        "</div>";
+    "</form>";
+    $("#AddVariableSections").prepend(addVariableSection);
 }
 
 var addNewExplorationSection = function () {
@@ -111,10 +107,9 @@ var addNewExplorationSection = function () {
 
 var addNewJmolSection = function () {
     var newJmolSection = "<div class='form-group insertJmol'>";
-    newJmolSection += "<h4>JSmol</h4><hr>";
-    newJmolSection += "<h5>Select PDB Files</h5><input type='file' class='PDBfileUpload lastFileInput'>";
-    newJmolSection += "<h5>Content</h5>";
-    newJmolSection += "<textarea id='jmol-content' class='form-control' rows='5' placeholder='Content (for Humans)'></textarea><br>";
+    newJmolSection += "<h4>Jmol</h4><hr>";
+    newJmolSection += "<label for='JmolHeader'>Jmol Heading</label><input class='form-control' id='jsmolHeader' placeholder='JSmol Heading'>";
+    newJmolSection += "<label for='jmolContent'>Jmol Content</label><input class='form-control' id='jmolContent' rows='5' placeholder='Content (for Humans)'></textarea><br>";
     newJmolSection += "<h5>JSmol Script</h5>";
     newJmolSection += "<p>Copy and paste the script</p><textarea id='jmol-script' class='form-control' rows='5' placeholder='Script (for Computers)'></textarea><br>";
     newJmolSection += "</div>";
@@ -180,12 +175,12 @@ var populate_with_data = function (momID) {
                     paragraphSection += "<textarea id='Section_" + section.id + "_Part_" + part.id + "' class='form-control' type='text' rows='3'>" + part.content + "</textarea><br>";
                     paragraphSection += "</div></li>";
 
-                    var imageSection = "";
+
                     //TODO change if to a while to handle multiple images
                     if (part.images.length > 0) {
                         for( var i = 0; i < part.images.length; i++) {
+                            var imageSection = "";
                             var aImage = part.images[i];
-                            console.log("There is an Image: " + aImage.file_name + " in part: " + part.id);
                             imageSection += "<li id='Image_Section_" + section.id + "_Part_" + part.id + "'>";
                             imageSection += "<div class='form-group insertImage variableSection bg-warning'>";
                             imageSection += sectionActions;
@@ -198,7 +193,7 @@ var populate_with_data = function (momID) {
                                 imageSection += "<select class='form-group'><option>Left Aligned</option><option>Right Aligned</option></select>";
                             }
                             if (aImage.file_name) {
-                                //TODO check for and implement hight and width fix url
+                                //TODO check for and implement height and width fix url
                                 //Check for hight and width of an image.
                                 if (aImage.h > 0 && aImage.w > 0) {
                                     imageSection += "<img style='max-width: 150px; height: auto;' src='" + "http://cdn.rcsb.org/pdb101/motm/images/" + aImage.file_name + "'>";
@@ -218,7 +213,7 @@ var populate_with_data = function (momID) {
             divSection += "<div class='btn-toolbar'>";
             divSection += "<button type='button' class='addNewImage btn btn-info btn-md'>Add Image</button>";
             divSection += "<button type='button' class='addNewParagraph btn btn-info btn-md'>Add Paragraph</button>";
-            divSection += "<button type='button' class='addNewSection btn btn-info btn-md'>Add Separator</button>";
+            divSection += "<button type='button' class='addNewSeparator btn btn-info btn-md'>Add Separator</button>";
             divSection += "</div>";
             //divSection += "<button type='button' class='deleteThisSection btn btn-danger btn-sm pull-right'>Delete This Section</button>";
             divSection += "</ul>";

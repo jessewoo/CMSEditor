@@ -19,7 +19,7 @@ router.get('/motm/:momID', function(req, res){
 
 /* GET motm editor page. */
 router.get('/tool', function(req, res, next) {
-  res.render('tool', { title: 'Molecule of the Month Editor' });
+  res.render('editMotm', { title: 'Molecule of the Month Editor' });
 });
 
 module.exports = router;

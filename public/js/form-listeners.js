@@ -1,7 +1,3 @@
-// +++++++ CRUD Actions for Each Section +++++++++++++
-var sectionActions = "<div class='btn-group pull-right sectionActions'>";
-sectionActions += "<button type='button' class='btn btn-default btn-sm deleteSection' aria-label='Delete'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>";
-sectionActions += "</div>";
 
 // ++++++++ CREATION OF THE IMAGE SECTION +++++++++++++
 var newImageSection = "<li>";
@@ -25,52 +21,49 @@ newParagraphSection += "</div></li>";
 var newSeparator = "<li>";
 newSeparator += "<div class='form-group insertSeparator variableSection bg-warning'>";
 newSeparator += sectionActions;
+newSeparator += "<hr />";
+newSeparator += "</div></li>";
 
 
 // LISTENERS
-$(function() {
-  $("#addNewVariableSection").click(function() {
-    console.log("Add New Variable Section!");
-    addNewButton();
-  });
+$(function () {
+    $(document).on('click', '.addNewImage', function () {
+        console.log("Add New Image Button clicked on!");
+        $("#DynamicSection").append(newImageSection);
+        $( document ).ready(function() {
+            $("#DynamicSection").sortable();
+            $("#DynamicSection").disableSelection();
+        });
+    });
 
-  $(document).on('click', '.addNewImage', function() {
-    console.log("Add New Image Button clicked on!");
-    var location = $(this).parent();
-    $(location).append(newImageSection);
-  });
+    $(document).on('click', '.addNewParagraph', function () {
+        console.log("Add New Paragraph Button clicked on!");
+        $("#DynamicSection").append(newParagraphSection);
+        $( document ).ready(function() {
+            $("#DynamicSection").sortable();
+            $("#DynamicSection").disableSelection();
+        });
+    });
 
-  //$(document).on('click', '.deleteThisSection', function() {
-  //  console.log("Delete This Section!");
-  //  $(this).parent().remove();
-  //});
+    $(document).on('click', '.addNewSeparator', function () {
+        console.log("Add New Separator Button clicked on!");
+        $("#DynamicSection").append(newSeparator);
+        $( document ).ready(function() {
+            $("#DynamicSection").sortable();
+            $("#DynamicSection").disableSelection();
+        });
+    });
 
-  $(document).on('click', '.addNewParagraph', function() {
-    console.log("Add New Paragraph Button clicked on!");
-    var location = $(this).parent();
-    $(location).append(newParagraphSection);
-  });
+    $(document).on('change', '.lastFileInput', function () {
+        $(".lastFileInput").after("<input type='file' class='PDBfileUpload lastFileInput'>");
+        $(this).removeClass("lastFileInput");
+    });
 
-  $(document).on('click', '.addNewSeparator', function() {
-    console.log("Add New Separator Button clicked on!");
-    var location = $(this).parent();
-    $(location).append(newSeparator);
-  });
-
-  $(document).on('change', '.lastFileInput', function() {
-    $(".lastFileInput").after("<input type='file' class='PDBfileUpload lastFileInput'>");
-    $(this).removeClass("lastFileInput");
-  });
-
-  // Click Event Work on dynamically generated elements
-  $(document).on('click', '.sectionActions .moveSection', function() {
-    console.log("Move Section Button clicked on!");
-  });
-
-  $(document).on('click', '.sectionActions .deleteSection', function() {
-    console.log("Delete Section Button clicked on!");
-    // Delete .variableSection div
-    $(this).parents().eq(2).remove();
-  });
+    // Click Event Work on dynamically generated elements
+    $(document).on('click', '.sectionActions .deleteSection', function () {
+        console.log("Delete Section Button clicked on!");
+        // Delete .variableSection div
+        $(this).parents().eq(2).remove();
+    });
 
 });
