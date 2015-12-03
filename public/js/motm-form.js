@@ -4,6 +4,7 @@ $(function () {
     var momID = pathArray[2];
 
     // Build out all of the page
+    fillCategories();
     buildNewMOTM();
 
     addSortableSection();
@@ -19,10 +20,13 @@ $(function () {
     }
 });
 
-// COMMON ACTIONS FOR EACH SECTIONS
-// +++++++ CRUD Actions for Each Section +++++++++++++
+//LETS DO SOME GLOBAL VARIABLES - L2 k0d n00b
+var categories = "";
+var subcat = "";
 
-// Remove button for variable section items
+// COMMON ACTIONS FOR EACH SECTIONS
+
+// +++++++ CRUD ACTIONS FOR VARIABLE SECTION li +++++++++++++
 var sectionActions = "<div class='btn-group pull-right sectionActions'>" +
     "<button type='button' class='btn btn-default btn-sm deleteSection' aria-label='Delete'>" +
     "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>" +
@@ -95,9 +99,9 @@ var buildNewMOTM = function () {
     }
     newForm += "</select>";
     newForm += "<label for='articleKeywords'>Keywords <small>Separate with commas</small></label><input class='form-control' id='articleKeywords' placeholder='Keywords - separate with comma'>";
-    newForm += "<label for='articleCategory'>Category<select=class'form-control id='articleCategory'>";
-
-    newForm += "<br></div></form>";
+    newForm += "<label for='articleCategory'>Category</label><select class='form-control' id='articleCategory'></select>";
+    //newForm += subcat;
+    newForm += "</div></form>";
 
     $("#CreateNewForm").append(newForm);
 };
@@ -258,28 +262,33 @@ var populate_with_data = function (momID) {
             });
 
             // JSmol elements
-            $('#jmol-content').val(data.jmols[0].content);
-            $('#jmol-script').val(data.jmols[0].script);
+           // $('#jmol-content').val(data.jmols[0].content);
+           // $('#jmol-script').val(data.jmols[0].script);
 
 
         }
     });
 };
 
-//var categories = "";
-//var subcategories = "";
-//$.ajax({
-//    type: "get",
-//    url: "/do/get/categories",
-//    dataType: "json",
-//    contentType: "application/json",
-//    success: function (data) {
-//        console.log(data);
-//        data.id.foreach(category){
-//            category.subcategories.foreach(subcat){
-//            categories += "<option value='" + category.id_string + "'>" + category.name + "</option>";
-//            }
-//
-//        }
-//    }
-//});
+
+var fillCategories = function(){
+    //categories = "<label for='articleCategory'>Category</label><select=class'form-control' id='articleCategory'>";
+    //subcat = "<label for='articleSubcategory'>Subcategory</label><select=class'form-control' id='articleSubcategory'>";
+    $.ajax({
+        type: "get",
+        url: "/do/get/categories",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (data) {
+            for(var j = 0; j < data.length; j++) {
+                console.log("Inside Category loop: " + data[j].name);
+                for(var k = 0; k < data[j].subcategories.length; k++ ) {
+                    $('#articleCategory').append('<option value=' + data[j].id + ':' + data[j].subcategories[k].id + '>' + data[j].name + ' -> ' + data[j].subcategories[k].name + '</option>');
+                }
+            }
+            //subcat += "</select>";
+            //categories += "</select>";
+        }
+    });
+};
+
