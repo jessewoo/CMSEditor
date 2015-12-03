@@ -16,8 +16,9 @@ router.post('/add', function(req, res) {
 });
 
 // Read data
-router.get('/get', function(req, res) {
-  returnGet(res);
+router.get('/get/:collection', function(req, res) {
+  var collection = req.params.collection;
+  returnGet(collection, res);
 });
 
 // Return one document
@@ -53,8 +54,8 @@ router.delete('/del', function(req, res) {
 
 // ===================================================================
 // Helper function with async callback - for read
-var returnGet = function(res) {
-  database.get(function(toSend) {
+var returnGet = function(collection, res) {
+  database.get(collection, function(toSend) {
     res.send(toSend);
   });
 };

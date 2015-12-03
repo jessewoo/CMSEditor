@@ -30,13 +30,38 @@ var sectionActions = "<div class='btn-group pull-right sectionActions'>" +
     "</div>";
 
 // ++++++++ CREATION OF THE IMAGE SECTION +++++++++++++
-//var newImageSection = "<li>";
+var newImageSection = "<li>";
+newImageSection += "<div class='form-group insertImage variableSection bg-warning'>";
+newImageSection += sectionActions;
+newImageSection += "<h5>Image</h5><hr>";
+newImageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile'>";
+newImageSection += "<select class='form-group'><option>Right Aligned</option><option>Left Aligned</option></select><br>";
+newImageSection += "<select class='form-group'><option>First Image</option><option>Associated Image with Paragraph</option></select><br><br>";
+newImageSection += "</div></li>";
+
+// ++++++++ CREATION OF THE PARAGRAPH SECTION +++++++++++++
+var newParagraphSection = "<li>" +
+    "<div class='form-group insertParagraph variableSection bg-warning'>";
+newParagraphSection += sectionActions;
+newParagraphSection += "<h5>Paragraph Section</h5><hr>" +
+    "<input class='form-control' id='SectionTitle' placeholder='Paragraph Heading'><br>" +
+    "<textarea class='form-control' rows='3' placeholder='Paragraph Content'></textarea><br>" +
+    "</div></li>";
+
+// ++++++++ CREATION OF A SECTION SEPARATOR +++++++++++++
+var newSeparator = "<li>" +
+    "<div class='form-group insertSeparator variableSection bg-warning'>";
+newSeparator += sectionActions;
+newSeparator += "<hr /></div></li>";
+
+// ++++++++ CREATION OF CATEGORY DROPDOWN +++++++++++++
+var newCategory = "<li>"
 // BUILD OUT OF ADDITIONAL SECTIONS
 var buildNewMOTM = function () {
     var newForm = "<form class='form-horizontal' role='form'>" +
         "<div id='EssentialsSection' class='form-group'>" +
         "<h4>Essential Information</h4><hr>" +
-        "<label for='MotmID'>Molecule of the Month ID</label><input class='form-control' id='MotMID' value='' disabled>" +
+        "<label for='legacyMotmID'>Molecule of the Month ID</label><input class='form-control' id='legacyMotMID' value='' disabled>" +
         "<label for='articleTitle'>Molecule Name / Title</label><input class='form-control' id='articleTitle' placeholder='Molecule Name'>" +
         "<label for='articleTeaser'>Article Teaser</label><textarea class='form-control' id='articleTeaser' rows='1' placeholder='Teaser'></textarea>" +
         "<label for='articleAuthor'>Author's Name</label><input class='form-control' id='articleAuthor' placeholder='Author'>";
@@ -70,16 +95,18 @@ var buildNewMOTM = function () {
     }
     newForm += "</select>";
     newForm += "<label for='articleKeywords'>Keywords <small>Separate with commas</small></label><input class='form-control' id='articleKeywords' placeholder='Keywords - separate with comma'>";
+    newForm += "<label for='articleCategory'>Category<select=class'form-control id='articleCategory'>";
+
     newForm += "<br></div></form>";
 
     $("#CreateNewForm").append(newForm);
-}
+};
 
 // Add the Sortable section
 var addSortableSection = function () {
     var newSortableSection = "<div class='lastVariableSection'></div>";
     $("#AddVariableSections").append(newSortableSection);
-}
+};
 
 var addNewVariableSection = function () {
     var addVariableSection = "<form class='form-group variableSection'>" +
@@ -91,7 +118,7 @@ var addNewVariableSection = function () {
         "</div>";
     "</form>";
     $("#AddVariableSections").prepend(addVariableSection);
-}
+};
 
 var addNewExplorationSection = function () {
     var newExplorationSection = "<div class='form-group insertExploration'>";
@@ -103,7 +130,7 @@ var addNewExplorationSection = function () {
     newExplorationSection += "</div>";
 
     $("#AddFixedSections").append(newExplorationSection);
-}
+};
 
 var addNewJmolSection = function () {
     var newJmolSection = "<div class='form-group insertJmol'>";
@@ -115,7 +142,7 @@ var addNewJmolSection = function () {
     newJmolSection += "</div>";
 
     $("#AddFixedSections").append(newJmolSection);
-}
+};
 
 var addNewReferenceSection = function () {
     var newReferenceSection = "<div class='form-group insertReferences'>";
@@ -124,7 +151,7 @@ var addNewReferenceSection = function () {
     newReferenceSection += "</div>";
 
     $("#AddFixedSections").append(newReferenceSection);
-}
+};
 
 // Fills in the form with the data we already have
 var populate_with_data = function (momID) {
@@ -157,6 +184,7 @@ var populate_with_data = function (momID) {
 
             // FOR LOOP NESTED, BUILDING SECTIONS, PLUS PARAGRAPH SECTIONS
             var divSection = "<ul id='DynamicSection' class='section-block list-unstyled'>";
+            var i = 0;
             data.sections.forEach(function (section) {
                 section.parts.forEach(function (part) {
                     var paragraphSection = "";
@@ -207,7 +235,12 @@ var populate_with_data = function (momID) {
                     } else {
                         console.log("No Image in part: " + part.id);
                     }
-                    divSection += paragraphSection;
+                    if(data.sections.length == section.id ) {
+                        divSection += paragraphSection;
+                    } else {
+                        divSection += paragraphSection + newSeparator;
+                    }
+                    i++
                 });
             });
             divSection += "<div class='btn-toolbar'>";
@@ -231,4 +264,22 @@ var populate_with_data = function (momID) {
 
         }
     });
-}
+};
+
+//var categories = "";
+//var subcategories = "";
+//$.ajax({
+//    type: "get",
+//    url: "/do/get/categories",
+//    dataType: "json",
+//    contentType: "application/json",
+//    success: function (data) {
+//        console.log(data);
+//        data.id.foreach(category){
+//            category.subcategories.foreach(subcat){
+//            categories += "<option value='" + category.id_string + "'>" + category.name + "</option>";
+//            }
+//
+//        }
+//    }
+//});

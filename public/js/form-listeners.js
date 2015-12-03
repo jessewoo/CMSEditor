@@ -1,30 +1,3 @@
-
-// ++++++++ CREATION OF THE IMAGE SECTION +++++++++++++
-var newImageSection = "<li>";
-newImageSection += "<div class='form-group insertImage variableSection bg-warning'>";
-newImageSection += sectionActions;
-newImageSection += "<h5>Image</h5><hr>";
-newImageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile'>";
-newImageSection += "<select class='form-group'><option>Right Aligned</option><option>Left Aligned</option></select><br>";
-newImageSection += "<select class='form-group'><option>First Image</option><option>Associated Image with Paragraph</option></select><br><br>";
-newImageSection += "</div></li>";
-
-// ++++++++ CREATION OF THE PARAGRAPH SECTION +++++++++++++
-var newParagraphSection = "<li>";
-newParagraphSection += "<div class='form-group insertParagraph variableSection bg-warning'>";
-newParagraphSection += sectionActions;
-newParagraphSection += "<h5>Paragraph Section</h5><hr><input class='form-control' id='SectionTitle' placeholder='Paragraph Heading'><br>";
-newParagraphSection += "<textarea class='form-control' rows='3' placeholder='Paragraph Content'></textarea><br>";
-newParagraphSection += "</div></li>";
-
-// ++++++++ CREATION OF A SECTION SEPARATOR +++++++++++++
-var newSeparator = "<li>";
-newSeparator += "<div class='form-group insertSeparator variableSection bg-warning'>";
-newSeparator += sectionActions;
-newSeparator += "<hr />";
-newSeparator += "</div></li>";
-
-
 // LISTENERS
 $(function () {
     $(document).on('click', '.addNewImage', function () {

@@ -7,7 +7,7 @@ var motmTable = function() {
     // Pull data via ajax, update DOM, apply sort handles
     $.ajax({
         type: "get",
-        url: "/do/get",
+        url: "/do/get/motm_articles",
         dataType: "json",
         contentType: "application/json",
         success: function(data){
@@ -41,9 +41,9 @@ var addToTable = function(object) {
 var tableWorker = function(object, rowCount, maxRows) {
     var specialCSS = "";
     // Logic to show only 10 rows
-    if (rowCount > 9) {
-      specialCSS = "style=\"display:none;\" class=\"specialCSS\"";
-    }
+    //if (rowCount > 9) {
+    //  specialCSS = "style=\"display:none;\" class=\"specialCSS\"";
+    //}
     var newRow = "<tr " + specialCSS + " pID='" + object._id + "'>";
     newRow += "<td pType='id'>" + object.id + "</td>";
     newRow += "<td><img class='img-thumbnail' src=" + "http://pdb101-dev.rcsb.org/pdb101/motm/images/" + object.first_image + "></td>";
