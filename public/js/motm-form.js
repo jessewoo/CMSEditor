@@ -62,14 +62,14 @@ newSeparator += "<hr /></div></li>";
 var newCategory = "<li>"
 // BUILD OUT OF ADDITIONAL SECTIONS
 var buildNewMOTM = function () {
+    // TODO populate the legacyMotmID with the next avaliable id.
     var newForm = "<form class='form-horizontal' role='form'>" +
         "<div id='EssentialsSection' class='form-group'>" +
         "<h4>Essential Information</h4><hr>" +
         "<label for='legacyMotmID'>Molecule of the Month ID</label><input class='form-control' id='legacyMotMID' value='' disabled>" +
         "<label for='articleTitle'>Molecule Name / Title</label><input class='form-control' id='articleTitle' placeholder='Molecule Name'>" +
-        "<label for='articleTeaser'>Article Teaser</label><textarea class='form-control' id='articleTeaser' rows='1' placeholder='Teaser'></textarea>" +
+        "<label for='articleTeaser'>Article Teaser</label><textarea auto='yes' class='form-control' id='articleTeaser' rows='1' placeholder='Teaser'></textarea>" +
         "<label for='articleAuthor'>Author's Name</label><input class='form-control' id='articleAuthor' placeholder='Author'>";
-    //TODO Need to rethink date editor
     var theDate = new Date();
     var year = theDate.getFullYear();
     var nextMonth = theDate.getMonth();
@@ -98,9 +98,8 @@ var buildNewMOTM = function () {
         }
     }
     newForm += "</select>";
-    newForm += "<label for='articleKeywords'>Keywords <small>Separate with commas</small></label><input class='form-control' id='articleKeywords' placeholder='Keywords - separate with comma'>";
     newForm += "<label for='articleCategory'>Category</label><select class='form-control' id='articleCategory'></select>";
-    //newForm += subcat;
+    newForm += "<label for='articleKeywords'>Keywords - <small>Separate with commas</small></label><input class='form-control' id='articleKeywords' placeholder='Keywords - separate with comma'>";
     newForm += "</div></form>";
 
     $("#CreateNewForm").append(newForm);
@@ -130,7 +129,7 @@ var addNewExplorationSection = function () {
     newExplorationSection += "<h5>Insert Static Jmol Image</h5><input type='file' id='jmolStaticInputFile'><br>";
     newExplorationSection += "<textarea class='form-control' rows='3' placeholder='Exploring the Structure Content'></textarea><hr>";
     newExplorationSection += "<h5>Topics for Further Exploration</h5>";
-    newExplorationSection += "<p>Begin each line item with &lt;li&gt;</p><textarea class='form-control' rows='3' placeholder='List of Topics'></textarea><br>";
+    newExplorationSection += "<p>Begin each line item with &lt;li&gt;</p><textarea class='form-control' id='explorationTopics' rows='3' placeholder='List (of Topics)'></textarea><br>";
     newExplorationSection += "</div>";
 
     $("#AddFixedSections").append(newExplorationSection);
@@ -244,7 +243,6 @@ var populate_with_data = function (momID) {
                     } else {
                         divSection += paragraphSection + newSeparator;
                     }
-                    i++
                 });
             });
             divSection += "<div class='btn-toolbar'>";
@@ -262,8 +260,10 @@ var populate_with_data = function (momID) {
             });
 
             // JSmol elements
-           // $('#jmol-content').val(data.jmols[0].content);
-           // $('#jmol-script').val(data.jmols[0].script);
+            $('#jmol-content').val(data.jmols[0].content);
+            $('#jmol-script').val(data.jmols[0].script);
+            //TODO fill further exploration topics mongodb motm_articles.tfes (topics further exploration)
+            //$('#explorationTopics').val(data.tfes.list);
 
 
         }
