@@ -11,8 +11,6 @@ $(function () {
     addNewVariableSection();
 
     addNewExplorationSection();
-    addNewJmolSection();
-    addNewReferenceSection();
 
     // If we are editing something that already exists, populate with prior data
     if (momID) {
@@ -26,22 +24,62 @@ var subcat = "";
 
 // COMMON ACTIONS FOR EACH SECTIONS
 
-// +++++++ CRUD ACTIONS FOR VARIABLE SECTION li +++++++++++++
-var sectionActions = "<div class='btn-group pull-right sectionActions'>" +
-    "<button type='button' class='btn btn-default btn-sm deleteSection' aria-label='Delete'>" +
-    "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>" +
-    "</button>" +
-    "</div>";
+/*
+The delete button, top right, one per section
+ */
+var sectionActions = "<button type='button' class='pull-right btn btn-danger btn-sm deleteSection' aria-label='Delete'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>";
 
-// ++++++++ CREATION OF THE IMAGE SECTION +++++++++++++
-var newImageSection = "<li>";
-newImageSection += "<div class='form-group insertImage variableSection bg-warning'>";
-newImageSection += sectionActions;
-newImageSection += "<h5>Image</h5><hr>";
-newImageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile'>";
-newImageSection += "<select class='form-group'><option>Right Aligned</option><option>Left Aligned</option></select><br>";
-newImageSection += "<select class='form-group'><option>First Image</option><option>Associated Image with Paragraph</option></select><br><br>";
-newImageSection += "</div></li>";
+
+// Helper var for factory_imageSection
+var factory_imageSection_count = 0;
+/*
+Returns the code used to build an image section DOM
+Passed (optional) previous -
+image file name
+image alignmet
+ */
+function factory_imageSection(filename, alignment){
+    newImageSection = "<li><div class='form-group insertImage variableSection bg-imageSection'>";
+    newImageSection += sectionActions;
+    newImageSection += "<h5>Image</h5><hr>";
+    newImageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile' section_number='" + factory_imageSection_count + "'>";
+
+    // Alignment section - start
+    var displayAlignment = "pull-left";
+    newImageSection += "<div class=\"radio\">";
+    if ( typeof alignment !== 'undefined' ) {
+        if ( alignment == "right") {
+            newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Left</label><label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'checked=''>Right</label>";
+            displayAlignment = "pull-right";
+        } else {
+            newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' checked=''>Left</label><label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Right</label>";
+        }
+    } else {
+        newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' checked=''>Left</label><label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Right</label>"
+    }
+    newImageSection += "</div>";
+    // Alignment section - end
+
+    // Image example - start
+    newImageSection += "<div id='image-example-" + factory_imageSection_count + "' class='image-box'>";
+    if ( typeof filename !== 'undefined' ) {
+        newImageSection += "<img class='img-thumbnail " + displayAlignment + "' src='http://cdn.rcsb.org/pdb101/motm/images/" + filename + "' style='height: 300px;'>"
+    }  else {
+        newImageSection += "<img class='img-thumbnail " + displayAlignment + "' src='http://cdn.rcsb.org/pdb101/geis/images/carboxypeptidase-a.png' style='height: 300px;'>"
+    }
+    newImageSection += "</div>";
+    // Image example - end
+
+    //TODO Add 'caption' text area capture
+    // Image Caption - start
+    newImageSection += "<button type='button' class='addImageCaption btn btn-info btn-md'>Add Caption</button>";
+    // Image Caption - end
+    //TODO add 'would you like to add a TIFF of this image as well' thing
+    newImageSection += "</div></li>";
+    factory_imageSection_count += 1;
+    return newImageSection;
+}
+
 
 // ++++++++ CREATION OF THE PARAGRAPH SECTION +++++++++++++
 var newParagraphSection = "<li>" +
@@ -60,6 +98,7 @@ newSeparator += "<hr /></div></li>";
 
 // ++++++++ CREATION OF CATEGORY DROPDOWN +++++++++++++
 var newCategory = "<li>"
+
 // BUILD OUT OF ADDITIONAL SECTIONS
 var buildNewMOTM = function () {
     // TODO populate the legacyMotmID with the next avaliable id.
@@ -124,36 +163,21 @@ var addNewVariableSection = function () {
 };
 
 var addNewExplorationSection = function () {
-    var newExplorationSection = "<div class='form-group insertExploration'>";
-    newExplorationSection += "<h4>Exploring the Structure</h4><hr>";
-    newExplorationSection += "<h5>Insert Static Jmol Image</h5><input type='file' id='jmolStaticInputFile'><br>";
-    newExplorationSection += "<textarea class='form-control' rows='3' placeholder='Exploring the Structure Content'></textarea><hr>";
-    newExplorationSection += "<h5>Topics for Further Exploration</h5>";
-    newExplorationSection += "<p>Begin each line item with &lt;li&gt;</p><textarea class='form-control' id='explorationTopics' rows='3' placeholder='List (of Topics)'></textarea><br>";
-    newExplorationSection += "</div>";
+    var newExplorationSection = "<div class='form-group fixedSection'>" +
+        "<h4>Exploring the Structure</h4><hr>" +
+        "<h4>Image Tab</h4><label for='jmolStaticImage'>Jmol Image</label><input type='file' id='jmolStaticImage'><br>" +
+        "<label for='exploreStructure'>Exploring the Image Content</label><textarea class='form-control' id='exploreStructure' rows='3' placeholder='Image Structure Content'></textarea>" +
+        "<hr>" +
+        "<h4>Jmol Tab</h4><label for='JmolHeader'>Jmol Heading</label><input class='form-control' id='jmolHeader' placeholder='Jmol Heading'>" +
+        "<label for='jmolContent'>Jmol Content</label><input class='form-control' id='jmolContent' rows='5' placeholder='Content (for Humans)'></textarea>" +
+        "<label for='jmolScript'>Jmol Script</label><textarea class='form-control' id='jmolScript' placeholder='Script (for Computers)'></textarea>" +
+        "<hr>" +
+        "<label for='explorationTopics'>Topics for Further Exploration<small> - new line separated</small></label><textarea class='form-control' id='explorationTopics' rows='3' placeholder='List of topics - new line separated'></textarea>" +
+        "<hr>" +
+        "<label for='references'>References</label><textarea class='form-control' rows='2' placeholder='3jad: J. Du, W. Lu, S. Wu, Y. Cheng & E. Gouaux (2015) Glycine receptor mechanism...'></textarea><br>" +
+        "</div>";
 
     $("#AddFixedSections").append(newExplorationSection);
-};
-
-var addNewJmolSection = function () {
-    var newJmolSection = "<div class='form-group insertJmol'>";
-    newJmolSection += "<h4>Jmol</h4><hr>";
-    newJmolSection += "<label for='JmolHeader'>Jmol Heading</label><input class='form-control' id='jsmolHeader' placeholder='JSmol Heading'>";
-    newJmolSection += "<label for='jmolContent'>Jmol Content</label><input class='form-control' id='jmolContent' rows='5' placeholder='Content (for Humans)'></textarea><br>";
-    newJmolSection += "<h5>JSmol Script</h5>";
-    newJmolSection += "<p>Copy and paste the script</p><textarea id='jmol-script' class='form-control' rows='5' placeholder='Script (for Computers)'></textarea><br>";
-    newJmolSection += "</div>";
-
-    $("#AddFixedSections").append(newJmolSection);
-};
-
-var addNewReferenceSection = function () {
-    var newReferenceSection = "<div class='form-group insertReferences'>";
-    newReferenceSection += "<h4>References</h4><hr>";
-    newReferenceSection += "<p>Begin each line item with &lt;li&gt;</p><textarea class='form-control' rows='3' placeholder='3jad: J. Du, W. Lu, S. Wu, Y. Cheng & E. Gouaux (2015) Glycine receptor mechanism...'></textarea><br>";
-    newReferenceSection += "</div>";
-
-    $("#AddFixedSections").append(newReferenceSection);
 };
 
 // Fills in the form with the data we already have
@@ -165,6 +189,9 @@ var populate_with_data = function (momID) {
         contentType: "application/json",
         success: function (data) {
             console.log(data);
+
+            // Remove whatever is inside
+            $('#AddVariableSections').empty();
 
             // Top of the page elements
             $('#legacyMotMID').val(data.id);
@@ -182,12 +209,11 @@ var populate_with_data = function (momID) {
                 }
             });
 
-            // Remove whatever is inside
-            // $('#AddVariableSections').empty();
+            // Auto select first (primary) image radio button when building.
+            var firstImage = 0;
 
             // FOR LOOP NESTED, BUILDING SECTIONS, PLUS PARAGRAPH SECTIONS
-            var divSection = "<ul id='DynamicSection' class='section-block list-unstyled'>";
-            var i = 0;
+            var divSection = "<form class='form-group variableSection'><ul id='DynamicSection' class='section-block list-unstyled'>";
             data.sections.forEach(function (section) {
                 section.parts.forEach(function (part) {
                     var paragraphSection = "";
@@ -208,35 +234,15 @@ var populate_with_data = function (momID) {
 
 
                     //TODO change if to a while to handle multiple images
+
+                    //console.log("OUTSIDE This is the image data we will use [" + JSON.stringify(part.images) + "]");
                     if (part.images.length > 0) {
-                        for( var i = 0; i < part.images.length; i++) {
-                            var imageSection = "";
-                            var aImage = part.images[i];
-                            imageSection += "<li id='Image_Section_" + section.id + "_Part_" + part.id + "'>";
-                            imageSection += "<div class='form-group insertImage variableSection bg-warning'>";
-                            imageSection += sectionActions;
-                            imageSection += "<h5>Image</h5><hr>";
-                            imageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile'>";
-
-                            if (aImage.align == "right") {
-                                imageSection += "<select class='form-group'><option>Right Aligned</option><option>Left Aligned</option></select>";
-                            } else {
-                                imageSection += "<select class='form-group'><option>Left Aligned</option><option>Right Aligned</option></select>";
-                            }
-                            if (aImage.file_name) {
-                                //TODO check for and implement height and width fix url
-                                //Check for hight and width of an image.
-                                if (aImage.h > 0 && aImage.w > 0) {
-                                    imageSection += "<img style='max-width: 150px; height: auto;' src='" + "http://cdn.rcsb.org/pdb101/motm/images/" + aImage.file_name + "'>";
-                                }
-                            }
-
-                            imageSection += "<br><select class='form-group'><option>First Image</option><option>Associated Image with Paragraph</option></select>";
-                            imageSection += "</div></li>";
+                        for (at = 0; at < part.images.length; at++) {
+                            console.log("INSIDE This is the image data we will use [" + JSON.stringify(part.images[at]) + "]");
+                            console.log("Loading image file [" + part.images[at].file_name + "] with alignment [" + part.images[at].align + "]");
+                            var imageSection = factory_imageSection(part.images[at].file_name, part.images[at].align);
                             paragraphSection += imageSection;
                         }
-                    } else {
-                        console.log("No Image in part: " + part.id);
                     }
                     if(data.sections.length == section.id ) {
                         divSection += paragraphSection;
@@ -245,23 +251,24 @@ var populate_with_data = function (momID) {
                     }
                 });
             });
-            divSection += "<div class='btn-toolbar'>";
-            divSection += "<button type='button' class='addNewImage btn btn-info btn-md'>Add Image</button>";
-            divSection += "<button type='button' class='addNewParagraph btn btn-info btn-md'>Add Paragraph</button>";
-            divSection += "<button type='button' class='addNewSeparator btn btn-info btn-md'>Add Separator</button>";
-            divSection += "</div>";
-            //divSection += "<button type='button' class='deleteThisSection btn btn-danger btn-sm pull-right'>Delete This Section</button>";
             divSection += "</ul>";
+            divSection += "<ul id='DynamicSection' class='section-block list-unstyled'></ul>" +
+                "<div class='btn-toolbar'>" +
+                "<button type='button' class='addNewImage btn btn-info btn-md'>Add Image</button>" +
+                "<button type='button' class='addNewParagraph btn btn-info btn-md'>Add Paragraph</button>" +
+                "<button type='button' class='addNewSeparator btn btn-info btn-md'>Add Separator</button>" +
+                "</div></ul></form>";
+
             //$('#AddVariableSections .lastVariableSection').prepend(divSection);
-            $('#AddVariableSections .lastVariableSection').append(divSection);
+            $('#AddVariableSections').append(divSection);
             $( document ).ready(function() {
                 $("#DynamicSection").sortable();
                 $("#DynamicSection").disableSelection();
             });
 
             // JSmol elements
-            $('#jmol-content').val(data.jmols[0].content);
-            $('#jmol-script').val(data.jmols[0].script);
+            //$('#jmol-content').val(data.jmols[0].content);
+            //$('#jmol-script').val(data.jmols[0].script);
             //TODO fill further exploration topics mongodb motm_articles.tfes (topics further exploration)
             //$('#explorationTopics').val(data.tfes.list);
 
