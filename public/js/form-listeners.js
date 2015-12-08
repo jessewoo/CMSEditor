@@ -44,12 +44,18 @@ $(function () {
         $(this).parents().eq(1).remove();
     });
 
-    // Variable Setions -> Image [Add Caption] click handler
-    $(document).on('click', '.addImageCaption', function () {
-        console.log("Add Image Caption Button clicked on!");
-        $(this).val()
-    });
+    //// Variable Sections -> Image [Add Caption] click handler
+    //$(document).on('click', '.addImageCaption', function () {
+    //    console.log("Add Image Caption Button clicked on!");
+    //    var myNumber = $(this).attr('section_number');
+    //    console.log("Section Number: " + myNumber);
+    //
+    //    $(this).addClass('hidden');
+    //    $('.imageCaption-' + myNumber).removeClass('hidden');
+    //    //$('#imageCaption-' + myNumber).find('label').removeClass('hidden');
+    //});
 
+    // Variable Sections -> Image position radio buttons
     $(document).on('click', '.image_alignment_choices', function () {
         var myNumber = $(this).attr('section_number');
         console.log($(this).val(), myNumber);
@@ -60,4 +66,8 @@ $(function () {
         }
         $('#image-example-' + myNumber).find('img').removeClass('pull-right').removeClass('pull-left').addClass(newClass);
     });
+
+    //$('input[type=file]').change(function(){
+    //    document.getElementById("image-file").value
+    //})
 });

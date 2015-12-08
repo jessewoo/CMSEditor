@@ -49,13 +49,16 @@ function factory_imageSection(filename, alignment){
     newImageSection += "<div class=\"radio\">";
     if ( typeof alignment !== 'undefined' ) {
         if ( alignment == "right") {
-            newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Left</label><label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'checked=''>Right</label>";
+            newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Left</label>";
+            newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'checked=''>Right</label>";
             displayAlignment = "pull-right";
         } else {
-            newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' checked=''>Left</label><label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Right</label>";
+            newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' checked=''>Left</label>";
+            newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Right</label>";
         }
     } else {
-        newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' checked=''>Left</label><label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Right</label>"
+        newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' checked=''>Left</label>";
+        newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Right</label>"
     }
     newImageSection += "</div>";
     // Alignment section - end
@@ -72,9 +75,18 @@ function factory_imageSection(filename, alignment){
 
     //TODO Add 'caption' text area capture
     // Image Caption - start
-    newImageSection += "<button type='button' class='addImageCaption btn btn-info btn-md'>Add Caption</button>";
+    newImageSection += "<label class='imageCaption-" + factory_imageSection_count + "'>Caption</label>";
+    newImageSection += "<input class='form-control imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
     // Image Caption - end
+
     //TODO add 'would you like to add a TIFF of this image as well' thing
+    // Image tiff - start
+    //newImageSection += "<label for='imageTiffupload'>Insert Image TIFF</label><br>";
+    //newImageSection += "<button id='imageButtonTiff' class='btn btn-primary'>Image TIFF</button>"
+    newImageSection += "<form enctype='multipart/form-data' action='/Users/chrisrandle/upload/image' method='post'><input name='image-file' type='file'/></form>";
+    //newImageSection += "<div class='upload'><input type='file' name='imageTiffupload'/></div>";
+    // Image tiff - end
+
     newImageSection += "</div></li>";
     factory_imageSection_count += 1;
     return newImageSection;
@@ -82,6 +94,8 @@ function factory_imageSection(filename, alignment){
 
 
 // ++++++++ CREATION OF THE PARAGRAPH SECTION +++++++++++++
+// TODO change this to function
+// TODO Change color and boarder to match image section
 var newParagraphSection = "<li>" +
     "<div class='form-group insertParagraph variableSection bg-warning'>";
 newParagraphSection += sectionActions;
@@ -91,13 +105,12 @@ newParagraphSection += "<h5>Paragraph Section</h5><hr>" +
     "</div></li>";
 
 // ++++++++ CREATION OF A SECTION SEPARATOR +++++++++++++
+// TODO change color and boarder to match image section
+// TODO figure out how to bold and color the separation line in these <hr>'s
 var newSeparator = "<li>" +
     "<div class='form-group insertSeparator variableSection bg-warning'>";
 newSeparator += sectionActions;
 newSeparator += "<hr /></div></li>";
-
-// ++++++++ CREATION OF CATEGORY DROPDOWN +++++++++++++
-var newCategory = "<li>"
 
 // BUILD OUT OF ADDITIONAL SECTIONS
 var buildNewMOTM = function () {
