@@ -13,7 +13,7 @@ $(function () {
     // Variable section [Add Paragraph] button click handler
     $(document).on('click', '.addNewParagraph', function () {
         console.log("Add New Paragraph Button clicked on!");
-        $("#DynamicSection").append(newParagraphSection);
+        $("#DynamicSection").append(factory_paragraphSection());
         $( document ).ready(function() {
             $("#DynamicSection").sortable();
             $("#DynamicSection").disableSelection();
@@ -67,7 +67,13 @@ $(function () {
         $('#image-example-' + myNumber).find('img').removeClass('pull-right').removeClass('pull-left').addClass(newClass);
     });
 
-    //$('input[type=file]').change(function(){
+    // Variable Section -> Image tiff click handler
+    //$(document).change(function(){
     //    document.getElementById("image-file").value
     //})
+
+    $(document).on('click', '.uploadMyImage', function () {
+        console.log("Image upload: ", document.getElementById('exampleInputFile').value);
+        //document.getElementById("uploadFile").value = this.value;
+    });
 });

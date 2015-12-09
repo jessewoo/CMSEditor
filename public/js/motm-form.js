@@ -22,8 +22,6 @@ $(function () {
 var categories = "";
 var subcat = "";
 
-// COMMON ACTIONS FOR EACH SECTIONS
-
 /*
 The delete button, top right, one per section
  */
@@ -38,55 +36,66 @@ Passed (optional) previous -
 image file name
 image alignmet
  */
-function factory_imageSection(filename, alignment){
-    newImageSection = "<li><div class='form-group insertImage variableSection bg-imageSection'>";
+function factory_imageSection(image){
+    var newImageSection = "<li><div class='form-group insertImage variableSection bg-variableSection'>";
     newImageSection += sectionActions;
     newImageSection += "<h5>Image</h5><hr>";
     newImageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile' section_number='" + factory_imageSection_count + "'>";
 
-    // Alignment section - start
-    var displayAlignment = "pull-left";
-    newImageSection += "<div class=\"radio\">";
-    if ( typeof alignment !== 'undefined' ) {
-        if ( alignment == "right") {
-            newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Left</label>";
-            newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'checked=''>Right</label>";
-            displayAlignment = "pull-right";
-        } else {
-            newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' checked=''>Left</label>";
-            newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Right</label>";
+    if ( typeof image !== 'undefined') {
+        // Alignment section - start
+        var displayAlignment = "pull-left";
+        newImageSection += "<div class=\"radio\">";
+        if (typeof image.align !== 'undefined') {
+            if (image.align == "right") {
+                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Left</label>";
+                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'checked=''>Right</label>";
+                displayAlignment = "pull-right";
+            } else {
+                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' checked=''>Left</label>";
+                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Right</label>";
+            }
         }
+        newImageSection += "</div>";
+        // Alignment section - end
+
+        // Image example - start
+        newImageSection += "<div id='image-example-" + factory_imageSection_count + "' class='image-box'>";
+        if (typeof image.file_name !== 'undefined') {
+            newImageSection += "<img class='img-thumbnail " + displayAlignment + "' src='http://cdn.rcsb.org/pdb101/motm/images/" + image.file_name + "' style='height: 300px;'>"
+        } else {
+            newImageSection += "<img class='img-thumbnail " + displayAlignment + "' src='http://cdn.rcsb.org/pdb101/geis/images/carboxypeptidase-a.png' style='height: 300px;'>"
+        }
+        newImageSection += "</div>";
+        // Image example - end
+
+        // Image Caption - start
+        newImageSection += "<label class='imageCaption-" + factory_imageSection_count + "'>Caption</label>";
+        if (typeof image.caption !== 'undefined') {
+            newImageSection += "<input class='form-control imageCaption-" + factory_imageSection_count + "' value='" + image.caption + "'>";
+        } else {
+            newImageSection += "<input class='form-control imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
+        }
+        // Image Caption - end
+
+        //TODO add 'would you like to add a TIFF of this image as well' thing
+        // Image tiff - start
+        newImageSection += "<form action='/do/upload/' method='post' enctype='multipart/form-data'><input type='file' name='imageTiff'/><input type='submit' value='Upload Tiff Image' name='submitTiff'></form>";
+        // Image tiff - end
     } else {
+        newImageSection += "<div class=\"radio\">";
         newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' checked=''>Left</label>";
-        newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Right</label>"
+        newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Right</label>";
+        newImageSection += "</div>";
+        newImageSection += "<div id='image-example-" + factory_imageSection_count + "' class='image-box'>";
+        // TODO Cole broke this
+        newImageSection += ""
+        newImageSection += "</div>";
+        newImageSection += "<label class='imageCaption-" + factory_imageSection_count + "'>Caption</label>";
+        newImageSection += "<input class='form-control imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
+        // TODO Cole broke this
+        newImageSection += "<input type='file' id='exampleInputFile' section_number='" + factory_imageSection_count + "'><button type='button' class='uploadMyImage btn btn-tiny btn-info'>Upload Image</button>"
     }
-    newImageSection += "</div>";
-    // Alignment section - end
-
-    // Image example - start
-    newImageSection += "<div id='image-example-" + factory_imageSection_count + "' class='image-box'>";
-    if ( typeof filename !== 'undefined' ) {
-        newImageSection += "<img class='img-thumbnail " + displayAlignment + "' src='http://cdn.rcsb.org/pdb101/motm/images/" + filename + "' style='height: 300px;'>"
-    }  else {
-        newImageSection += "<img class='img-thumbnail " + displayAlignment + "' src='http://cdn.rcsb.org/pdb101/geis/images/carboxypeptidase-a.png' style='height: 300px;'>"
-    }
-    newImageSection += "</div>";
-    // Image example - end
-
-    //TODO Add 'caption' text area capture
-    // Image Caption - start
-    newImageSection += "<label class='imageCaption-" + factory_imageSection_count + "'>Caption</label>";
-    newImageSection += "<input class='form-control imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
-    // Image Caption - end
-
-    //TODO add 'would you like to add a TIFF of this image as well' thing
-    // Image tiff - start
-    //newImageSection += "<label for='imageTiffupload'>Insert Image TIFF</label><br>";
-    //newImageSection += "<button id='imageButtonTiff' class='btn btn-primary'>Image TIFF</button>"
-    newImageSection += "<form enctype='multipart/form-data' action='/Users/chrisrandle/upload/image' method='post'><input name='image-file' type='file'/></form>";
-    //newImageSection += "<div class='upload'><input type='file' name='imageTiffupload'/></div>";
-    // Image tiff - end
-
     newImageSection += "</div></li>";
     factory_imageSection_count += 1;
     return newImageSection;
@@ -94,15 +103,35 @@ function factory_imageSection(filename, alignment){
 
 
 // ++++++++ CREATION OF THE PARAGRAPH SECTION +++++++++++++
-// TODO change this to function
-// TODO Change color and boarder to match image section
-var newParagraphSection = "<li>" +
-    "<div class='form-group insertParagraph variableSection bg-warning'>";
-newParagraphSection += sectionActions;
-newParagraphSection += "<h5>Paragraph Section</h5><hr>" +
-    "<input class='form-control' id='SectionTitle' placeholder='Paragraph Heading'><br>" +
-    "<textarea class='form-control' rows='3' placeholder='Paragraph Content'></textarea><br>" +
-    "</div></li>";
+function factory_paragraphSection(paragraph) {
+    var newParagraphSection = "<li><div class='form-group insertParagraph variableSection bg-variableSection'>";
+    newParagraphSection += sectionActions;
+    newParagraphSection += "<h5>Paragraph Section</h5><hr>";
+    if( typeof paragraph !== 'undefined' ) {
+        // Paragraph Heading - start
+        if (typeof paragraph.heading !== 'undefined') {
+            newParagraphSection += "<input class='form-control' id='sectionTitle' placeholder='Paragraph Title' value='" + paragraph.heading + "'>";
+        } else {
+            newParagraphSection += "<input class='form-control' id='sectionTitle' placeholder='Paragraph Title'>";
+        }
+        // Paragraph Heading - end
+
+        // Paragraph Content - start
+        newParagraphSection += "<br>";
+        if (typeof paragraph.content !== 'undefined') {
+            newParagraphSection += "<textarea class='form-control' rows='3' placeholder='Paragraph Content'>" + paragraph.content + "</textarea><br>";
+        } else {
+            newParagraphSection += "<textarea class='form-control' rows='3' placeholder='Paragraph Content'></textarea><br>";
+        }
+        // Paragraph Content - end
+        newParagraphSection += "</div></li>";
+    } else {
+        newParagraphSection += "<input class='form-control' id='sectionTitle' placeholder='Paragraph Title'>";
+        newParagraphSection += "<textarea class='form-control' rows='3' placeholder='Paragraph Content'></textarea><br>";
+        newParagraphSection += "</div></li>";
+    }
+    return newParagraphSection;
+}
 
 // ++++++++ CREATION OF A SECTION SEPARATOR +++++++++++++
 // TODO change color and boarder to match image section
@@ -229,31 +258,14 @@ var populate_with_data = function (momID) {
             var divSection = "<form class='form-group variableSection'><ul id='DynamicSection' class='section-block list-unstyled'>";
             data.sections.forEach(function (section) {
                 section.parts.forEach(function (part) {
-                    var paragraphSection = "";
-                    //console.log(part.heading + " || " + part.content);
-                    paragraphSection += "<li id='Section_" + section.id + "_Part_" + part.id + "'>";
-                    paragraphSection += "<div class='form-group insertParagraph variableSection bg-warning'>";
-                    paragraphSection += sectionActions;
-                    paragraphSection += "<h5>Paragraph</h5><hr>";
-                    paragraphSection += "<input class='form-control' id='SectionTitle' value='" + part.heading + "'><br>";
+                    var paragraphSection = factory_paragraphSection(part);
 
-                    //var escapedContent = part.content
-                    //paragraphSection += "<p>" + escapedContent + "</p>";
-
-                    // NEED TO ADD IN ESCAPE SLASHES
-                    // paragraphSection += "<textarea class='form-control' type='text' rows='3' value='" + part.content + "'></textarea><br>";
-                    paragraphSection += "<textarea id='Section_" + section.id + "_Part_" + part.id + "' class='form-control' type='text' rows='3'>" + part.content + "</textarea><br>";
-                    paragraphSection += "</div></li>";
-
-
-                    //TODO change if to a while to handle multiple images
-
-                    //console.log("OUTSIDE This is the image data we will use [" + JSON.stringify(part.images) + "]");
                     if (part.images.length > 0) {
                         for (at = 0; at < part.images.length; at++) {
                             console.log("INSIDE This is the image data we will use [" + JSON.stringify(part.images[at]) + "]");
                             console.log("Loading image file [" + part.images[at].file_name + "] with alignment [" + part.images[at].align + "]");
-                            var imageSection = factory_imageSection(part.images[at].file_name, part.images[at].align);
+                            //var imageSection = factory_imageSection(part.images[at].file_name, part.images[at].align);
+                            var imageSection = factory_imageSection(part.images[at]);
                             paragraphSection += imageSection;
                         }
                     }

@@ -1,9 +1,12 @@
 var express = require('express');
 var router = express.Router();
+var multer = require('multer');
 
+var upload = multer({ dest: '/Users/chrisrandle/CDN/uploads/'});
 var database = require('../classes/database-motm.js');
+
 // ============================================================
-// Create data
+// Create mongodb data
 router.post('/add', function(req, res) {
   // Extract & log
   var body = req.body;
@@ -15,19 +18,30 @@ router.post('/add', function(req, res) {
   returnCreate(toLoad, res);
 });
 
-// Read data
+//======================== WORKING HERE MULTER FILE WRITE ========================
+// Create image file
+router.post('/image', function(req, res){
+  upload(req,res,function(err) {
+    if(err) {
+      return res.end("Error uploading file.");
+    }
+    res.end("File is uploaded");
+  });
+});
+
+// Return full mongodb collection
 router.get('/get/:collection', function(req, res) {
   var collection = req.params.collection;
   returnGet(collection, res);
 });
 
-// Return one document
+// Return mongodb document
 router.get('/one/:momID', function(req, res) {
     var momID = req.params.momID;
     returnOne(momID, res);
 });
 
-// Update data
+// Update mongodb data
 router.post('/update', function(req, res) {
   // Extract & log
   var body = req.body;
@@ -39,7 +53,7 @@ router.post('/update', function(req, res) {
   returnUpdate(toLoad, res);
 });
 
-// Delete data
+// Delete mongodb data
 router.delete('/del', function(req, res) {
   // Extract & log
   var body = req.body;
@@ -60,6 +74,7 @@ var returnGet = function(collection, res) {
   });
 };
 
+// Helper function with async callback - for read single document
 var returnOne = function(momID, res) {
     database.one(momID, function(toSend) {
         res.send(toSend)
