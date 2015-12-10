@@ -89,10 +89,6 @@ var addNewVariableSection = function () {
 
 var addNewExplorationSection = function () {
     var newExplorationSection = "<div class='form-group fixedSection'>" +
-        "<h4>Exploring the Structure</h4><hr>" +
-        "<h4>Image Tab</h4><label for='jmolStaticImage'>Jmol Image</label><input type='file' id='jmolStaticImage'><br>" +
-        "<label for='exploreStructure'>Exploring the Image Content</label><textarea class='form-control' id='exploreStructure' rows='3' placeholder='Image Structure Content'></textarea>" +
-        "<hr>" +
         "<h4>Jmol Tab</h4><label for='JmolHeader'>Jmol Heading</label><input class='form-control' id='jmolHeader' placeholder='Jmol Heading'>" +
         "<label for='jmolContent'>Jmol Content</label><input class='form-control' id='jmolContent' rows='5' placeholder='Content (for Humans)'></textarea>" +
         "<label for='jmolScript'>Jmol Script</label><textarea class='form-control' id='jmolScript' placeholder='Script (for Computers)'></textarea>" +
