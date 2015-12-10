@@ -72,8 +72,13 @@ $(function () {
     //    document.getElementById("image-file").value
     //})
 
-    $(document).on('click', '.uploadMyImage', function () {
-        console.log("Image upload: ", document.getElementById('exampleInputFile').value);
-        //document.getElementById("uploadFile").value = this.value;
-    });
+    //$(document).on('click', '.upload_image', function () {
+    //    console.log("Image upload: ", document.getElementById('uploadMyImage').value);
+    //    //document.getElementById("uploadFile").value = this.value;
+    //});
+
+    //$("#uploadMyImage").change(function(){
+    //   console.log($(this).files.thumbnail.name);
+    //});
+
 });

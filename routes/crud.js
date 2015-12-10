@@ -18,7 +18,7 @@ router.post('/add', function(req, res) {
   returnCreate(toLoad, res);
 });
 
-//======================== WORKING HERE MULTER FILE WRITE ========================
+//======================= IMAGE WORK START
 // Create image file
 router.post('/image', function(req, res){
   upload(req,res,function(err) {
@@ -28,7 +28,7 @@ router.post('/image', function(req, res){
     res.end("File is uploaded");
   });
 });
-
+//======================== IMAGE WORK END
 // Return full mongodb collection
 router.get('/get/:collection', function(req, res) {
   var collection = req.params.collection;

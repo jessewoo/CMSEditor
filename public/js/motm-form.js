@@ -18,128 +18,11 @@ $(function () {
     }
 });
 
-//LETS DO SOME GLOBAL VARIABLES - L2 k0d n00b
-var categories = "";
-var subcat = "";
-
 /*
 The delete button, top right, one per section
  */
 var sectionActions = "<button type='button' class='pull-right btn btn-danger btn-sm deleteSection' aria-label='Delete'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>";
 
-
-// Helper var for factory_imageSection
-var factory_imageSection_count = 0;
-/*
-Returns the code used to build an image section DOM
-Passed (optional) previous -
-image file name
-image alignmet
- */
-function factory_imageSection(image){
-    var newImageSection = "<li><div class='form-group insertImage variableSection bg-variableSection'>";
-    newImageSection += sectionActions;
-    newImageSection += "<h5>Image</h5><hr>";
-    newImageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile' section_number='" + factory_imageSection_count + "'>";
-
-    if ( typeof image !== 'undefined') {
-        // Alignment section - start
-        var displayAlignment = "pull-left";
-        newImageSection += "<div class=\"radio\">";
-        if (typeof image.align !== 'undefined') {
-            if (image.align == "right") {
-                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Left</label>";
-                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'checked=''>Right</label>";
-                displayAlignment = "pull-right";
-            } else {
-                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' checked=''>Left</label>";
-                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Right</label>";
-            }
-        }
-        newImageSection += "</div>";
-        // Alignment section - end
-
-        // Image example - start
-        newImageSection += "<div id='image-example-" + factory_imageSection_count + "' class='image-box'>";
-        if (typeof image.file_name !== 'undefined') {
-            newImageSection += "<img class='img-thumbnail " + displayAlignment + "' src='http://cdn.rcsb.org/pdb101/motm/images/" + image.file_name + "' style='height: 300px;'>"
-        } else {
-            newImageSection += "<img class='img-thumbnail " + displayAlignment + "' src='http://cdn.rcsb.org/pdb101/geis/images/carboxypeptidase-a.png' style='height: 300px;'>"
-        }
-        newImageSection += "</div>";
-        // Image example - end
-
-        // Image Caption - start
-        newImageSection += "<label class='imageCaption-" + factory_imageSection_count + "'>Caption</label>";
-        if (typeof image.caption !== 'undefined') {
-            newImageSection += "<input class='form-control imageCaption-" + factory_imageSection_count + "' value='" + image.caption + "'>";
-        } else {
-            newImageSection += "<input class='form-control imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
-        }
-        // Image Caption - end
-
-        //TODO add 'would you like to add a TIFF of this image as well' thing
-        // Image tiff - start
-        newImageSection += "<form action='/do/upload/' method='post' enctype='multipart/form-data'><input type='file' name='imageTiff'/><input type='submit' value='Upload Tiff Image' name='submitTiff'></form>";
-        // Image tiff - end
-    } else {
-        newImageSection += "<div class=\"radio\">";
-        newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' checked=''>Left</label>";
-        newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Right</label>";
-        newImageSection += "</div>";
-        newImageSection += "<div id='image-example-" + factory_imageSection_count + "' class='image-box'>";
-        // TODO Cole broke this
-        newImageSection += ""
-        newImageSection += "</div>";
-        newImageSection += "<label class='imageCaption-" + factory_imageSection_count + "'>Caption</label>";
-        newImageSection += "<input class='form-control imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
-        // TODO Cole broke this
-        newImageSection += "<input type='file' id='exampleInputFile' section_number='" + factory_imageSection_count + "'><button type='button' class='uploadMyImage btn btn-tiny btn-info'>Upload Image</button>"
-    }
-    newImageSection += "</div></li>";
-    factory_imageSection_count += 1;
-    return newImageSection;
-}
-
-
-// ++++++++ CREATION OF THE PARAGRAPH SECTION +++++++++++++
-function factory_paragraphSection(paragraph) {
-    var newParagraphSection = "<li><div class='form-group insertParagraph variableSection bg-variableSection'>";
-    newParagraphSection += sectionActions;
-    newParagraphSection += "<h5>Paragraph Section</h5><hr>";
-    if( typeof paragraph !== 'undefined' ) {
-        // Paragraph Heading - start
-        if (typeof paragraph.heading !== 'undefined') {
-            newParagraphSection += "<input class='form-control' id='sectionTitle' placeholder='Paragraph Title' value='" + paragraph.heading + "'>";
-        } else {
-            newParagraphSection += "<input class='form-control' id='sectionTitle' placeholder='Paragraph Title'>";
-        }
-        // Paragraph Heading - end
-
-        // Paragraph Content - start
-        newParagraphSection += "<br>";
-        if (typeof paragraph.content !== 'undefined') {
-            newParagraphSection += "<textarea class='form-control' rows='3' placeholder='Paragraph Content'>" + paragraph.content + "</textarea><br>";
-        } else {
-            newParagraphSection += "<textarea class='form-control' rows='3' placeholder='Paragraph Content'></textarea><br>";
-        }
-        // Paragraph Content - end
-        newParagraphSection += "</div></li>";
-    } else {
-        newParagraphSection += "<input class='form-control' id='sectionTitle' placeholder='Paragraph Title'>";
-        newParagraphSection += "<textarea class='form-control' rows='3' placeholder='Paragraph Content'></textarea><br>";
-        newParagraphSection += "</div></li>";
-    }
-    return newParagraphSection;
-}
-
-// ++++++++ CREATION OF A SECTION SEPARATOR +++++++++++++
-// TODO change color and boarder to match image section
-// TODO figure out how to bold and color the separation line in these <hr>'s
-var newSeparator = "<li>" +
-    "<div class='form-group insertSeparator variableSection bg-warning'>";
-newSeparator += sectionActions;
-newSeparator += "<hr /></div></li>";
 
 // BUILD OUT OF ADDITIONAL SECTIONS
 var buildNewMOTM = function () {
@@ -222,6 +105,115 @@ var addNewExplorationSection = function () {
     $("#AddFixedSections").append(newExplorationSection);
 };
 
+// ++++++++ CREATION OF THE IMAGE SECTION +++++++++++++
+var factory_imageSection_count = 0;
+/*
+ Returns the code used to build an image section DOM
+ Passed (optional) - mongo section.part.image element
+ */
+function factory_imageSection(image){
+    var newImageSection = "<li><div class='form-group insertImage variableSection bg-variableSection'>";
+    newImageSection += sectionActions;
+    newImageSection += "<h5>Image</h5><hr>";
+    newImageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile' section_number='" + factory_imageSection_count + "'>";
+
+    if ( typeof image !== 'undefined') {
+        // Alignment section - start
+        var displayAlignment = "pull-left";
+        newImageSection += "<div class=\"radio\">";
+        if (typeof image.align !== 'undefined') {
+            if (image.align == "right") {
+                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Left</label>";
+                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'checked=''>Right</label>";
+                displayAlignment = "pull-right";
+            } else {
+                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' checked=''>Left</label>";
+                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Right</label>";
+            }
+        }
+        newImageSection += "</div>";
+        // Alignment section - end
+
+        // Image example - start
+        newImageSection += "<div id='image-example-" + factory_imageSection_count + "' class='image-box'>";
+        if (typeof image.file_name !== 'undefined') {
+            newImageSection += "<img class='img-thumbnail " + displayAlignment + "' src='http://cdn.rcsb.org/pdb101/motm/images/" + image.file_name + "' style='height: 300px;'>"
+        } else {
+            newImageSection += "<img class='img-thumbnail " + displayAlignment + "' src='http://cdn.rcsb.org/pdb101/geis/images/carboxypeptidase-a.png' style='height: 300px;'>"
+        }
+        newImageSection += "</div>";
+        // Image example - end
+
+        // Image Caption - start
+        newImageSection += "<label class='imageCaption-" + factory_imageSection_count + "'>Caption</label>";
+        if (typeof image.caption !== 'undefined') {
+            newImageSection += "<input class='form-control imageCaption-" + factory_imageSection_count + "' value='" + image.caption + "'>";
+        } else {
+            newImageSection += "<input class='form-control imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
+        }
+        // Image Caption - end
+
+        //TODO add 'would you like to add a TIFF of this image as well' thing
+        // Image tiff - start
+        newImageSection += "<form action='/do/upload/' method='post' enctype='multipart/form-data'><input type='file' name='imageTiff'/><input type='submit' value='Upload Tiff Image' name='submitTiff'></form>";
+        // Image tiff - end
+    } else {
+        newImageSection += "<div class=\"radio\">";
+        newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' checked=''>Left</label>";
+        newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Right</label>";
+        newImageSection += "</div>";
+        newImageSection += "<div id='image-example-" + factory_imageSection_count + "' class='image-box'>";
+        // TODO Want to display temporary image.
+        newImageSection += ""
+        newImageSection += "</div>";
+        newImageSection += "<label class='imageCaption-" + factory_imageSection_count + "'>Caption</label>";
+        newImageSection += "<input class='form-control imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
+        // TODO Need a auto submit method
+        newImageSection += "<form method='post' enctype='multipart/form-data' action='/do/image'><input type='file' class='upload_image' name='uploadMyImage' section_number='" + factory_imageSection_count + "'></form>";
+    }
+    newImageSection += "</div></li>";
+    factory_imageSection_count += 1;
+    return newImageSection;
+}
+
+// ++++++++ CREATION OF THE PARAGRAPH SECTION +++++++++++++
+//TODO need handler that will look for JMOL paragraphs. (mongodb flag)
+function factory_paragraphSection(paragraph) {
+    var newParagraphSection = "<li><div class='form-group insertParagraph variableSection bg-variableSection'>";
+    newParagraphSection += sectionActions;
+    newParagraphSection += "<h5>Paragraph Section</h5><hr>";
+    if( typeof paragraph !== 'undefined' ) {
+        // Paragraph Heading - start
+        if (typeof paragraph.heading !== 'undefined') {
+            newParagraphSection += "<input class='form-control' id='sectionTitle' placeholder='Paragraph Title' value='" + paragraph.heading + "'>";
+        } else {
+            newParagraphSection += "<input class='form-control' id='sectionTitle' placeholder='Paragraph Title'>";
+        }
+        // Paragraph Heading - end
+
+        // Paragraph Content - start
+        newParagraphSection += "<br>";
+        if (typeof paragraph.content !== 'undefined') {
+            newParagraphSection += "<textarea class='form-control' rows='3' placeholder='Paragraph Content'>" + paragraph.content + "</textarea><br>";
+        } else {
+            newParagraphSection += "<textarea class='form-control' rows='3' placeholder='Paragraph Content'></textarea><br>";
+        }
+        // Paragraph Content - end
+        newParagraphSection += "</div></li>";
+    } else {
+        newParagraphSection += "<input class='form-control' id='sectionTitle' placeholder='Paragraph Title'>";
+        newParagraphSection += "<textarea class='form-control' rows='3' placeholder='Paragraph Content'></textarea><br>";
+        newParagraphSection += "</div></li>";
+    }
+    return newParagraphSection;
+}
+
+// ++++++++ CREATION OF A SECTION SEPARATOR +++++++++++++
+// TODO figure out how to bold and color the separation line in these <hr>'s
+var newSeparator = "<li><div class='form-group insertSeparator variableSection bg-variableSection'>";
+newSeparator += sectionActions;
+newSeparator += "<hr /></div></li>";
+
 // Fills in the form with the data we already have
 var populate_with_data = function (momID) {
     $.ajax({
@@ -277,6 +269,7 @@ var populate_with_data = function (momID) {
                 });
             });
             divSection += "</ul>";
+            // TODO might be worth making this a function?
             divSection += "<ul id='DynamicSection' class='section-block list-unstyled'></ul>" +
                 "<div class='btn-toolbar'>" +
                 "<button type='button' class='addNewImage btn btn-info btn-md'>Add Image</button>" +
@@ -296,16 +289,12 @@ var populate_with_data = function (momID) {
             //$('#jmol-script').val(data.jmols[0].script);
             //TODO fill further exploration topics mongodb motm_articles.tfes (topics further exploration)
             //$('#explorationTopics').val(data.tfes.list);
-
-
         }
     });
 };
 
-
+//TODO Does this need to be AJAX?
 var fillCategories = function(){
-    //categories = "<label for='articleCategory'>Category</label><select=class'form-control' id='articleCategory'>";
-    //subcat = "<label for='articleSubcategory'>Subcategory</label><select=class'form-control' id='articleSubcategory'>";
     $.ajax({
         type: "get",
         url: "/do/get/categories",
@@ -318,8 +307,6 @@ var fillCategories = function(){
                     $('#articleCategory').append('<option value=' + data[j].id + ':' + data[j].subcategories[k].id + '>' + data[j].name + ' -> ' + data[j].subcategories[k].name + '</option>');
                 }
             }
-            //subcat += "</select>";
-            //categories += "</select>";
         }
     });
 };
