@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 
-var upload = multer({ dest: '/Users/chrisrandle/CDN/uploads/'});
+var upload = multer({ dest: '/tmp/'});
 var database = require('../classes/database-motm.js');
 
 // ============================================================
