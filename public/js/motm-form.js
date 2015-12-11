@@ -247,6 +247,7 @@ var populate_with_data = function (momID) {
             data.sections.forEach(function (section) {
                 section.parts.forEach(function (part) {
                     var paragraphSection = factory_paragraphSection(part);
+                    divSection += paragraphSection;
 
                     if (part.images.length > 0) {
                         for (at = 0; at < part.images.length; at++) {
@@ -254,15 +255,15 @@ var populate_with_data = function (momID) {
                             console.log("Loading image file [" + part.images[at].file_name + "] with alignment [" + part.images[at].align + "]");
                             //var imageSection = factory_imageSection(part.images[at].file_name, part.images[at].align);
                             var imageSection = factory_imageSection(part.images[at]);
-                            paragraphSection += imageSection;
+                            divSection += imageSection;
                         }
                     }
-                    if(data.sections.length == section.id ) {
-                        divSection += paragraphSection;
-                    } else {
-                        divSection += paragraphSection + newSeparator;
-                    }
                 });
+                if(data.sections.length == section.id ) {
+                    divSection;
+                } else {
+                    divSection += newSeparator;
+                }
             });
             divSection += "</ul>";
             // TODO might be worth making this a function?
@@ -306,4 +307,3 @@ var fillCategories = function(){
         }
     });
 };
-
