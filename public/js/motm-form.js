@@ -143,16 +143,14 @@ function factory_imageSection(image){
         // Image Caption - start
         newImageSection += "<label class='imageCaption-" + factory_imageSection_count + "'>Caption</label>";
         if (typeof image.caption !== 'undefined') {
-            newImageSection += "<input class='form-control imageCaption-" + factory_imageSection_count + "' value='" + image.caption + "'>";
+            newImageSection += "<input class='form-control imageCaption imageCaption-" + factory_imageSection_count + "' value='" + image.caption + "'>";
         } else {
-            newImageSection += "<input class='form-control imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
+            newImageSection += "<input class='form-control imageCaption imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
         }
         // Image Caption - end
 
         //TODO add 'would you like to add a TIFF of this image as well' thing
-        // Image tiff - start
-        newImageSection += "<form action='/do/upload/' method='post' enctype='multipart/form-data'><input type='file' name='imageTiff'/><input type='submit' value='Upload Tiff Image' name='submitTiff'></form>";
-        // Image tiff - end
+
     } else {
         newImageSection += "<div class=\"radio\">";
         newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' checked=''>Left</label>";
@@ -162,10 +160,8 @@ function factory_imageSection(image){
         // TODO Want to display temporary image.
         newImageSection += ""
         newImageSection += "</div>";
-        newImageSection += "<label class='imageCaption-" + factory_imageSection_count + "'>Caption</label>";
-        newImageSection += "<input class='form-control imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
-        // TODO Need a auto submit method
-        newImageSection += "<form method='post' enctype='multipart/form-data' action='/do/image'><input type='file' class='upload_image' name='uploadMyImage' section_number='" + factory_imageSection_count + "'></form>";
+        newImageSection += "<label class='imageCaption imageCaption-" + factory_imageSection_count + "'>Caption</label>";
+        newImageSection += "<input class='form-control imageCaption imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
     }
     newImageSection += "</div></li>";
     factory_imageSection_count += 1;
@@ -175,32 +171,28 @@ function factory_imageSection(image){
 // ++++++++ CREATION OF THE PARAGRAPH SECTION +++++++++++++
 //TODO need handler that will look for JMOL paragraphs. (mongodb flag)
 function factory_paragraphSection(paragraph) {
+    // Validate content
+    var heading = "";
+    if ( typeof paragraph !== 'undefined' ) {
+      if (typeof paragraph.heading !== 'undefined') {
+        heading = paragraph.heading
+      }
+    }
+    var content = "";
+    if ( typeof paragraph !== 'undefined' ) {
+      if (typeof paragraph.content !== 'undefined') {
+        content = paragraph.content
+      }
+    }
+
+    // Build content
     var newParagraphSection = "<li><div class='form-group insertParagraph variableSection bg-variableSection'>";
     newParagraphSection += sectionActions;
     newParagraphSection += "<h5>Paragraph Section</h5><hr>";
-    if( typeof paragraph !== 'undefined' ) {
-        // Paragraph Heading - start
-        if (typeof paragraph.heading !== 'undefined') {
-            newParagraphSection += "<input class='form-control' id='sectionTitle' placeholder='Paragraph Title' value='" + paragraph.heading + "'>";
-        } else {
-            newParagraphSection += "<input class='form-control' id='sectionTitle' placeholder='Paragraph Title'>";
-        }
-        // Paragraph Heading - end
-
-        // Paragraph Content - start
-        newParagraphSection += "<br>";
-        if (typeof paragraph.content !== 'undefined') {
-            newParagraphSection += "<textarea class='form-control' rows='3' placeholder='Paragraph Content'>" + paragraph.content + "</textarea><br>";
-        } else {
-            newParagraphSection += "<textarea class='form-control' rows='3' placeholder='Paragraph Content'></textarea><br>";
-        }
-        // Paragraph Content - end
-        newParagraphSection += "</div></li>";
-    } else {
-        newParagraphSection += "<input class='form-control' id='sectionTitle' placeholder='Paragraph Title'>";
-        newParagraphSection += "<textarea class='form-control' rows='3' placeholder='Paragraph Content'></textarea><br>";
-        newParagraphSection += "</div></li>";
-    }
+    newParagraphSection += "<input class='form-control paraHeading' placeholder='Paragraph Title' value='" + heading + "'>";
+    newParagraphSection += "<br>";
+    newParagraphSection += "<textarea class='form-control paraContent' rows='5' placeholder='Paragraph Content'>" + content + "</textarea><br>";
+    newParagraphSection += "</div></li>";
     return newParagraphSection;
 }
 

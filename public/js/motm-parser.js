@@ -41,30 +41,45 @@ $(function () {
       console.log("Parsed JSON:" + JSON.stringify(content));
 
 
-      var sectionID = 1;
-      var partsID = 0;
-      $("#DynamicSction li .variableSection").each( function(index, element){
+      // Global Array
+      var sectionArray = new Array();
+      var partsArray = new Array();
+
+      $("#DynamicSection li .variableSection").each( function(index, element){
           // console.log(this);
 
           var sectionParagraph = $(this).hasClass("insertParagraph");
           if (sectionParagraph) {
-            partsID++;
-            console.log("Section ID:" + sectionID + " | Part ID:" + partsID + "  ****** Paragraph Section");
+            var part = new Object();
+            part.heading = $(this).find('.paraHeading').eq(0).val();
+            part.content = $(this).find('.paraContent').eq(0).val()
+            console.log("Paragragh Heading:", part.heading);
+            console.log("Paragragh Content:", part.content);
+            partsArray.push(part);
           }
 
           var sectionImage = $(this).hasClass("insertImage");
           if (sectionImage) {
-            partsID++;
-            console.log("Section ID:" + sectionID + " | Part ID:" + partsID + " ****** Image Added to Paragraph");
+            var part = new Object();
+            part.imageURL = $(this).find('.image-box img').attr('src');
+            part.imageCaption = $(this).find('.imageCaption').val()
+            console.log("Image URL:", part.imageURL);
+            console.log("Image Caption:", part.imageCaption);
+            partsArray.push(part);
           }
 
           var sectionSeparator = $(this).hasClass("insertSeparator");
           if (sectionSeparator) {
-            sectionID++;
+            sectionArray.push(partsArray);
+            partsArray = [];
           }
-
       });
 
+      if (partsArray.length > 0) {
+        sectionArray.push(partsArray);
+        partsArray = [];
+      }
+      console.log("All I HAVE ->", sectionArray);
   });
 
 
