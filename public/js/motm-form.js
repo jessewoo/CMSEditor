@@ -251,8 +251,8 @@ var populate_with_data = function (momID) {
 
                     if (part.images.length > 0) {
                         for (at = 0; at < part.images.length; at++) {
-                            console.log("INSIDE This is the image data we will use [" + JSON.stringify(part.images[at]) + "]");
-                            console.log("Loading image file [" + part.images[at].file_name + "] with alignment [" + part.images[at].align + "]");
+                            // console.log("INSIDE This is the image data we will use [" + JSON.stringify(part.images[at]) + "]");
+                            // console.log("Loading image file [" + part.images[at].file_name + "] with alignment [" + part.images[at].align + "]");
                             //var imageSection = factory_imageSection(part.images[at].file_name, part.images[at].align);
                             var imageSection = factory_imageSection(part.images[at]);
                             divSection += imageSection;

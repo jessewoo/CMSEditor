@@ -42,29 +42,25 @@ $(function () {
 
 
       var sectionID = 1;
-      var partsID = 1;
-      $(".ui-sortable-handle .variableSection").each( function(index, element){
+      var partsID = 0;
+      $("#DynamicSction li .variableSection").each( function(index, element){
           // console.log(this);
 
           var sectionParagraph = $(this).hasClass("insertParagraph");
           if (sectionParagraph) {
+            partsID++;
             console.log("Section ID:" + sectionID + " | Part ID:" + partsID + "  ****** Paragraph Section");
           }
 
           var sectionImage = $(this).hasClass("insertImage");
           if (sectionImage) {
+            partsID++;
             console.log("Section ID:" + sectionID + " | Part ID:" + partsID + " ****** Image Added to Paragraph");
           }
 
           var sectionSeparator = $(this).hasClass("insertSeparator");
           if (sectionSeparator) {
-            if ((sectionID == 1) & (partsID == 3)) {
-                sectionID++;
-            } else if (partsID > 3) {
-                sectionID++;
-            }
-            partsID++;
-            console.log("***** Separator Section ******");
+            sectionID++;
           }
 
       });
