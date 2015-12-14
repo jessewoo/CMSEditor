@@ -24,8 +24,13 @@ exports.get = function (object, callback) {
     readWrapper(object, callback);
 };
 
+// TODO Modify to get one of motm_articles or jmol by momID
 exports.one = function (momID, callback) {
     oneWrapper(momID, callback);
+};
+
+exports.recent = function(callback){
+    recentWrapper(callback);
 };
 
 exports.remove = function (callback) {
@@ -78,6 +83,16 @@ var oneWrapper = function (momID, callback) {
         //console.log("+1 momID DB connection");
         assert.equal(null, err);
         findDoc(db, momID, function (result) {
+            end(db);
+            callback(result);
+        });
+    });
+};
+
+var recentWrapper = function (callback){
+    MongoClient.connect(url, function(err, db){
+        assert.equal(null,err);
+        findMostRecent(db, function(result){
             end(db);
             callback(result);
         });
@@ -139,7 +154,7 @@ var removeDocument = function (db, target, callback) {
     });
 }
 
-// Remove all
+// Remove all motm_artciles
 var removeAllDocuments = function (db, callback) {
     // Get the documents collection
     var collection = db.collection('motm_articles');
@@ -148,9 +163,9 @@ var removeAllDocuments = function (db, callback) {
         assert.equal(err, null);
         callback(result);
     });
-}
+};
 
-// Find all
+// Find all motm_articles
 var findDocuments = function (db, object, callback) {
     // Get the documents collection
     var collection = db.collection(object);
@@ -161,9 +176,9 @@ var findDocuments = function (db, object, callback) {
         // console.dir(docs);
         callback(docs);
     });
-}
+};
 
-// Find all
+// Find all categories
 var findCategoriesDocuments = function (db, callback) {
     // Get the documents collection
     var collection = db.collection('categories');
@@ -174,16 +189,27 @@ var findCategoriesDocuments = function (db, callback) {
         // console.dir(docs);
         callback(docs);
     });
-}
+};
 
-// Find one
+// Find one motm_articles
 var findDoc = function (db, momID, callback) {
-    var cursor = db.collection('motm_articles').find({_id: new mdb.ObjectID(momID)}).toArray(function (err, docArray) {
+    var collection = db.collection('motm_articles');
+    collection.find({_id: new mdb.ObjectID(momID)}).toArray(function (err, docArray) {
         assert.equal(err, null);
         //console.log("docArray", docArray);
         callback(docArray[0])
     });
-}
+};
+
+// TODO this is very similar to findDoc & findDocuments - perhaps merge them.
+// Fine most recent motm_articles legacy momID
+var findMostRecent = function(db, callback){
+    var collection = db.collection('motm_articles');
+    collection.find({}, {id: 1}).sort({id: -1}).limit(1).toArray(function(err, mostRecent){
+        assert.equal(err, null);
+        callback(mostRecent[0]);
+    });
+};
 
 // Insert
 var insertProject = function (db, object, callback) {

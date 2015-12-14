@@ -30,12 +30,7 @@ $(function () {
         });
     });
 
-    //// NOT SURE
-    //$(document).on('change', '.lastFileInput', function () {
-    //    $(".lastFileInput").after("<input type='file' class='PDBfileUpload lastFileInput'>");
-    //    $(this).removeClass("lastFileInput");
-    //});
-
+    // TODO modify variable section counters if necessary
     // Click Event Work on dynamically generated elements
     //$(document).on('click', '.sectionActions .deleteSection', function () {
     $(document).on('click', '.deleteSection', function () {
@@ -66,19 +61,5 @@ $(function () {
         }
         $('#image-example-' + myNumber).find('img').removeClass('pull-right').removeClass('pull-left').addClass(newClass);
     });
-
-    // Variable Section -> Image tiff click handler
-    //$(document).change(function(){
-    //    document.getElementById("image-file").value
-    //})
-
-    //$(document).on('click', '.upload_image', function () {
-    //    console.log("Image upload: ", document.getElementById('uploadMyImage').value);
-    //    //document.getElementById("uploadFile").value = this.value;
-    //});
-
-    //$("#uploadMyImage").change(function(){
-    //   console.log($(this).files.thumbnail.name);
-    //});
 
 });

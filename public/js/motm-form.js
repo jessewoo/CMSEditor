@@ -3,16 +3,19 @@ $(function () {
     var pathArray = window.location.pathname.split('/');
     var momID = pathArray[2];
 
-    // Build out all of the page
+    // Creates the Category dropdown for the Essential Information section
     fillCategories();
+    // Populate legacyMotMID with a new value in the Essential Information section
+    newMotmID();
+    // Create the Essential Information section
     buildNewMOTM();
 
     addSortableSection();
-    addNewVariableSection();
+    addVariableSection();
 
     addNewExplorationSection();
 
-    // If we are editing something that already exists, populate with prior data
+    // If we are editing something that already exists, populate with prior data from mongodb
     if (momID) {
         populate_with_data(momID);
     }
@@ -21,19 +24,21 @@ $(function () {
 /*
 The delete button, top right, one per section
  */
+// TODO if this button is clicked be sure to re-adjust appropriate variable image/paragraph counters if necessary
 var sectionActions = "<button type='button' class='pull-right btn btn-danger btn-sm deleteSection' aria-label='Delete'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>";
 
 
 // BUILD OUT OF ADDITIONAL SECTIONS
 var buildNewMOTM = function () {
-    // TODO populate the legacyMotmID with the next avaliable id.
     var newForm = "<form class='form-horizontal' role='form'>" +
         "<div id='EssentialsSection' class='form-group'>" +
         "<h4>Essential Information</h4><hr>" +
-        "<label for='legacyMotmID'>Molecule of the Month ID</label><input class='form-control' id='legacyMotMID' value='' disabled>" +
+        "<label for='legacyMotmID'>Molecule of the Month ID</label><input class='form-control' id='legacyMotMID' disabled>" +
         "<label for='articleTitle'>Molecule Name / Title</label><input class='form-control' id='articleTitle' placeholder='Molecule Name'>" +
         "<label for='articleTeaser'>Article Teaser</label><textarea auto='yes' class='form-control' id='articleTeaser' rows='1' placeholder='Teaser'></textarea>" +
         "<label for='articleAuthor'>Author's Name</label><input class='form-control' id='articleAuthor' placeholder='Author'>";
+
+    // Month & Year dropdown - Start
     var theDate = new Date();
     var year = theDate.getFullYear();
     var nextMonth = theDate.getMonth();
@@ -62,6 +67,8 @@ var buildNewMOTM = function () {
         }
     }
     newForm += "</select>";
+    // Month & Year dropdown - End
+
     newForm += "<label for='articleCategory'>Category</label><select class='form-control' id='articleCategory'></select>";
     newForm += "<label for='articleKeywords'>Keywords - <small>Separate with commas</small></label><input class='form-control' id='articleKeywords' placeholder='Keywords - separate with comma'>";
     newForm += "</div></form>";
@@ -69,14 +76,16 @@ var buildNewMOTM = function () {
     $("#CreateNewForm").append(newForm);
 };
 
+
+//TODO Does this still accomplish something for us.
 // Add the Sortable section
 var addSortableSection = function () {
     var newSortableSection = "<div class='lastVariableSection'></div>";
     $("#AddVariableSections").append(newSortableSection);
 };
 
-var addNewVariableSection = function () {
-    var addVariableSection = "<form class='form-group variableSection'>" +
+var addVariableSection = function () {
+    var variableSection = "<form class='form-group variableSection'>" +
         "<ul id='DynamicSection' class='section-block list-unstyled'></ul>" +
         "<div class='btn-toolbar'>" +
             "<button type='button' class='addNewImage btn btn-info btn-md'>Add Image</button>" +
@@ -84,7 +93,7 @@ var addNewVariableSection = function () {
             "<button type='button' class='addNewSeparator btn btn-info btn-md'>Add Separator</button>" +
         "</div>";
     "</form>";
-    $("#AddVariableSections").prepend(addVariableSection);
+    $("#AddVariableSections").prepend(variableSection);
 };
 
 var addNewExplorationSection = function () {
@@ -102,36 +111,66 @@ var addNewExplorationSection = function () {
 };
 
 // ++++++++ CREATION OF THE IMAGE SECTION +++++++++++++
+var factory_imageSection_count = 0;
 /*
  Returns the code used to build an image section DOM
  Passed (optional) - mongo section.part.image element
  */
 function factory_imageSection(image){
-    // Validate File Name
-    var file_name = "";
-    if ( typeof image !== 'undefined' ) {
-      if (typeof image.file_name !== 'undefined') {
-        file_name = image.file_name;
-      }
-    }
-
-    // Validate Caption
-    var caption = "";
-    if ( typeof image !== 'undefined' ) {
-      if (typeof image.caption !== 'undefined') {
-        caption = image.caption;
-        caption = caption.replace("'","&apos;");
-      }
-    }
-
-    // Build Image Content
+    // This top section will always exist for an image section.
     var newImageSection = "<li><div class='form-group insertImage variableSection bg-variableSection'>";
     newImageSection += sectionActions;
-    newImageSection += "<h5>Image Section</h5><hr>";
-    newImageSection += "<h5>Insert Image</h5><input type='file' title='" + file_name + "'/><br><br>";
-    newImageSection += "<img class='img-thumbnail' alt=\"" + caption + "\" src=\"http://cdn.rcsb.org/pdb101/motm/images/" + file_name + "\"/ width='300'><br><br>"
-    newImageSection += "<h5>Insert Caption</h5><input class='form-control imageCaption' value='" + caption + "'>";
+    newImageSection += "<h5>Image</h5><hr>";
+    // TODO illegal to have two items on the same page with the sam id need to make unique.
+    newImageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile' section_number='" + factory_imageSection_count + "'>";
+
+    // The default position for a image will be pull-left
+    var displayAlignment = "pull-left";
+    var leftRadio = "checked=''";
+    var rightRadio = "";
+    // Path to the image to display. Default to guise painting.
+    var imagePath = "http://cdn.rcsb.org/pdb101/geis/images/carboxypeptidase-a.png";
+    // Image may or maynot have caption.
+    var imageCaption = "undefined";
+    if ( typeof image !== 'undefined') {
+        // Alignment section - start
+        if (typeof image.align !== 'undefined') {
+            if (image.align == "right") {
+                displayAlignment = "pull-right";
+                rightRadio = "checked=''";
+                leftRadio = "";
+            }
+        }
+        // Alignment section - end
+
+        // Image Content Path - start
+        //newImageSection += "<div id='image-example-" + factory_imageSection_count + "' class='image-box'>";
+        if (typeof image.file_name !== 'undefined') {
+            imagePath = "http://cdn.rcsb.org/pdb101/motm/images/" + image.file_name;
+        }
+        // Image Content Path - end
+
+        // Image Caption - start
+        if (typeof image.caption !== 'undefined') {
+            imageCaption = image.caption;
+        }
+        // Image Caption - end
+
+        //TODO add 'would you like to add a TIFF of this image as well' thing
+
+    }
+    newImageSection += "<div class=\"radio\">";
+    newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' " + leftRadio + ">Left</label>";
+    newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' " + rightRadio + ">Right</label>";
+    newImageSection += "</div>";
+    newImageSection += "<div id='image-example-" + factory_imageSection_count + "' class='image-box'>";
+    // TODO Want to display temporary image
+    newImageSection += "<img class='img-thumbnail " + displayAlignment + "' src='" + imagePath + "' style='height: 300px;'>";
+    newImageSection += "</div>";
+    newImageSection += "<label class='imageCaption imageCaption-" + factory_imageSection_count + "'>Caption</label>";
+    newImageSection += "<input class='form-control imageCaption imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
     newImageSection += "</div></li>";
+    factory_imageSection_count += 1;
     return newImageSection;
 }
 
@@ -142,13 +181,13 @@ function factory_paragraphSection(paragraph) {
     var heading = "";
     if ( typeof paragraph !== 'undefined' ) {
       if (typeof paragraph.heading !== 'undefined') {
-        heading = paragraph.heading
+        heading = paragraph.heading;
       }
     }
     var content = "";
     if ( typeof paragraph !== 'undefined' ) {
       if (typeof paragraph.content !== 'undefined') {
-        content = paragraph.content
+        content = paragraph.content;
       }
     }
 
@@ -249,7 +288,6 @@ var populate_with_data = function (momID) {
     });
 };
 
-//TODO Does this need to be AJAX?
 var fillCategories = function(){
     $.ajax({
         type: "get",
@@ -258,7 +296,7 @@ var fillCategories = function(){
         contentType: "application/json",
         success: function (data) {
             for(var j = 0; j < data.length; j++) {
-                // console.log("Inside Category loop: " + data[j].name);
+                console.log("Inside Category loop: " + data[j].name);
                 for(var k = 0; k < data[j].subcategories.length; k++ ) {
                     $('#articleCategory').append('<option value=' + data[j].id + ':' + data[j].subcategories[k].id + '>' + data[j].name + ' -> ' + data[j].subcategories[k].name + '</option>');
                 }
@@ -266,3 +304,20 @@ var fillCategories = function(){
         }
     });
 };
+
+var newMotmID = function(){
+    $.ajax({
+        type: "get",
+        url: "/do/recent",
+        dataType: "json",
+        contentType: "application/json",
+        success: function(data){
+            $('#legacyMotMID').val(data.id + 1);
+        }
+    });
+};
+
+//// TODO Create get jmol function db.jmol
+//var loadJmol = function(){
+//
+//};
