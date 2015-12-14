@@ -79,7 +79,7 @@ $(function () {
         sectionArray.push(partsArray);
         partsArray = [];
       }
-      console.log("All I HAVE ->", sectionArray);
+      console.log("All I HAVE ->", JSON.stringify(sectionArray));
   });
 
 

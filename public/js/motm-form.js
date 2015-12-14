@@ -102,69 +102,36 @@ var addNewExplorationSection = function () {
 };
 
 // ++++++++ CREATION OF THE IMAGE SECTION +++++++++++++
-var factory_imageSection_count = 0;
 /*
  Returns the code used to build an image section DOM
  Passed (optional) - mongo section.part.image element
  */
 function factory_imageSection(image){
+    // Validate File Name
+    var file_name = "";
+    if ( typeof image !== 'undefined' ) {
+      if (typeof image.file_name !== 'undefined') {
+        file_name = image.file_name;
+      }
+    }
+
+    // Validate Caption
+    var caption = "";
+    if ( typeof image !== 'undefined' ) {
+      if (typeof image.caption !== 'undefined') {
+        caption = image.caption;
+        caption = caption.replace("'","&apos;");
+      }
+    }
+
+    // Build Image Content
     var newImageSection = "<li><div class='form-group insertImage variableSection bg-variableSection'>";
     newImageSection += sectionActions;
-    newImageSection += "<h5>Image</h5><hr>";
-    newImageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile' section_number='" + factory_imageSection_count + "'>";
-
-    if ( typeof image !== 'undefined') {
-        // Alignment section - start
-        var displayAlignment = "pull-left";
-        newImageSection += "<div class=\"radio\">";
-        if (typeof image.align !== 'undefined') {
-            if (image.align == "right") {
-                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Left</label>";
-                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'checked=''>Right</label>";
-                displayAlignment = "pull-right";
-            } else {
-                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' checked=''>Left</label>";
-                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Right</label>";
-            }
-        }
-        newImageSection += "</div>";
-        // Alignment section - end
-
-        // Image example - start
-        newImageSection += "<div id='image-example-" + factory_imageSection_count + "' class='image-box'>";
-        if (typeof image.file_name !== 'undefined') {
-            newImageSection += "<img class='img-thumbnail " + displayAlignment + "' src='http://cdn.rcsb.org/pdb101/motm/images/" + image.file_name + "' style='height: 300px;'>"
-        } else {
-            newImageSection += "<img class='img-thumbnail " + displayAlignment + "' src='http://cdn.rcsb.org/pdb101/geis/images/carboxypeptidase-a.png' style='height: 300px;'>"
-        }
-        newImageSection += "</div>";
-        // Image example - end
-
-        // Image Caption - start
-        newImageSection += "<label class='imageCaption-" + factory_imageSection_count + "'>Caption</label>";
-        if (typeof image.caption !== 'undefined') {
-            newImageSection += "<input class='form-control imageCaption imageCaption-" + factory_imageSection_count + "' value='" + image.caption + "'>";
-        } else {
-            newImageSection += "<input class='form-control imageCaption imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
-        }
-        // Image Caption - end
-
-        //TODO add 'would you like to add a TIFF of this image as well' thing
-
-    } else {
-        newImageSection += "<div class=\"radio\">";
-        newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' checked=''>Left</label>";
-        newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Right</label>";
-        newImageSection += "</div>";
-        newImageSection += "<div id='image-example-" + factory_imageSection_count + "' class='image-box'>";
-        // TODO Want to display temporary image.
-        newImageSection += ""
-        newImageSection += "</div>";
-        newImageSection += "<label class='imageCaption imageCaption-" + factory_imageSection_count + "'>Caption</label>";
-        newImageSection += "<input class='form-control imageCaption imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
-    }
+    newImageSection += "<h5>Image Section</h5><hr>";
+    newImageSection += "<h5>Insert Image</h5><input type='file' title='" + file_name + "'/><br><br>";
+    newImageSection += "<img class='img-thumbnail' alt=\"" + caption + "\" src=\"http://cdn.rcsb.org/pdb101/motm/images/" + file_name + "\"/ width='300'><br><br>"
+    newImageSection += "<h5>Insert Caption</h5><input class='form-control imageCaption' value='" + caption + "'>";
     newImageSection += "</div></li>";
-    factory_imageSection_count += 1;
     return newImageSection;
 }
 
@@ -291,7 +258,7 @@ var fillCategories = function(){
         contentType: "application/json",
         success: function (data) {
             for(var j = 0; j < data.length; j++) {
-                console.log("Inside Category loop: " + data[j].name);
+                // console.log("Inside Category loop: " + data[j].name);
                 for(var k = 0; k < data[j].subcategories.length; k++ ) {
                     $('#articleCategory').append('<option value=' + data[j].id + ':' + data[j].subcategories[k].id + '>' + data[j].name + ' -> ' + data[j].subcategories[k].name + '</option>');
                 }
