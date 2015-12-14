@@ -24,10 +24,16 @@ router.get('/get/:collection', function(req, res) {
   returnGet(collection, res);
 });
 
+// TODO Modify to get one of motm_articles or jmol by momID
 // Return mongodb document
 router.get('/one/:momID', function(req, res) {
     var momID = req.params.momID;
     returnOne(momID, res);
+});
+
+// Return newest mongodb momID
+router.get('/recent', function(req, res){
+    returnRecent(res);
 });
 
 // Update mongodb data
@@ -79,8 +85,15 @@ var returnGet = function(collection, res) {
 // Helper function with async callback - for read single document
 var returnOne = function(momID, res) {
     database.one(momID, function(toSend) {
-        res.send(toSend)
+        res.send(toSend);
     });
+};
+
+// Helper function with async callback - for read most recent motm_article legacy momID
+var returnRecent = function(res){
+  database.recent(function(toSend){
+    res.send(toSend);
+  });
 };
 
 // Helper function with async callback - for create

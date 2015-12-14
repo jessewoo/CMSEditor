@@ -28,10 +28,12 @@ var sectionActions = "<button type='button' class='pull-right btn btn-danger btn
 // BUILD OUT OF ADDITIONAL SECTIONS
 var buildNewMOTM = function () {
     // TODO populate the legacyMotmID with the next avaliable id.
+    var createNewID = newMotmID();
+    createNewID++;
     var newForm = "<form class='form-horizontal' role='form'>" +
         "<div id='EssentialsSection' class='form-group'>" +
         "<h4>Essential Information</h4><hr>" +
-        "<label for='legacyMotmID'>Molecule of the Month ID</label><input class='form-control' id='legacyMotMID' value='' disabled>" +
+        "<label for='legacyMotmID'>Molecule of the Month ID</label><input class='form-control' id='legacyMotMID' disabled>" +
         "<label for='articleTitle'>Molecule Name / Title</label><input class='form-control' id='articleTitle' placeholder='Molecule Name'>" +
         "<label for='articleTeaser'>Article Teaser</label><textarea auto='yes' class='form-control' id='articleTeaser' rows='1' placeholder='Teaser'></textarea>" +
         "<label for='articleAuthor'>Author's Name</label><input class='form-control' id='articleAuthor' placeholder='Author'>";
@@ -280,7 +282,6 @@ var populate_with_data = function (momID) {
     });
 };
 
-
 var fillCategories = function(){
     $.ajax({
         type: "get",
@@ -298,7 +299,19 @@ var fillCategories = function(){
     });
 };
 
-// TODO Create get jmol function db.jmol
-var loadJmol = function(){
-
+var newMotmID = function(){
+    $.ajax({
+        type: "get",
+        url: "/do/recent",
+        dataType: "json",
+        contentType: "application/json",
+        success: function(data){
+            $('#legacyMotMID').val(data.id + 1);
+        }
+    });
 };
+
+//// TODO Create get jmol function db.jmol
+//var loadJmol = function(){
+//
+//};
