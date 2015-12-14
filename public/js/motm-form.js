@@ -8,7 +8,7 @@ $(function () {
     buildNewMOTM();
 
     addSortableSection();
-    addNewVariableSection();
+    addVariableSection();
 
     addNewExplorationSection();
 
@@ -75,8 +75,8 @@ var addSortableSection = function () {
     $("#AddVariableSections").append(newSortableSection);
 };
 
-var addNewVariableSection = function () {
-    var addVariableSection = "<form class='form-group variableSection'>" +
+var addVariableSection = function () {
+    var variableSection = "<form class='form-group variableSection'>" +
         "<ul id='DynamicSection' class='section-block list-unstyled'></ul>" +
         "<div class='btn-toolbar'>" +
             "<button type='button' class='addNewImage btn btn-info btn-md'>Add Image</button>" +
@@ -84,7 +84,7 @@ var addNewVariableSection = function () {
             "<button type='button' class='addNewSeparator btn btn-info btn-md'>Add Separator</button>" +
         "</div>";
     "</form>";
-    $("#AddVariableSections").prepend(addVariableSection);
+    $("#AddVariableSections").prepend(variableSection);
 };
 
 var addNewExplorationSection = function () {
@@ -108,61 +108,57 @@ var factory_imageSection_count = 0;
  Passed (optional) - mongo section.part.image element
  */
 function factory_imageSection(image){
+    // This top section will always exist for an image section.
     var newImageSection = "<li><div class='form-group insertImage variableSection bg-variableSection'>";
     newImageSection += sectionActions;
     newImageSection += "<h5>Image</h5><hr>";
+    // TODO illegal to have two items on the same page with the sam id need to make unique.
     newImageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile' section_number='" + factory_imageSection_count + "'>";
 
+    // The default position for a image will be pull-left
+    var displayAlignment = "pull-left";
+    var leftRadio = "checked=''";
+    var rightRadio = "";
+    // Path to the image to display. Default to guise painting.
+    var imagePath = "http://cdn.rcsb.org/pdb101/geis/images/carboxypeptidase-a.png";
+    // Image may or maynot have caption.
+    var imageCaption = "undefined";
     if ( typeof image !== 'undefined') {
         // Alignment section - start
-        var displayAlignment = "pull-left";
-        newImageSection += "<div class=\"radio\">";
         if (typeof image.align !== 'undefined') {
             if (image.align == "right") {
-                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Left</label>";
-                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'checked=''>Right</label>";
                 displayAlignment = "pull-right";
-            } else {
-                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' checked=''>Left</label>";
-                newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Right</label>";
-            }
+                rightRadio = "checked=''";
+                leftRadio = "";
         }
-        newImageSection += "</div>";
         // Alignment section - end
 
-        // Image example - start
-        newImageSection += "<div id='image-example-" + factory_imageSection_count + "' class='image-box'>";
+        // Image Content Path - start
+        //newImageSection += "<div id='image-example-" + factory_imageSection_count + "' class='image-box'>";
         if (typeof image.file_name !== 'undefined') {
-            newImageSection += "<img class='img-thumbnail " + displayAlignment + "' src='http://cdn.rcsb.org/pdb101/motm/images/" + image.file_name + "' style='height: 300px;'>"
-        } else {
-            newImageSection += "<img class='img-thumbnail " + displayAlignment + "' src='http://cdn.rcsb.org/pdb101/geis/images/carboxypeptidase-a.png' style='height: 300px;'>"
+            imagePath = "http://cdn.rcsb.org/pdb101/motm/images/" + image.file_name;
         }
-        newImageSection += "</div>";
-        // Image example - end
+        // Image Content Path - end
 
         // Image Caption - start
-        newImageSection += "<label class='imageCaption-" + factory_imageSection_count + "'>Caption</label>";
         if (typeof image.caption !== 'undefined') {
-            newImageSection += "<input class='form-control imageCaption imageCaption-" + factory_imageSection_count + "' value='" + image.caption + "'>";
-        } else {
-            newImageSection += "<input class='form-control imageCaption imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
+            imageCaption = image.caption;
         }
         // Image Caption - end
 
         //TODO add 'would you like to add a TIFF of this image as well' thing
 
-    } else {
-        newImageSection += "<div class=\"radio\">";
-        newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' checked=''>Left</label>";
-        newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "'>Right</label>";
-        newImageSection += "</div>";
-        newImageSection += "<div id='image-example-" + factory_imageSection_count + "' class='image-box'>";
-        // TODO Want to display temporary image.
-        newImageSection += ""
-        newImageSection += "</div>";
-        newImageSection += "<label class='imageCaption imageCaption-" + factory_imageSection_count + "'>Caption</label>";
-        newImageSection += "<input class='form-control imageCaption imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
     }
+    newImageSection += "<div class=\"radio\">";
+    newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' " + leftRadio + ">Left</label>";
+    newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' " + rightRadio + ">Right</label>";
+    newImageSection += "</div>";
+    newImageSection += "<div id='image-example-" + factory_imageSection_count + "' class='image-box'>";
+    // TODO Want to display temporary image.
+    newImageSection += ""
+    newImageSection += "</div>";
+    newImageSection += "<label class='imageCaption imageCaption-" + factory_imageSection_count + "'>Caption</label>";
+    newImageSection += "<input class='form-control imageCaption imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
     newImageSection += "</div></li>";
     factory_imageSection_count += 1;
     return newImageSection;
@@ -175,13 +171,13 @@ function factory_paragraphSection(paragraph) {
     var heading = "";
     if ( typeof paragraph !== 'undefined' ) {
       if (typeof paragraph.heading !== 'undefined') {
-        heading = paragraph.heading
+        heading = paragraph.heading;
       }
     }
     var content = "";
     if ( typeof paragraph !== 'undefined' ) {
       if (typeof paragraph.content !== 'undefined') {
-        content = paragraph.content
+        content = paragraph.content;
       }
     }
 
