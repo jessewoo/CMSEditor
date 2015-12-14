@@ -6,6 +6,23 @@ var upload = multer({ dest: '/tmp/'});
 var database = require('../classes/database-motm.js');
 
 // ============================================================
+// Return full mongodb collection
+router.get('/get/:collection', function(req, res) {
+  var collection = req.params.collection;
+  returnGet(collection, res);
+});
+
+// Return mongodb document
+router.get('/one/:momID', function(req, res) {
+    var momID = req.params.momID;
+    returnOne(momID, res);
+});
+
+// Return newest mongodb momID
+router.get('/recent', function(req, res){
+    returnRecent(res);
+});
+
 // Create mongodb data
 router.post('/add', function(req, res) {
   // Extract & log
@@ -16,24 +33,6 @@ router.post('/add', function(req, res) {
   var toLoad = [];
   toLoad.push(body);
   returnCreate(toLoad, res);
-});
-
-// Return full mongodb collection
-router.get('/get/:collection', function(req, res) {
-  var collection = req.params.collection;
-  returnGet(collection, res);
-});
-
-// TODO Modify to get one of motm_articles or jmol by momID
-// Return mongodb document
-router.get('/one/:momID', function(req, res) {
-    var momID = req.params.momID;
-    returnOne(momID, res);
-});
-
-// Return newest mongodb momID
-router.get('/recent', function(req, res){
-    returnRecent(res);
 });
 
 // Update mongodb data
