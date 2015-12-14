@@ -111,68 +111,56 @@ var addNewExplorationSection = function () {
 };
 
 // ++++++++ CREATION OF THE IMAGE SECTION +++++++++++++
-var factory_imageSection_count = 0;
 /*
  Returns the code used to build an image section DOM
  Passed (optional) - mongo section.part.image element
  */
-function factory_imageSection(image){
-    // This top section will always exist for an image section.
-    var newImageSection = "<li><div class='form-group insertImage variableSection bg-variableSection'>";
-    newImageSection += sectionActions;
-    newImageSection += "<h5>Image</h5><hr>";
-    // TODO illegal to have two items on the same page with the sam id need to make unique.
-    newImageSection += "<h5>Insert Image</h5><input type='file' id='exampleInputFile' section_number='" + factory_imageSection_count + "'>";
+ function factory_imageSection(image){
+     // Validate File Name
+     var file_name = "";
+     if ( typeof image !== 'undefined' ) {
+       if (typeof image.file_name !== 'undefined') {
+         file_name = image.file_name;
+       }
+     }
 
-    // The default position for a image will be pull-left
-    var displayAlignment = "pull-left";
-    var leftRadio = "checked=''";
-    var rightRadio = "";
-    // Path to the image to display. Default to guise painting.
-    var imagePath = "http://cdn.rcsb.org/pdb101/geis/images/carboxypeptidase-a.png";
-    // Image may or maynot have caption.
-    var imageCaption = "undefined";
-    if ( typeof image !== 'undefined') {
-        // Alignment section - start
-        if (typeof image.align !== 'undefined') {
-            if (image.align == "right") {
-                displayAlignment = "pull-right";
-                rightRadio = "checked=''";
-                leftRadio = "";
-            }
-        }
-        // Alignment section - end
+     // Validate Caption
+     var caption = "";
+     if ( typeof image !== 'undefined' ) {
+       if (typeof image.caption !== 'undefined') {
+         caption = image.caption;
+         caption = caption.replace("'","&apos;");
+       }
+     }
 
-        // Image Content Path - start
-        //newImageSection += "<div id='image-example-" + factory_imageSection_count + "' class='image-box'>";
-        if (typeof image.file_name !== 'undefined') {
-            imagePath = "http://cdn.rcsb.org/pdb101/motm/images/" + image.file_name;
-        }
-        // Image Content Path - end
+     // Validate Alignment
+     var alignment = "";
+     var optionLeft = ""; var optionRight = "";
+     if ( typeof image !== 'undefined' ) {
+       if (typeof image.align !== 'undefined') {
+         alignment = image.align;
+         if (alignment == "right") {
+           optionRight = "selected";
+         }
+         else {
+           optionLeft = "selected";
+         }
+       }
+     }
 
-        // Image Caption - start
-        if (typeof image.caption !== 'undefined') {
-            imageCaption = image.caption;
-        }
-        // Image Caption - end
+     // Build Image Content
+     var newImageSection = "<li><div class='form-group insertImage variableSection bg-variableSection'>";
+     newImageSection += sectionActions;
+     newImageSection += "<h5>Image Section</h5><hr>";
+     newImageSection += "<h5>Insert Image</h5><input type='file' title='" + file_name + "'/><br><br>";
+     newImageSection += "<h5>Image Alignment</h5>";
+     newImageSection += "<select class='form-control'><option " + optionLeft + ">Left</option><option " + optionRight + ">Right</option></select><br>";
+     newImageSection += "<img class='img-thumbnail' alt=\"" + caption + "\" src=\"http://cdn.rcsb.org/pdb101/motm/images/" + file_name + "\"/ width='300'><br><br>"
+     newImageSection += "<h5>Insert Caption</h5><input class='form-control imageCaption' value='" + caption + "'>";
 
-        //TODO add 'would you like to add a TIFF of this image as well' thing
-
-    }
-    newImageSection += "<div class=\"radio\">";
-    newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='left' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' " + leftRadio + ">Left</label>";
-    newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' " + rightRadio + ">Right</label>";
-    newImageSection += "</div>";
-    newImageSection += "<div id='image-example-" + factory_imageSection_count + "' class='image-box'>";
-    // TODO Want to display temporary image
-    newImageSection += "<img class='img-thumbnail " + displayAlignment + "' src='" + imagePath + "' style='height: 300px;'>";
-    newImageSection += "</div>";
-    newImageSection += "<label class='imageCaption imageCaption-" + factory_imageSection_count + "'>Caption</label>";
-    newImageSection += "<input class='form-control imageCaption imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
-    newImageSection += "</div></li>";
-    factory_imageSection_count += 1;
-    return newImageSection;
-}
+     newImageSection += "</div></li>";
+     return newImageSection;
+ }
 
 // ++++++++ CREATION OF THE PARAGRAPH SECTION +++++++++++++
 //TODO need handler that will look for JMOL paragraphs. (mongodb flag)
