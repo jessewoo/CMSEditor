@@ -24,6 +24,7 @@ exports.get = function (object, callback) {
     readWrapper(object, callback);
 };
 
+// TODO Modify to get one of motm_articles or jmol by momID
 exports.one = function (momID, callback) {
     oneWrapper(momID, callback);
 };

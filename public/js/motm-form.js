@@ -21,6 +21,7 @@ $(function () {
 /*
 The delete button, top right, one per section
  */
+// TODO if this button is clicked be sure to re-adjust appropriate variable image/paragraph counters if necessary
 var sectionActions = "<button type='button' class='pull-right btn btn-danger btn-sm deleteSection' aria-label='Delete'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>";
 
 
@@ -130,6 +131,7 @@ function factory_imageSection(image){
                 displayAlignment = "pull-right";
                 rightRadio = "checked=''";
                 leftRadio = "";
+            }
         }
         // Alignment section - end
 
@@ -154,8 +156,8 @@ function factory_imageSection(image){
     newImageSection += "<label class='radio-inline'><input type='radio' name='inlineRadioOptions-" + factory_imageSection_count + "' value='right' class='image_alignment_choices' section_number='" + factory_imageSection_count + "' " + rightRadio + ">Right</label>";
     newImageSection += "</div>";
     newImageSection += "<div id='image-example-" + factory_imageSection_count + "' class='image-box'>";
-    // TODO Want to display temporary image.
-    newImageSection += ""
+    // TODO Want to display temporary image
+    newImageSection += "<img class='img-thumbnail " + displayAlignment + "' src='" + imagePath + "' style='height: 300px;'>";
     newImageSection += "</div>";
     newImageSection += "<label class='imageCaption imageCaption-" + factory_imageSection_count + "'>Caption</label>";
     newImageSection += "<input class='form-control imageCaption imageCaption-" + factory_imageSection_count + "' placeholder='Image Caption'>";
@@ -278,7 +280,7 @@ var populate_with_data = function (momID) {
     });
 };
 
-//TODO Does this need to be AJAX?
+
 var fillCategories = function(){
     $.ajax({
         type: "get",
@@ -294,4 +296,9 @@ var fillCategories = function(){
             }
         }
     });
+};
+
+// TODO Create get jmol function db.jmol
+var loadJmol = function(){
+
 };

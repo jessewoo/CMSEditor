@@ -18,17 +18,6 @@ router.post('/add', function(req, res) {
   returnCreate(toLoad, res);
 });
 
-//======================= IMAGE WORK START
-// Create image file
-router.post('/image', function(req, res){
-  upload(req,res,function(err) {
-    if(err) {
-      return res.end("Error uploading file.");
-    }
-    res.end("File is uploaded");
-  });
-});
-//======================== IMAGE WORK END
 // Return full mongodb collection
 router.get('/get/:collection', function(req, res) {
   var collection = req.params.collection;
@@ -66,6 +55,19 @@ router.delete('/del', function(req, res) {
   res.send(req.body);
 });
 
+//======================= IMAGE WORK START
+// Create image file
+router.post('/image', function(req, res){
+  upload(req,res,function(err) {
+    if(err) {
+      return res.end("Error uploading file.");
+    }
+    res.end("File is uploaded");
+  });
+});
+//======================== IMAGE WORK END
+
+// TODO create appropriate get requester for jmol db.jmol one
 // ===================================================================
 // Helper function with async callback - for read
 var returnGet = function(collection, res) {
