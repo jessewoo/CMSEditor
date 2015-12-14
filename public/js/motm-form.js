@@ -3,8 +3,11 @@ $(function () {
     var pathArray = window.location.pathname.split('/');
     var momID = pathArray[2];
 
-    // Build out all of the page
+    // Creates the Category dropdown for the Essential Information section
     fillCategories();
+    // Populate legacyMotMID with a new value in the Essential Information section
+    newMotmID();
+    // Create the Essential Information section
     buildNewMOTM();
 
     addSortableSection();
@@ -12,7 +15,7 @@ $(function () {
 
     addNewExplorationSection();
 
-    // If we are editing something that already exists, populate with prior data
+    // If we are editing something that already exists, populate with prior data from mongodb
     if (momID) {
         populate_with_data(momID);
     }
@@ -27,9 +30,6 @@ var sectionActions = "<button type='button' class='pull-right btn btn-danger btn
 
 // BUILD OUT OF ADDITIONAL SECTIONS
 var buildNewMOTM = function () {
-    // TODO populate the legacyMotmID with the next avaliable id.
-    var createNewID = newMotmID();
-    createNewID++;
     var newForm = "<form class='form-horizontal' role='form'>" +
         "<div id='EssentialsSection' class='form-group'>" +
         "<h4>Essential Information</h4><hr>" +
@@ -37,6 +37,8 @@ var buildNewMOTM = function () {
         "<label for='articleTitle'>Molecule Name / Title</label><input class='form-control' id='articleTitle' placeholder='Molecule Name'>" +
         "<label for='articleTeaser'>Article Teaser</label><textarea auto='yes' class='form-control' id='articleTeaser' rows='1' placeholder='Teaser'></textarea>" +
         "<label for='articleAuthor'>Author's Name</label><input class='form-control' id='articleAuthor' placeholder='Author'>";
+
+    // Month & Year dropdown - Start
     var theDate = new Date();
     var year = theDate.getFullYear();
     var nextMonth = theDate.getMonth();
@@ -65,6 +67,8 @@ var buildNewMOTM = function () {
         }
     }
     newForm += "</select>";
+    // Month & Year dropdown - End
+
     newForm += "<label for='articleCategory'>Category</label><select class='form-control' id='articleCategory'></select>";
     newForm += "<label for='articleKeywords'>Keywords - <small>Separate with commas</small></label><input class='form-control' id='articleKeywords' placeholder='Keywords - separate with comma'>";
     newForm += "</div></form>";
@@ -72,6 +76,8 @@ var buildNewMOTM = function () {
     $("#CreateNewForm").append(newForm);
 };
 
+
+//TODO Does this still accomplish something for us.
 // Add the Sortable section
 var addSortableSection = function () {
     var newSortableSection = "<div class='lastVariableSection'></div>";
