@@ -25,4 +25,5 @@ router.get('/tool', function(req, res, next) {
 router.get('/image', function(req, res, next){
    res.render('image', { title: 'IMAGE THINGY'});
 });
+
 module.exports = router;
