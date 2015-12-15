@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var multer = require('multer');
-
-var upload = multer({ dest: '/tmp/'});
+// Mongo Database related
 var database = require('../classes/database-motm.js');
+var multer = require('multer');
+var upload = multer({ dest: './image-uploads'}).single('userPhoto');
 
 // ============================================================
 // Return full mongodb collection
@@ -62,11 +62,11 @@ router.delete('/del', function(req, res) {
 
 //======================= IMAGE WORK START
 // Create image file
-router.post('/image', function(req, res){
-  upload(req,res,function(err) {
-    if(err) {
-      return res.end("Error uploading file.");
-    }
+router.post('/sendImage', function(req, res){
+    upload(req,res,function(err) {
+        if(err) {
+            return res.end("Error uploading file.");
+        }
     res.end("File is uploaded");
   });
 });
