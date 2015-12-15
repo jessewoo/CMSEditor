@@ -1,5 +1,7 @@
 // Build New Motm Molecule - Form
 $(function () {
+    $('#save').removeClass('hide');
+
     var pathArray = window.location.pathname.split('/');
     var momID = pathArray[2];
 
