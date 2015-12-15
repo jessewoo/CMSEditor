@@ -102,9 +102,9 @@ var addNewExplorationSection = function () {
         "<label for='jmolContent'>Jmol Content</label><input class='form-control' id='jmolContent' rows='5' placeholder='Content (for Humans)'></textarea>" +
         "<label for='jmolScript'>Jmol Script</label><textarea class='form-control' id='jmolScript' placeholder='Script (for Computers)'></textarea>" +
         "<hr>" +
-        "<label for='explorationTopics'>Topics for Further Exploration<small> - new line separated</small></label><textarea class='form-control' id='explorationTopics' rows='3' placeholder='List of topics - new line separated'></textarea>" +
+        "<label for='explorationTopics'>Topics for Further Exploration<small> - new line separated</small></label><textarea class='form-control' id='explorationTopics' rows='5' placeholder='List of topics - new line separated'></textarea>" +
         "<hr>" +
-        "<label for='references'>References</label><textarea class='form-control' rows='2' placeholder='3jad: J. Du, W. Lu, S. Wu, Y. Cheng & E. Gouaux (2015) Glycine receptor mechanism...'></textarea><br>" +
+        "<label for='references'>References <small> - new line separated</small></label><textarea class='form-control' id='articleReferences' rows='10' placeholder='3jad: J. Du, W. Lu, S. Wu, Y. Cheng & E. Gouaux (2015) Glycine receptor mechanism...'></textarea><br>" +
         "</div>";
 
     $("#AddFixedSections").append(newExplorationSection);
@@ -116,6 +116,14 @@ var addNewExplorationSection = function () {
  Passed (optional) - mongo section.part.image element
  */
  function factory_imageSection(image){
+     // Validate TIF File
+     var tiff_file_name = "";
+     if ( typeof image !== 'undefined' ) {
+       if (typeof image.tiff_file_name !== 'undefined') {
+         tiff_file_name = image.tiff_file_name;
+       }
+     }
+
      // Validate File Name
      var file_name = "";
      if ( typeof image !== 'undefined' ) {
@@ -153,9 +161,11 @@ var addNewExplorationSection = function () {
      newImageSection += sectionActions;
      newImageSection += "<h5>Image Section</h5><hr>";
      newImageSection += "<h5>Insert Image</h5><input type='file' title='" + file_name + "'/><br><br>";
+     newImageSection += "<h5>TIFF:</h5> <input class='form-control tiff_file_name' disabled value='" + tiff_file_name + "'><br>";
+     newImageSection += "<h5>JPEG:</h5> <input class='form-control jpeg_file_name' disabled value='" + file_name + " '><br>";
      newImageSection += "<h5>Image Alignment</h5>";
-     newImageSection += "<select class='form-control'><option " + optionLeft + ">Left</option><option " + optionRight + ">Right</option></select><br>";
-     newImageSection += "<img class='img-thumbnail' alt=\"" + caption + "\" src=\"http://cdn.rcsb.org/pdb101/motm/images/" + file_name + "\"/ width='300'><br><br>"
+     newImageSection += "<select class='form-control alignmentImage'><option " + optionLeft + ">Left</option><option " + optionRight + ">Right</option></select><br>";
+     newImageSection += "<img class='img-thumbnail imageURL' alt=\"" + caption + "\" src=\"http://cdn.rcsb.org/pdb101/motm/images/" + file_name + "\"/ width='300'><br><br>"
      newImageSection += "<h5>Insert Caption</h5><input class='form-control imageCaption' value='" + caption + "'>";
 
      newImageSection += "</div></li>";
@@ -224,6 +234,24 @@ var populate_with_data = function (momID) {
                     $('#articleKeywords').val(keyword);
                 }
             });
+            data.references.forEach(function (reference) {
+                var currentVal = $('#articleReferences').val();
+                if (currentVal) {
+                    $('#articleReferences').text(currentVal + ";\n" + reference);
+                } else {
+                    $('#articleReferences').text(reference);
+                }
+            });
+            data.tfes.forEach(function (tfe) {
+                var currentVal = $('#explorationTopics').val();
+                if (currentVal) {
+                    $('#explorationTopics').text(currentVal + ";\n" + tfe);
+                } else {
+                    $('#explorationTopics').text(tfe);
+                }
+            });
+
+
 
             // Auto select first (primary) image radio button when building.
             var firstImage = 0;
