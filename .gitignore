@@ -1,6 +1,6 @@
-workspace.xml
-uiDesigner.xml
-.idea/
+# Don't commit NPM installed packages
 node_modules/
-CMSEditor.iml
+
+# Don't commit the dev log from testing
 npm-debug.log
+workspace.xml
