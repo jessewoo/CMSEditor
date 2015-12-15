@@ -22,4 +22,7 @@ router.get('/tool', function(req, res, next) {
   res.render('editMotm', { title: 'Molecule of the Month Editor' });
 });
 
+router.get('/image', function(req, res, next){
+   res.render('image', { title: 'IMAGE THINGY'});
+});
 module.exports = router;
