@@ -7,5 +7,12 @@ npm-debug.log
 # Things we should not share (developer specific)
 workspace.xml
 
+# Don't track the images that are uploaded
+image-uploads/*.png
+image-uploads/*.jpeg
+image-uploads/*.jpg
+image-uploads/*.tif
+image-uploads/*.tiff
+
 # Other ignored things
 jsLibraryMappings.xml
