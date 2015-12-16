@@ -1,24 +1,24 @@
-$(function(){
+$(function () {
     motmTable();
 });
 
 // Called at full page load
-var motmTable = function() {
+var motmTable = function () {
     // Pull data via ajax, update DOM, apply sort handles
     $.ajax({
         type: "get",
-        url: "/do/get/motm_articles",
+        url: "/motm/all/motm_articles",
         dataType: "json",
         contentType: "application/json",
-        success: function(data){
+        success: function (data) {
             var rowCount = 0;
-            $.each(data, function(index, object) {
+            $.each(data, function (index, object) {
                 // Loop over all objects
                 tableWorker(object, rowCount);
                 rowCount++;
             });
         },
-        failure: function(errMsg) {
+        failure: function (errMsg) {
             console.log(errMsg);
         }
     });
@@ -26,7 +26,7 @@ var motmTable = function() {
 
 // Called only from "data add" event listener
 // Gets arround tablesorter.js update bug which prevents jquery .empty from clearing previous contents of that database
-var addToTable = function(object) {
+var addToTable = function (object) {
     // Data to add (to the table) is passed via function call
     tableWorker(object);
 
@@ -38,7 +38,7 @@ var addToTable = function(object) {
 }
 
 // Append to table function
-var tableWorker = function(object, rowCount, maxRows) {
+var tableWorker = function (object, rowCount, maxRows) {
     var specialCSS = "";
     // Logic to show only 10 rows
     //if (rowCount > 9) {

@@ -1,29 +1,29 @@
 var express = require('express');
 var router = express.Router();
+var multer = require('multer');
+var upload = multer({ dest: './image-uploads'}).single('userPhoto');
 
-/* GET home page. */
+// Base home page
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'CMS Editor' });
 });
 
-/* Get MOTM home page. */
-router.get('/motm', function(req, res, next) {
-  res.render('motm', { title: 'Molecule of the Month Editor' });
-});
-
-/* Get MOTM single view */
-router.get('/motm/:momID', function(req, res){
-    var momID = req.params.momID;
-    res.render('editMotm', {momID : momID});
-});
-
-/* GET motm editor page. */
-router.get('/tool', function(req, res, next) {
-  res.render('editMotm', { title: 'Molecule of the Month Editor' });
-});
-
+// Image upload test code
 router.get('/image', function(req, res, next){
-   res.render('image', { title: 'IMAGE THINGY'});
+   res.render('image', { title: 'Image Upload'});
 });
+
+//======================= IMAGE WORK START
+// Create image file
+router.post('/sendImage', function(req, res){
+    upload(req,res,function(err) {
+        if(err) {
+            return res.end("Error uploading file.");
+        }
+        res.end("File is uploaded");
+    });
+});
+//======================== IMAGE WORK END
+
 
 module.exports = router;

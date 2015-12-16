@@ -212,7 +212,7 @@ newSeparator += "<hr /></div></li>";
 var populate_with_data = function (momID) {
     $.ajax({
         type: "get",
-        url: "/do/one/" + momID,
+        url: "/motm/one/" + momID,
         dataType: "json",
         contentType: "application/json",
         success: function (data) {
@@ -309,12 +309,12 @@ var populate_with_data = function (momID) {
 var fillCategories = function(){
     $.ajax({
         type: "get",
-        url: "/do/get/categories",
+        url: "/motm/all/categories",
         dataType: "json",
         contentType: "application/json",
         success: function (data) {
             for(var j = 0; j < data.length; j++) {
-                console.log("Inside Category loop: " + data[j].name);
+                //console.log("Inside Category loop: " + data[j].name);
                 for(var k = 0; k < data[j].subcategories.length; k++ ) {
                     $('#articleCategory').append('<option value=' + data[j].id + ':' + data[j].subcategories[k].id + '>' + data[j].name + ' -> ' + data[j].subcategories[k].name + '</option>');
                 }
@@ -326,7 +326,7 @@ var fillCategories = function(){
 var newMotmID = function(){
     $.ajax({
         type: "get",
-        url: "/do/recent",
+        url: "/motm/lastID",
         dataType: "json",
         contentType: "application/json",
         success: function(data){

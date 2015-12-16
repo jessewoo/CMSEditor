@@ -3,4 +3,9 @@ node_modules/
 
 # Don't commit the dev log from testing
 npm-debug.log
+
+# Things we should not share (developer specific)
 workspace.xml
+
+# Other ignored things
+jsLibraryMappings.xml
