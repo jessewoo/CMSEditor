@@ -1,6 +1,9 @@
 # Don't commit NPM installed packages
 node_modules/
 
+# Don't include our security files
+cert/
+
 # Don't commit the dev log from testing
 npm-debug.log
 
